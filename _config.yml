@@ -1,22 +1,20 @@
-title: Hello, world! We are PickGit!
+title: BingheCompany 🇰🇷
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  깃-들다 기술 블로그입니다. ✨
 permalink: ':title/'
 # baseurl: "/flexible-jekyll" # the subpath of your site, e.g. /blog
 url: "https://2021-pick-git.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 site-twitter: #if your site has a twitter account, enter it here
 
 # Author Settings
-author: PickGit # add your name
+author: 깃-들다 (pick-git) # add your name
 author-img: mark.jpg # add your photo
-about-author: I am a web developer focusing on front-end development. Always hungry to keep learning. # add description
-social-twitter: # add your Twitter handle
-social-facebook: # add your Facebook handle
-social-github: artemsheludko # add your Github handle
-social-linkedin: # add your Linkedin handle
-social-email: # add your Email address
+about-author: 깃-들다 기술 블로그입니다. 😇💪 | This is a tech blog for pick-git. 😇💪 | 这是 pick-git 科技博客. 😇💪 | ここは、ピクギトの技術のblogです。😇💪 # add description
+# social-twitter: # add your Twitter handle
+# social-facebook: # add your Facebook handle
+social-github: 2021-pick-git # add your Github handle
+# social-linkedin: # add your Linkedin handle
+# social-email: # add your Email address
 
 # Disqus
 # discus-identifier: mr-brown # add your discus identifier
