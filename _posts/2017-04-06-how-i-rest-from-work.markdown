@@ -1,30 +1,139 @@
 ---
 layout: post
-title: How I Rest From Work
-date: 2017-09-12 13:32:20 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
-img: i-rest.jpg # Add image post (optional)
-fig-caption: # Add figcaption (optional)
-tags: [Holidays, Hawaii]
+title: 프론트엔드 성능 최적화 Quick Start
+date: 2021-08-11 13:32:20 +0300
+description: 개인적으로 생각하기에, 어떤 분석을 수행하느냐에 상관 없이, 가장 좋은 분석 방법은 직접 측정해보고, 데이터를 모아서 이를 바탕으로 논점과 결론을 이끌어내는 것입니다. 프론트엔드에서 성능 최적화를 하는 방법도 마찬가지죠. 직접 지표와 기준을 결정하고 스스로 도구를 이용해서 현재 어플리케이션의 성능을 측정하는 것이 최선의 방법일 것입니다.
+img: frontend-performance.png
+tags: [프론트엔드, 성능최적화]
 ---
-Fam locavore snackwave bushwick +1 sartorial. Selfies portland knausgaard synth. Pop-up art party marfa deep v pitchfork subway tile 3 wolf moon. Ennui pinterest tumblr yr, adaptogen succulents copper mug twee. Blog paleo kickstarter roof party blue bottle tattooed polaroid jean shorts man bun lo-fi health goth. Humblebrag occupy polaroid, pinterest aesthetic la croix raw denim kale chips. 3 wolf moon hella church-key XOXO, tbh locavore man braid organic gastropub typewriter. Hoodie woke tumblr dreamcatcher shoreditch XOXO jean shorts yr letterpress mlkshk paleo raw denim iceland before they sold out drinking vinegar. Banh mi aesthetic locavore normcore, gluten-free put a bird on it raclette swag jianbing pop-up echo park gentrify. Stumptown brooklyn godard tumeric ethical. Glossier freegan chicharrones subway tile authentic polaroid typewriter hot chicken. Thundercats small batch heirloom meggings.
+개인적으로 생각하기에, 어떤 분석을 수행하느냐에 상관 없이, 가장 좋은 분석 방법은 직접 측정해보고, 데이터를 모아서 이를 바탕으로 논점과 결론을 이끌어내는 것입니다. 프론트엔드에서 성능 최적화를 하는 방법도 마찬가지죠. 직접 지표와 기준을 결정하고 스스로 도구를 이용해서 현재 어플리케이션의 성능을 측정하는 것이 최선의 방법일 것입니다.
 
-## Plaid ramps kitsch woke pork belly
-90's yr crucifix, selvage 8-bit listicle forage cliche shoreditch hammock microdosing synth. Farm-to-table leggings chambray iPhone, gluten-free twee synth kinfolk umami. Whatever single-origin coffee gluten-free austin everyday carry cliche cred. Plaid ramps kitsch woke pork belly organic. Trust fund whatever coloring book kombucha brooklyn. Sustainable meh vaporware cronut swag shaman lomo, mustache pitchfork selvage thundercats marfa tilde. Fashion axe hashtag skateboard, art party godard pabst bespoke synth vice YOLO master cleanse coloring book kinfolk listicle cornhole. Try-hard mixtape umami fanny pack man bun gastropub franzen tbh. Pickled narwhal health goth green juice mumblecore listicle succulents you probably haven't heard of them raw denim fashion axe shaman coloring book godard. Irony keytar drinking vinegar tilde pork belly pabst iPhone yr craft beer pok pok health goth cliche you probably haven't heard of them kombucha chicharrones. Direct trade hella roof party chia. Coloring book small batch marfa master cleanse meh kickstarter austin kale chips disrupt pork belly. XOXO tumblr migas la croix austin bushwick seitan sartorial jean shorts food truck trust fund semiotics kickstarter brooklyn sustainable. Umami knausgaard mixtape marfa. Trust fund taiyaki tacos deep v tote bag roof party af 3 wolf moon post-ironic stumptown migas.
+그러나 현실의 개발자들은 기능을 구현하고 여러 요구사항을 반영하느라 눈코 뜰새 없이 바쁜 경우가 많습니다. 그러니 최소의 시간을 들여 나의 웹 어플리케이션 성능을 측정해 보는 방법을 이번에 소개해드리겠습니다. 제목을 'Quick Start' 라고 지은 만큼, 깊은 내용을 다루기 보다는 '해야할 일' 자체에 집중해보겠습니다.
 
-![I and My friends]({{site.baseurl}}/assets/img/we-in-rest.jpg)
+## 기준 정하기 - Web Vitals
 
-Selfies sriracha taiyaki woke squid synth intelligentsia PBR&B ethical kickstarter art party neutra biodiesel scenester. Health goth kogi VHS fashion axe glossier disrupt, vegan quinoa. Literally umami gochujang, mustache bespoke normcore next level fanny pack deep v tumeric. Shaman vegan affogato chambray. Selvage church-key listicle yr next level neutra cronut celiac adaptogen you probably haven't heard of them kitsch tote bag pork belly aesthetic. Succulents wolf stumptown art party poutine. Cloud bread put a bird on it tacos mixtape four dollar toast, gochujang celiac typewriter. Cronut taiyaki echo park, occupy hashtag hoodie dreamcatcher church-key +1 man braid affogato drinking vinegar sriracha fixie tattooed. Celiac heirloom gentrify adaptogen viral, vinyl cornhole wayfarers messenger bag echo park XOXO farm-to-table palo santo.
+성능 분석의 가장 첫 단계는 좋은 성능 / 나쁜 성능을 나눌 수 있는 기준을 결정하는 것입니다. 서비스의 특성에 맞는 개별화된 기준을 세우는 것이 제일 좋겠지만, 여기선(Quick Start 라는 이름에 맞게) 그냥 구글이 웹의 성능을 결정짓는 3가지 지표로 만들어낸 'Web Vitals' 를 기준으로 사용하겠습니다. Web Vitals 에 대한 상세 내용은 아래 출처를 참고하시기 바랍니다.
 
->Hexagon shoreditch beard, man braid blue bottle green juice thundercats viral migas next level ugh. Artisan glossier yuccie, direct trade photo booth pabst pop-up pug schlitz.
+![image](https://user-images.githubusercontent.com/32982670/128905075-36d3f506-431b-4c7f-8823-29c63a157ad7.png)
+(출처 : [https://web.dev/vitals/](https://web.dev/vitals/))
 
-Cronut lumbersexual fingerstache asymmetrical, single-origin coffee roof party unicorn. Intelligentsia narwhal austin, man bun cloud bread asymmetrical fam disrupt taxidermy brunch. Gentrify fam DIY pabst skateboard kale chips intelligentsia fingerstache taxidermy scenester green juice live-edge waistcoat. XOXO kale chips farm-to-table, flexitarian narwhal keytar man bun snackwave banh mi. Semiotics pickled taiyaki cliche cold-pressed. Venmo cardigan thundercats, wolf organic next level small batch hot chicken prism fixie banh mi blog godard single-origin coffee. Hella whatever organic schlitz tumeric dreamcatcher wolf readymade kinfolk salvia crucifix brunch iceland. Literally meditation four loko trust fund. Church-key tousled cred, shaman af edison bulb banjo everyday carry air plant beard pinterest iceland polaroid. Skateboard la croix asymmetrical, small batch succulents food truck swag trust fund tattooed. Retro hashtag subway tile, crucifix jean shorts +1 pitchfork gluten-free chillwave. Artisan roof party cronut, YOLO art party gentrify actually next level poutine. Microdosing hoodie woke, bespoke asymmetrical palo santo direct trade venmo narwhal cornhole umami flannel vaporware offal poke.
+### LCP
 
-* Hexagon shoreditch beard
-* Intelligentsia narwhal austin
-* Literally meditation four
-* Microdosing hoodie woke
+LCP 는 간단히 말해서 로딩시간이라고 보면 됩니다. 정확히는 '주요 컨텐츠'들이 로드된 시점이라고 구글은 정의합니다. 요소 한 두개가 아니라 사용에 불편이 없을 정도로 거의 모든 요소의 로딩이 끝난 시점이라고 보면 되죠. 
 
-Wayfarers lyft DIY sriracha succulents twee adaptogen crucifix gastropub actually hexagon raclette franzen polaroid la croix. Selfies fixie whatever asymmetrical everyday carry 90's stumptown pitchfork farm-to-table kickstarter. Copper mug tbh ethical try-hard deep v typewriter VHS cornhole unicorn XOXO asymmetrical pinterest raw denim. Skateboard small batch man bun polaroid neutra. Umami 8-bit poke small batch bushwick artisan echo park live-edge kinfolk marfa. Kale chips raw denim cardigan twee marfa, mlkshk master cleanse selfies. Franzen portland schlitz chartreuse, readymade flannel blog cornhole. Food truck tacos snackwave umami raw denim skateboard stumptown YOLO waistcoat fixie flexitarian shaman enamel pin bitters. Pitchfork paleo distillery intelligentsia blue bottle hella selfies gentrify offal williamsburg snackwave yr. Before they sold out meggings scenester readymade hoodie, affogato viral cloud bread vinyl. Thundercats man bun sriracha, neutra swag knausgaard jean shorts. Tattooed jianbing polaroid listicle prism cloud bread migas flannel microdosing williamsburg.
+### FID
 
-Echo park try-hard irony tbh vegan pok pok. Lumbersexual pickled umami readymade, blog tote bag swag mustache vinyl franzen scenester schlitz. Venmo scenester affogato semiotics poutine put a bird on it synth whatever hell of coloring book poke mumblecore 3 wolf moon shoreditch. Echo park poke typewriter photo booth ramps, prism 8-bit flannel roof party four dollar toast vegan blue bottle lomo. Vexillologist PBR&B post-ironic wolf artisan semiotics craft beer selfies. Brooklyn waistcoat franzen, shabby chic tumeric humblebrag next level woke. Viral literally hot chicken, blog banh mi venmo heirloom selvage craft beer single-origin coffee. Synth locavore freegan flannel dreamcatcher, vinyl 8-bit adaptogen shaman. Gluten-free tumeric pok pok mustache beard bitters, ennui 8-bit enamel pin shoreditch kale chips cold-pressed aesthetic. Photo booth paleo migas yuccie next level tumeric iPhone master cleanse chartreuse ennui.
+FID 는 '반응속도'로 이해하면 됩니다. 버튼을 클릭했을 때, 그에 따른 반응이 일어나는데 얼마만큼의 시간이 걸리냐에 대한 것이죠.
+
+### CLS
+
+CLS는 '레이아웃이 얼마나 안정되어 있느냐'를 나타내는 지표입니다. 한창 텍스트를 읽고 있는데 갑자기 높이를 차지해 버린 이미지 때문에 스크롤을 내려야 한다던지, 차례차례 다른 시점에 생성되는 요소들 때문에 자꾸만 요소들이 기존의 위치에서 벗어나는 일 등이 잦아지면 이 수치가 크게 상승합니다(당연히 좋은게 아닙니다).
+
+## LCP, CLS 성능 측정하기
+
+가장 널리 알려진 성능 측정 방법은 크롬 개발자 도구에 내장된 Lighthouse 를 이용하는 것입니다. 하지만 제 생각에 이보다 더 단순하고 쉬운 방법은 동일한 분석을 제공하는 구글의 PageSpeed Insights 웹사이트를 이용하는 것입니다.
+
+[PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)
+
+이 웹사이트는 lighthouse 와는 달리 정말 '성능'과 관련한 audits 만을 수행하는 장점도 있지만 무엇보다도 많은 설명을 '한글'로 읽을 수 있다는 편리함이 있습니다. 사용법도 본인의 웹 앱이 배포된 URL 을 집어넣기만 하면 됩니다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905163-ce3df73a-d28c-47ee-8e37-e583b172feef.png)
+![image](https://user-images.githubusercontent.com/32982670/128905185-94d8c37b-38eb-42d5-bb8d-2ebe79b2636e.png)
+(한글 편안...)
+
+결과에 따르면 분석한 웹앱의 LCP 는 6.1초, CLS 는 0.234 로군요. 더 놀라운 것은 구글이 낮은 성능을 어떻게 하면 개선할 수 있는지도 아주 자세하게 알려준다는 것입니다. 
+
+![image](https://user-images.githubusercontent.com/32982670/128905226-e0213388-5988-482b-821c-39ef6a0b8f42.png)
+(클릭하면 해당 문제가 일어나는 시점 등 더 자세한 사항을 알려주기까지 합니다. 구글 만세!)
+
+그러면 이제 성능 분석이 끝난거군요. 구글이 저희가 해야할 일을 다 대신 해줬으니까요! 이제 보고서에 저 내용을 그대로 옮겨적고 속 사정은 모른채 '이야 진짜 자세히 분석해왔는걸?' 하는 칭찬만 받으면 되겠군요.
+
+실제로 그랬으면 저도 정말 좋겠습니다만, 당연히 그건 아닙니다. 저희는 아직 FID에 대한 분석을 해야하고, 이건 구글이 자동으로 해주지 않습니다.
+
+## FID 성능 측정하기
+
+지금까지 날로 먹었으니 이제 실제로 일을 해야할 차례입니다. 여러분의 어플리케이션을 크롬으로 키고 개발자 도구를 켜보세요. 그리고 상단의 Performance 탭을 클릭하고 '동그라미 아이콘(녹화)'을 눌러 녹화를 시작한 후, 성능을 측정해보고 싶은 작업을 수행한 후 녹화를 중지해보세요.
+
+![performance 탭](https://user-images.githubusercontent.com/32982670/128905316-c83bdecc-0bb7-4058-95c5-912c01bde37e.gif)
+그러면 보기만해도 무시무시한 아래와 같은 화면이 등장합니다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905343-04b23afc-43b2-4d38-904c-63307b788df2.png)
+
+많은 사람들이 여기서 일단 현기증을 느끼리라는 것을 알고 있습니다. 저도 속이 울렁거리네요. 하지만 목표에 집중해봅시다. 저희는 FID, 즉 '앱의 이용자 입력에 대한 반응속도'를 측정하고 싶어합니다. 위의 예에서는 로그인 아이콘을 눌러 로그인 페이지로 넘어간 작업을 수행했으니, 로그인 아이콘을 클릭한 후, 로그인 페이지가 렌더링 되기까지 얼마만큼의 시간이 지났는지를 볼 수 있으면 되겠네요.
+
+그나마 가장 직관적이고 시각적인 지표로써 삼을 수 있는 것이 가장 상단의 스크린샷들입니다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905375-0c85f56c-d15b-4317-aa90-eeb2f0585959.png)
+
+이 부분을 보면 '아 방금 녹화한 화면들을 다 찍어놓은거구나' 하는 깨달음이 오실 겁니다. 스크린샷 상에서 페이지가 변경되는 부분을 위쪽에 왠 색칠된 그래프가 존재하는 것을 볼 수 있을 것입니다. 앱이 어떤 작업을 수행하고 있을 때는 위와 같은 그래프가 남습니다. 아무 그래프도 없다면 그 시간에 앱이 아무것도 안했다는 뜻이죠. 저 그래프가 있는 영역으로 범주를 좁혀봅시다.  
+
+![image](https://user-images.githubusercontent.com/32982670/128905385-a07a2a56-9c9c-4a90-aa52-2610be9e1cf4.png)
+
+그러면 이제 이 시간동안 일어난 일에 대해서만 살펴볼수가 있게 됩니다.
+
+다른 부분들은 다 일단 무시하시고 'Main' 이라고 되어 있는 영역을 찾아보세요. 그러면 알 수 없는 막대기들이 무분별하게 나열되어 있을 것입니다. 막대기들의 색이 주황, 보라, 초록 등 다양하게 있을텐데, 이 막대들 중 가장 눈여겨 봐야 할 막대들은 아래 브라우저 렌더링 프로세스를 나타내는 그림에서 볼 수 있는 색을 지닌 막대들입니다. 
+
+![image](https://user-images.githubusercontent.com/32982670/128905405-fbe86102-a15f-4649-b718-82b459e63973.png)
+
+(참고로 가상 DOM 에 대한 연산 시간은 밝은 청록색으로 등장합니다)
+
+브라우저 렌더링 프로세스를 이해하고 있다면 저 막대의 내용도 얼핏 파악할 수 있습니다. 주황색은 자바스크립트 코드를 실행한 시간을, 보라색은 렌더링에 필요한 연산을 수행하는 시간을, 초록색은 실제로 브라우저가 화면을 그리는 데 소모된 시간을 나타냅니다. 스크롤을 통해 막대들을 더 확대시켜서 봐봅시다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905439-1e2fb649-16e6-4330-ab43-73c2c2142a37.png)
+
+막대들을 눌러보기도 하면서 정보를 모으면 무슨 일이 일어났는지에 대한 정보를 수집해봅시다. 그러면 Event:mouseDown, Event: mouseup 이후 Event: click 이라고 적힌 주황색 막대를 발견하실 수 있을 것입니다. 이 주황색 막대는 각 이벤트에 걸려 있는 이벤트 핸들러를 수행하는데 걸린 시간을 나타냅니다. 그 후에 Recalculate Style 과 Layout 이 일어났고, 또 한번의 자바스크립트 코드 실행 이후 Recalculate Style 과 Layout 가 또 일어난 후에야 Paint 와 Composite Layer 가 일어나는 것을 볼 수 있을 것입니다.
+
+작성했던 소스코드를 돌아보면서 생각해보면, 지금 일어난 일은
+
+1. 마우스 클릭으로 인해 페이지 이동이 발생함
+2. 리액트에서 새로운 페이지 컴포넌트를 렌더링 하기 위해 컴포넌트 render 를 실행하고 이를 바탕으로 가상 DOM 을 업데이트 함. 이에 따라 렌더링 연산을 수행합니다.
+3. 새로 생성된 컴포넌트 내부에서 상태 변경이 감지되어 해당 부분만 다시 render 를 수행하고 다시 가상 DOM 을 업데이트함. 이에 따라 렌더링 연산을 다시 수행합니다.
+4. 드디어 paint 와 composite layer 작업을 통해 이용자에게 이동한 페이지 화면을 보여줍니다.
+
+일테니 이 일련의 과정을 모두 처리하는데 얼마만큼의 시간이 걸렸는지를 파악하면 될것으로 보입니다. 키보드의 shift 를 누른 상태에서 시간을 측정하고 싶은 만큼 영역을 드래그해보세요.
+
+![image](https://user-images.githubusercontent.com/32982670/128905491-d275bc99-f521-4a89-9ebc-4a00b7b858f9.png)
+
+그러면 화면이 위와 같이 변하고 맨 하단의 Summary 탭에서 드래그된 부분을 요약해서 보여줍니다. Summary 에 의하면 이 작업은 총 48ms 가 걸렸군요.
+
+이런 식으로 반응속도를 측정하고자 하는 모든 작업들의 처리 시간을 측정하면 됩니다.
+
+## 보너스 1 : 렌더링 성능 측정하기
+
+위에서 말한 Web Vitals 에는 포함되지는 않지만, 부드러운 애니메이션이야 말로 시각적인 만족감을 줄 수 있는 최고의 방법이죠. 애니메이션 또한 구글에서 제공하는 RAIL 모델에 따라 좋은 애니메이션의 기준을 세울 수 있습니다. 
+
+[Measure performance with the RAIL model](https://web.dev/rail/)
+
+RAIL 모델에 따르면, 사람이 '자연스럽다'고 인식하는 애니메이션은 초당 60개의 프레임을 필요로합니다. 이를 다른 식으로는 1프레임 당 16ms 가 필요하다고 해석해 볼 수 있죠. 프레임 또한 위와 동일하게 크롬 개발자 도구의 performance 탭을 통해 측정할 수 있습니다.
+
+![performance 탭2](https://user-images.githubusercontent.com/32982670/128905523-7678dbec-b7dc-4c8e-9d73-97b0f6fe1e6f.gif)
+
+마찬가지로 애니메이션이 일어나는 순간을 녹화하고 다시 퍼포먼스 탭을 살펴봅시다. 이전과 마찬가지로 애니메이션이 일어나는 순간으로 영역을 좁혀보도록 합니다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905540-df5be918-bcdb-42a3-a8bb-5ca3346ba040.png)
+
+그러면 Main 영역 위쪽에 Frame 이라고 적힌 영역을 보실 수 있습니다. 이 부분을 스크롤을 통해 좀더 확대해서 보도록 합시다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905563-2d3083d6-888b-47eb-8ecc-a467c9f9c1c6.png)
+
+그러면 이런 식으로 한 프레임 당 걸리는 시간이 어떤 식으로 분포되어 있는지를 확인하실 수 있습니다. 이 경우에는 초기에 애니메이션이 막 시작되는 부분을 제외하고는(시작 부분의 프레임은 애니메이션이 막 트리거되는 시점이기 때문에 100ms 를 넘지 않으면 괜찮다고 봅니다) 1 프레임마다 걸리는 시간이 16ms 근처를 왔다갔다 하고 있군요. 변화하는 폭이 크지 않은 이같은 경우에는, 1초당 16ms 기준을 만족하고 있다고 보셔도 좋습니다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905590-135e2e69-c6c9-4c4c-bc53-ea874724b276.png)
+
+Frame 하단의 Main 영역을 통해 각 프레임마다 일어나는 일을 확인해볼 수도 있습니다. 만일 애니메이션 중간에 1 프레임 당 걸리는 시간이 크게 증가하는 부분이 있다면 정확히 무슨 일이 일어난 것인지 확인해볼 수 있겠죠. Main 을 자세히 들여다보면 Layout Shift 라는 막대가 존재합니다. 이는 레이아웃이 기존의 레이아웃에서 크게 변동해서 이용자에게 불편을 야기할 수 있는 구간이라는 표시입니다. 이 부분을 없애주는 것이 CLS 수치를 감소시키는데 도움이 됩니다.
+
+## 보너스 2 : 테스트 환경 설정하기
+
+다소 어이 없이 들릴 수도 있겠지만, 저는 구글이 제공하는 lighthouse 를 통해 성능 측정하기를 꺼리는 편입니다. 매 측정마다 산출되는 점수가 각각 다르고 그 차이가 -10 ~ +10 정도로 변화폭이 크기 때문입니다. 하지만 가장 큰 이유는 테스트 환경을 개발자가 직접 설정할 수 없다는 점입니다. 만일 고객이 성능이 좋지 않은 모바일 기기와 느린 3G 네트워크 환경에서 앱을 사용해야 한다면 어떻게 해야 할까요? 그런 환경에서도 문제 없이 돌아가는 앱을 만들어야 할 것이고 정말로 문제 없이 돌아간다는 것을 수치를 통해 보여야 할 것입니다. 이런 요구사항이 있다면 lighthouse 에만 의존할 수는 없습니다(lighthouse 를 이용하는 PageSpeed Insights 서비스도 마찬가집니다).
+
+lighthouse 를 이용하지 않아도 크롬 개발자 도구의 Network 탭과 Performance 탭만으로도 성능 분석은 충분히 가능합니다(시간이 엄청 많이 걸릴 뿐이죠...). 게다가 이 두 탭을 이용해서 특정 사용 환경을 설정하는 것이 가능합니다. 아래는 제가 선택한 테스트 환경입니다. Performance 탭에서 네트워크는 slow 3G 를 적용하고 CPU 에 쓰로틀링을 걸어 4배 느려지게 만들어 모바일 기기와 유사한 CPU 환경을 세팅합니다. 또한 Network 탭에서 브라우저 캐싱이 불가능하게 설정할 수 있습니다. 이를 통해 이용자가 앱에 처음 접속한 상황을 설정할 수 있습니다.
+
+![performance 탭3](https://user-images.githubusercontent.com/32982670/128905602-3ac3f840-e075-4297-91e6-9297b82c2a32.gif)
+
+그리고 테스트할 때는 개인정보보호 모드를 통해 어플리케이션의 동작에 영향을 미칠 수 있는 확장 프로그램 등이 실행되는 것을 미리 예방해주시는 것이 좋습니다.
+
+이전에는 그냥 lighthouse 가 알려주는대로 FCP, LCP 등을 기록했지만, 직접 Performance 탭을 통해 제한된 환경에서의 FCP, LCP 를 기록해보는 것도 좋은 연습이 될 것입니다.
+
+![image](https://user-images.githubusercontent.com/32982670/128905623-19624e15-2338-41ec-b2e9-f5e4f7e744cf.png)
+
+(Performance 탭에서는 직접 확인하지 않아도 FCP, LCP 지점을 표시해줍니다)
