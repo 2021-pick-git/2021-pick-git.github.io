@@ -11,7 +11,7 @@ tags: [백엔드, Database]
 ## INTRO
 
 - 현재 진행중인 [프로젝트](https://github.com/woowacourse-teams/2021-pick-git)에서 DB Replication을 적용했었다. 
-  - [Replication 알아보기](https://yjksw.github.io/db-replication/
+  - [Replication 알아보기](https://yjksw.github.io/db-replication/)
 - DB replication 적용 이후 Master DB를 업그레이드 해야하는 상황에서 replicas와의 연동에 문제가 생긴적이 있었다. 이때 Master와 replicas 간의 데이터 연동 방법을 이해하고 해결한 (매우 간단한) 방법을 기록한다. 
 
 ## Master DB와 replicas 동기화 
