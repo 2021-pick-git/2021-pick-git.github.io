@@ -48,9 +48,9 @@ Bastion 서버에 대한 구성 방법은 [Bastion 서버 구성](https://xlffm3
 
 Product Reverse Proxy 주소는 TLS 적용 및 Product API 서버 도메인 주소를 연결해둔 상태입니다. 이 외에도 Reverse Proxy는 Product WAS에 대한 로드 밸런싱 및 Blue/Green 배포 작업 등을 수행합니다.
 
-서비스 초기에는 단일 DB 서버를 구성했으나, 단일 장애점을 없애고 가용성을 높이기 위해 DB Replication을 적용했습니다. DB Replication을 이번 글에서 전부 설명하긴 어려울 것 같은데요. 짧게 요약하자면 DB 스토리지를 물리적으로 다른 서버에 복제하는 것입니다. Write 작업은 Master Node가 담당하고 Read 작업은 Slave Node가 담당함으로써 DB 서버를 분산시킬 수 있으며 실시간 DB 데이터 백업이 가능합니다. 또한 하나의 Slave Node에 장애가 발생하더라도 다른 Slave Node(다중화)를 통해 서비스가 중단되지 않고 계속 정상 운영됩니다.
+서비스 초기에는 단일 DB 서버를 구성했으나, 단일 장애점을 없애고 가용성을 높이기 위해 DB Replication을 적용했습니다. DB Replication을 이번 글에서 전부 설명하긴 어려울 것 같은데요. 짧게 요약하자면 DB 스토리지를 물리적으로 다른 서버에 복제하는 것입니다. Write 작업은 Master Node가 담당하고 Read 작업은 Slave Node가 담당함으로써 DB 서버 부하를 분산시킬 수 있으며 실시간 DB 데이터 백업이 가능합니다. 또한 하나의 Slave Node에 장애가 발생하더라도 다른 Slave Node(다중화)를 통해 서비스가 중단되지 않고 계속 정상 운영됩니다.
 
-이미지 업로드 요청의 경우 Product WAS가 S3로 이미지를 업로드합니다.
+이미지 업로드 요청 API의 경우 Product WAS가 S3로 이미지를 업로드합니다.
 
 <br>
 
