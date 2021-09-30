@@ -144,7 +144,7 @@ DB Replication을 적용했으나 현재 WAS는 Scale-Out 없이 여전히 1대�
 
 ![image](https://user-images.githubusercontent.com/56240505/133962575-8dcda866-2b09-4fd3-943f-f507cdf8d6de.png)
 
-반면 DB 서버 CPU Utilization은 매우 높았습니다. 조회 요청에 대한 DB 부하가 매우 심한 것으로 보이며, 성능 향상을 위해 Slave를 늘리는 Scale-Out보다는 DB 서버 Scale-Up을 고려할 시점이라는 생각이 들었습니다.
+반면 DB 서버 CPU Utilization은 매우 높았습니다. 조회 요청에 대한 DB 부하가 매우 심한 것으로 보입니다. 성능 향상을 위해 DB 서버 Scale-Out과 Scale-Up 및 Indexing 등을 활용한 쿼리 튜닝 등이 필요한 시점이라는 생각이 들었습니다.
 
 <br>
 
