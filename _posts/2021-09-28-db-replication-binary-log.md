@@ -82,3 +82,8 @@ MariaDB [pickgit]> show master status;
 **[참고자료]**
 - [https://dev.mysql.com/doc/refman/8.0/en/replication-setup-replicas.html#replication-howto-newservers](https://dev.mysql.com/doc/refman/8.0/en/replication-setup-replicas.html#replication-howto-newservers)
 - [https://dev.mysql.com/doc/refman/8.0/en/replication-howto-masterstatus.html](https://dev.mysql.com/doc/refman/8.0/en/replication-howto-masterstatus.html)
+
+<br>
+<br>
+
+> 백엔드 코다입니다 🙌
