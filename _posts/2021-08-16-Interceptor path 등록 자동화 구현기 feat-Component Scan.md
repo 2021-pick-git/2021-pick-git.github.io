@@ -3,7 +3,7 @@ layout: post
 title: Interceptor path 등록 자동화 구현기 feat. Component Scan
 date: 2021-08-16 11:20:00 +0300
 description: 인터셉터 path 자동화 등록 라이브러리를 구현하며 얻을 지식을 공유합니다.
-img: frontend-performance.png
+img: interceptor.png
 tags: [백엔드, interceptor, 자동화]
 ---
 
