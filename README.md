@@ -1,31 +1,22 @@
-# Flexible-Jekyll is a simple and clean theme for Jekyll
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/50176238/129131809-52307863-7d29-4ebf-8595-46ef77ba2be8.png" alt="pick-git-logo" width="220" height="220">
+</p>
 
-![](https://github.com/artemsheludko/flexible-jekyll/blob/master/assets/img/promo-img.jpg?raw=true)
+<p align="center">
+  💻 Github Repo 기반 개발 장려 SNS,<br/>
+  🖋 깃-들다 (pick-git)의 기술 블로그입니다.
+</p>
+<br/>
 
-## Demo
+## Members
+### FE
+|브콜|크리스|
+|:-:|:--:|
+|<img src="https://avatars.githubusercontent.com/u/57767891?v=4" alt="beucol" width="100" height="100">|<img src="https://avatars.githubusercontent.com/u/32982670?v=4" alt="chris" width="100" height="100">|
+|[Tanney-102](https://github.com/Tanney-102)|[swon3210](https://github.com/swon3210)|
 
-Check the theme in action [Demo](https://artemsheludko.github.io/flexible-jekyll/)
-
-The main page would look like this:
-
-![Main page preview](https://github.com/artemsheludko/flexible-jekyll/blob/master/assets/img/home-page.jpg?raw=true)
-
-The post page would look like this:
-
-![Post page preview](https://github.com/artemsheludko/flexible-jekyll/blob/master/assets/img/post-example.jpg?raw=true)
-
-## Features
-
-- [Google Fonts](https://fonts.google.com/)
-- [Font Awesome](http://fontawesome.io/)
-- [Disqus](https://disqus.com/)
-- [Analytics](https://analytics.google.com/analytics/web/)
-- Support Emoji
-
-## Installation:
-
-Fork the ``master`` branch and follow the [Jekyll Installation Documentation](https://jekyllrb.com/docs/installation/).
-
-## License
-
-GNU General Public License v3.0
+### BE
+|다니|마크|손너잘|코다|케빈|
+|:-:|:-:|:--:|:-:|:-:|
+|<img src="https://avatars0.githubusercontent.com/u/50176238?s=400&u=212ca9ffd06b88465746a94eaa6f88b10485497d&v=4" alt="daeun" width="100" height="100">|<img src="https://avatars.githubusercontent.com/u/56860124?v=4" alt="mark" width="100" height="100">|<img src="https://avatars.githubusercontent.com/u/33603557?v=4" alt="neozal" width="100" height="100">|<img src="https://avatars.githubusercontent.com/u/63405904?v=4" alt="koda" width="100" height="100">|<img src="https://avatars.githubusercontent.com/u/56240505?v=4" alt="kevin" width="100" height="100">|
+|[da-nyee](https://github.com/da-nyee)|[binghe819](https://github.com/binghe819)|[bperhaps](https://github.com/bperhaps)|[yjksw](https://github.com/yjksw)|[xlffm3](https://github.com/xlffm3)|

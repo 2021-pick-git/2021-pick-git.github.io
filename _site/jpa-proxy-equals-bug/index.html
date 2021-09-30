@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JPA 프록시 관련 버그 경험기 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="JPA 프록시 관련 버그 경험기" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="프로젝트를 진행하면서 JPA 프록시 관련 버그를 경험하고 해결한 과정을 공유합니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//jpa-proxy-equals-bug/" property="og:url">
+  
+  
+    <meta content="2021-09-28T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/jpa.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="JPA" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="JPA 프록시 관련 버그 경험기">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//jpa-proxy-equals-bug/">
+  
+  
+    <meta name="twitter:description" content="프로젝트를 진행하면서 JPA 프록시 관련 버그를 경험하고 해결한 과정을 공유합니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/jpa.png">
+  
+
+	<meta name="description" content="프로젝트를 진행하면서 JPA 프록시 관련 버그를 경험하고 해결한 과정을 공유합니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/jpa.png alt="JPA 프록시 관련 버그 경험기">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">JPA 프록시 관련 버그 경험기</h1>
+        <div class="page-date"><span>2021, Sep 28&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h1 id="intro">INTRO</h1>
+<ul>
+  <li>JPA 에서는 데이터베이스에서 연관객체 탐색을 효율적으로 하기 위해서 지연로딩 전략을 사용한다.</li>
+  <li>지연로딩의 핵심은 연관관계에 있는 Entity가 실제로 사용되기 이전까지 DB에 실제로 참조하지 않고 프록시 객체로 대체하는 것이다.</li>
+  <li>JPA의 프록시 객체는 유용하지만 내부 동작방식에 대해서 제대로 알고있지 않으면 찾기 어려운 버그를 만날 수도 있다.</li>
+  <li>다음은 JPA proxy 관련해서 프로젝트 진행시 만난 버그에 대한 내용이다.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h1 id="문제-상황">문제 상황</h1>
+
+<h3 id="entity-구조">Entity 구조</h3>
+<ul>
+  <li><strong>참고</strong>: 설명과 관련된 부분만 남기고 다른 로직 및 어노테이션은 대부분 생략했다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Post</code> - 게시물 엔티티</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Entity</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Post</span> <span class="o">{</span>
+
+     <span class="nd">@Id</span>
+     <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+     <span class="nd">@ManyToOne</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+     <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user_id"</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">User</span> <span class="n">user</span><span class="o">;</span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">Images</span> <span class="n">images</span><span class="o">;</span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">PostContent</span> <span class="n">content</span><span class="o">;</span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">Likes</span> <span class="n">likes</span><span class="o">;</span> <span class="c1">//설명과 관련된 프로퍼티!! </span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">Comments</span> <span class="n">comments</span><span class="o">;</span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">PostTags</span> <span class="n">postTags</span><span class="o">;</span>
+
+     <span class="kd">private</span> <span class="nc">String</span> <span class="n">githubRepoUrl</span><span class="o">;</span>
+
+     <span class="kd">protected</span> <span class="nf">Post</span><span class="o">()</span> <span class="o">{</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...부생성자 생략 </span>
+
+     <span class="c1">//...불필요한 비지니스 로직 생략 </span>
+     <span class="c1">//...getter 생략</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Likes</code>와 <code class="language-plaintext highlighter-rouge">Like</code> - Post 엔티티 하위의 Embedded 게시물 Like collection 포장객체
+    <ul>
+      <li><strong>참고</strong>: 설명하고자 하는 부분과 깊게 연관된 핵심 Entity는 아니지만  상황 설명을 위해 간단히 프로퍼티만 소개한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Embeddable</span> <span class="c1">// Post 엔티티 안에 Embedded 되어 있음 </span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Likes</span> <span class="o">{</span>
+
+     <span class="nd">@OneToMany</span><span class="o">(</span>
+         <span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"post"</span><span class="o">,</span>
+         <span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span>
+         <span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">PERSIST</span><span class="o">,</span>
+         <span class="n">orphanRemoval</span> <span class="o">=</span> <span class="kc">true</span>
+     <span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Like</span><span class="o">&gt;</span> <span class="n">likes</span><span class="o">;</span>
+
+     <span class="kd">public</span> <span class="nf">Likes</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">(</span><span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;());</span>
+     <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="nf">Likes</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Like</span><span class="o">&gt;</span> <span class="n">likes</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">likes</span> <span class="o">=</span> <span class="n">likes</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...getter 및 불필요한 비지니스 로직 생략</span>
+ <span class="o">}</span>
+
+ <span class="nd">@Entity</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Like</span> <span class="o">{</span>
+
+     <span class="nd">@Id</span> <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+     <span class="nd">@ManyToOne</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+     <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"post_id"</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">Post</span> <span class="n">post</span><span class="o">;</span>
+
+     <span class="nd">@ManyToOne</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+     <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user_id"</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">User</span> <span class="n">user</span><span class="o">;</span>
+
+     <span class="kd">protected</span> <span class="nf">Like</span><span class="o">()</span> <span class="o">{</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...getter 및 불필요한 비지니스 로직 생략</span>
+ <span class="o">}</span>    
+</code></pre></div>    </div>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">User</code> - 어플리케이션 사용자 (게시물 좋아요, 유저간 팔로우 팔로잉 등의 행위를 함)</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Entity</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+
+     <span class="nd">@Id</span> <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">Followers</span> <span class="n">followers</span><span class="o">;</span>
+
+     <span class="nd">@Embedded</span>
+     <span class="kd">private</span> <span class="nc">Followings</span> <span class="n">followings</span><span class="o">;</span>
+
+     <span class="c1">//...일부 프로퍼티 생략 </span>
+
+     <span class="kd">protected</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...부 생성자 생략 </span>
+
+     <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">isFollowing</span><span class="o">(</span><span class="nc">User</span> <span class="n">targetUser</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//문제를 발생시킨 핵심 메소드!!! </span>
+         <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">targetUser</span><span class="o">))</span> <span class="o">{</span>
+             <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+         <span class="o">}</span>
+
+         <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">followings</span><span class="o">.</span><span class="na">isFollowing</span><span class="o">(</span><span class="n">targetUser</span><span class="o">);</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...getter 및 불필요한 비지니스 로직 생략 </span>
+
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//User는 Entity 이므로 Id로 동일성 및 동등성 확인 </span>
+         <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+             <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+         <span class="o">}</span>
+
+         <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="o">{</span> <span class="c1">//중요한 포인트!!!! </span>
+             <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+         <span class="o">}</span>
+
+         <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+
+         <span class="k">return</span> <span class="n">id</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">id</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">())</span> <span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="nc">Objects</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">getId</span><span class="o">());</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Followings</code>와 <code class="language-plaintext highlighter-rouge">Follow</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Followings</code> - 해당 <code class="language-plaintext highlighter-rouge">User</code>의 팔로워리스트를 저장하는 포장객체 (<code class="language-plaintext highlighter-rouge">Followers</code>도 동일한 형태로 되어 있다.)</li>
+      <li><code class="language-plaintext highlighter-rouge">Follow</code> - Followers, Followings 리스트에 담겨 있는 VO 엔티티로 source, target 유저간의 팔로우 관계를 나타내는 엔티티</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Embeddable</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Followings</span> <span class="o">{</span>
+
+     <span class="nd">@OneToMany</span><span class="o">(</span>
+         <span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"source"</span><span class="o">,</span>
+         <span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">,</span>
+         <span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">PERSIST</span><span class="o">,</span>
+         <span class="n">orphanRemoval</span> <span class="o">=</span> <span class="kc">true</span>
+     <span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Follow</span><span class="o">&gt;</span> <span class="n">followings</span><span class="o">;</span>
+
+     <span class="kd">protected</span> <span class="nf">Followings</span><span class="o">()</span> <span class="o">{</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...생성자 생략 </span>
+
+     <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">isFollowing</span><span class="o">(</span><span class="nc">User</span> <span class="n">targetUser</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//문제를 발생시킨 핵심 메소드!!! </span>
+         <span class="k">return</span> <span class="n">followings</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+             <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">follow</span> <span class="o">-&gt;</span> <span class="n">follow</span><span class="o">.</span><span class="na">isFollowing</span><span class="o">(</span><span class="n">targetUser</span><span class="o">));</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...일부 비지니스 로직 생략</span>
+ <span class="o">}</span>
+
+ <span class="nd">@Entity</span>
+ <span class="nd">@Table</span><span class="o">(</span>
+     <span class="n">uniqueConstraints</span> <span class="o">=</span> <span class="o">{</span>
+         <span class="nd">@UniqueConstraint</span><span class="o">(</span><span class="n">columnNames</span> <span class="o">=</span> <span class="o">{</span><span class="s">"source_id"</span><span class="o">,</span> <span class="s">"target_id"</span><span class="o">})</span>
+     <span class="o">}</span>
+ <span class="o">)</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Follow</span> <span class="o">{</span>
+
+     <span class="nd">@Id</span> <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+     <span class="nd">@ManyToOne</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+     <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"source_id"</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">User</span> <span class="n">source</span><span class="o">;</span>
+
+     <span class="nd">@ManyToOne</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+     <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"target_id"</span><span class="o">)</span>
+     <span class="kd">private</span> <span class="nc">User</span> <span class="n">target</span><span class="o">;</span>
+
+     <span class="kd">protected</span> <span class="nf">Follow</span><span class="o">()</span> <span class="o">{</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...생성자 및 유효성 검사 로직 생략 </span>
+
+     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFollowing</span><span class="o">(</span><span class="nc">User</span> <span class="n">targetUser</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//문제를 발생시킨 핵심 메소드!!! </span>
+         <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">target</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">targetUser</span><span class="o">);</span>
+     <span class="o">}</span>
+
+     <span class="c1">//...getter 생략 </span>
+     <span class="c1">//equals &amp; hashcode는 VO로 취급되어 필드가 같은지 확인 (즉, 유저가 같은 유저인지 확인)</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">PostRepository</code> 게시물 좋아요 리스트 조회 쿼리</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@Query</span><span class="o">(</span><span class="s">"select distinct p from Post p left join fetch p.likes where p.id = :postId"</span><span class="o">)</span>
+ <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">findPostWithLikeUsers</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"postId"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">postId</span><span class="o">);</span> <span class="c1">// 포스트를 조회할 때 좋아요 리스트를 fetch join 해서 즉시로딩 한다. </span>
+</code></pre></div>    </div>
+
+    <p><br /></p>
+  </li>
+</ol>
+
+<h3 id="버그-발생">버그 발생</h3>
+<ul>
+  <li>현재 흐름은 다음과 같다.
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">Post</code>를 좋아요 한 유저 리스트를 반환하려함. (<code class="language-plaintext highlighter-rouge">Post</code>내부의 <code class="language-plaintext highlighter-rouge">Likes</code>를 반환)</li>
+      <li>좋아요 한 유저 리스트를 조회할 때, 조회하는 source 유저가 팔로잉 하고 있는 target 유저는 팔로잉 중이라고 나타냄.</li>
+    </ol>
+
+    <p><br /></p>
+
+    <p align="center"><img width="220" src="https://user-images.githubusercontent.com/63405904/130729021-67475c69-7b74-46bf-ac55-2902ddded2f9.png" /></p>
+
+    <ol>
+      <li>source 유저가 target user를 following 하고 있는 여부를 <code class="language-plaintext highlighter-rouge">User</code>의 <code class="language-plaintext highlighter-rouge">isFollowing</code> 메소드를 통해서 확인함.
+        <ul>
+          <li>이때 source와 target이 같은 경우(자기 자신인 경우) - <code class="language-plaintext highlighter-rouge">null</code> 반환</li>
+          <li>source가 target을 팔로잉 중인 경우 - <code class="language-plaintext highlighter-rouge">true</code> 반환</li>
+          <li>source가 target을 필로우 하지 않는 경우 - <code class="language-plaintext highlighter-rouge">false</code> 반환</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li><strong>문제는, 로그인 한 source 유저와 즉시로딩 해 가져온 좋아요 리스트의 User 간의 팔로잉 여부가 모두 <code class="language-plaintext highlighter-rouge">false</code>로 출력이 된 것이다.</strong></li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h1 id="발생-원인">발생 원인</h1>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PostRepository</code>에서 <code class="language-plaintext highlighter-rouge">findPostWithLikeUsers()</code>를 사용해 포스트와 좋아요 리스트를 즉시로딩(<code class="language-plaintext highlighter-rouge">@OneToMany</code> 관계) 할 때 <code class="language-plaintext highlighter-rouge">Like</code> 엔티티 내부의 <code class="language-plaintext highlighter-rouge">User</code>는 즉시로딩 하지 않으므로 proxy 객체이다.</li>
+  <li>
+    <p>좋아요한 target 유저 리스트를 가져와서 로그인 유저인 source 유저의 <code class="language-plaintext highlighter-rouge">isFollowing()</code> 메소드로 두 유저간의 팔로잉 여부를 확인한다.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// User.java</span>
+  <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">isFollowing</span><span class="o">(</span><span class="nc">User</span> <span class="n">targetUser</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">targetUser</span><span class="o">))</span> <span class="o">{</span> <span class="c1">//자기 자신일 경우 null 반환</span>
+          <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">followings</span><span class="o">.</span><span class="na">isFollowing</span><span class="o">(</span><span class="n">targetUser</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="c1">//Followings.java</span>
+  <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">isFollowing</span><span class="o">(</span><span class="nc">User</span> <span class="n">targetUser</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">followings</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">follow</span> <span class="o">-&gt;</span> <span class="n">follow</span><span class="o">.</span><span class="na">isFollowing</span><span class="o">(</span><span class="n">targetUser</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="c1">//Follow.java</span>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFollowing</span><span class="o">(</span><span class="nc">User</span> <span class="n">targetUser</span><span class="o">)</span> <span class="o">{</span> 
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">target</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">targetUser</span><span class="o">);</span> <span class="c1">//User.java 의 equals &amp; hashCode를 사용 </span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>아무리 디버깅을 해봐도 비교하는 source 유저와 target 유저의 식별자(Id)가 같음에도 불구하고 <code class="language-plaintext highlighter-rouge">Follow.java</code>의 <code class="language-plaintext highlighter-rouge">isFollowing()</code>에서 false가 반환 되었다.</strong></li>
+  <li>
+    <p>그 원인은 <code class="language-plaintext highlighter-rouge">User.java</code>에서 오버라이드한 equals hashcode에 있었다.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="o">{</span> <span class="c1">//(1) 중요한 포인트!!!! </span>
+          <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+
+      <span class="k">return</span> <span class="n">id</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">id</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">())</span> <span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">Objects</span><span class="o">.</span><span class="na">hash</span><span class="o">(</span><span class="n">getId</span><span class="o">());</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>위 <strong>(1)</strong> 에서 <code class="language-plaintext highlighter-rouge">User</code>객체의 Id로 비교하기 이전에 두 객체가 같은 클래스인지 <code class="language-plaintext highlighter-rouge">o.getClass()</code>로 비교하고 있었다. 하지만 proxy 객체는 <code class="language-plaintext highlighter-rouge">getClass()</code> 로 비교하면 실제 entity와 같지 않기 때문에 <code class="language-plaintext highlighter-rouge">false</code>를 반환한다.</li>
+  <li>따라서 프록시 객체와 실제 entity를 비교할때는 <code class="language-plaintext highlighter-rouge">instance of</code>를 사용해야한다. <br /><a href="https://prolog.techcourse.co.kr/posts/1334">JPA Proxy 참고링크</a></li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h1 id="해결-방법">해결 방법</h1>
+
+<ul>
+  <li>생각한 해결방법은 2가지 이다.
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">Post</code>와 <code class="language-plaintext highlighter-rouge">Like</code>의 <code class="language-plaintext highlighter-rouge">fetch join</code> 시 <code class="language-plaintext highlighter-rouge">Like</code>의 <code class="language-plaintext highlighter-rouge">User</code> 까지 모두 <code class="language-plaintext highlighter-rouge">fetch join</code>으로 즉시로딩</li>
+    </ol>
+
+    <ul>
+      <li>Post와 Like -&gt; <code class="language-plaintext highlighter-rouge">@OneToMany</code> 관계</li>
+      <li>Like와 User -&gt; <code class="language-plaintext highlighter-rouge">@ManyToOne</code> 관계</li>
+      <li>위와 같은 연관관계는 두 번 fetch join 하여 Like의 User까지 즉시로딩 할 수 있다.</li>
+      <li>
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Query</span><span class="o">(</span><span class="s">"select distinct p from Post p left join fetch p.likes.likes l left join fetch l.user where p.id = :postId"</span><span class="o">)</span>
+  <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">findPostWithLikeUsers</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"postId"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">postId</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+      <li>위와 같이 <code class="language-plaintext highlighter-rouge">User</code>까지 즉시로딩 한다면, <code class="language-plaintext highlighter-rouge">User</code>가 더 이상 proxy 객체가 아니기 때문에 <code class="language-plaintext highlighter-rouge">getClass()</code>를 해도 문제가 발생하지 않는다.</li>
+      <li>하지만 지나치게 복잡한 연관관계를 즉시로딩 하는 것이며 JPQL에서 fetch join 시 별칭을 쓰는 것은 JPA 표준 스펙에 맞지 않기 때문에 추천하는 방법이 아니다. (Hibernate 구현상 가능하므로 할 수 있긴 하다.) <br />
+  <a href="https://www.inflearn.com/questions/15876">JPA fetch join 시 별칭 참고링크</a></li>
+    </ul>
+
+    <p><br /></p>
+  </li>
+</ul>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">User</code>의 <code class="language-plaintext highlighter-rouge">equals()</code> 메소드의 <code class="language-plaintext highlighter-rouge">getClass()</code> 비교 부분을 <code class="language-plaintext highlighter-rouge">instance of</code> 로 수정
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">User.java</code>의 equals 메소드를 다음과 같이 수정하면 올바른 값을 반환한다.</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(!(</span><span class="n">o</span> <span class="k">instanceof</span> <span class="nc">User</span><span class="o">))</span> <span class="o">{</span> <span class="c1">// 이 부분!!  </span>
+          <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+
+      <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+
+      <span class="k">return</span> <span class="n">id</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">id</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">())</span> <span class="o">:</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p><br />
+<br /></p>
+
+<h1 id="마무리">마무리</h1>
+<ul>
+  <li>JPA Proxy 객체에 대해서 학습했으나, 이론으로 알고 있던 부분을 직접 버그로 경험하며 학습할 수 있었다.</li>
+  <li>디버깅 시 User 객체의 주소값이 ID가 같을 경우 같은 해시값으로 찍혔기 때문에 원인을 알기 더 어려웠다.</li>
+  <li>또한 디버깅 포인트를 override 하여 IDE에서 자동으로 추가한 <code class="language-plaintext highlighter-rouge">equals()</code>에 걸 생각을 하지 못한 것도 디버깅을 어렵게 했던 포인트였다.</li>
+  <li>개인적으로 <code class="language-plaintext highlighter-rouge">equals()</code>를 수정하는 두번째 해결방법을 추천하지만, override 한 메소드를 수정하는 것이 다른 팀원에게 충분히 공유되지 않으면 또다른 버그 포인트가 될 수 있다고 생각한다. (당연하게 생각하여 자세히 들여다보지 않는 부분이므로)</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<blockquote>
+  <p>백엔드 코다입니다 🙌</p>
+</blockquote>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=JPA 프록시 관련 버그 경험기&url=https://2021-pick-git.github.io//jpa-proxy-equals-bug/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//jpa-proxy-equals-bug/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//jpa-proxy-equals-bug/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#JPA" class="tag">&#35; JPA</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
