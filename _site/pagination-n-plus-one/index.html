@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JPA Pagination, 그리고 N + 1 문제 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="JPA Pagination, 그리고 N + 1 문제" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Pagination과 Fetch Join을 함께 사용할 때 발생할 수 있는 문제를 대처해봅시다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//pagination-n-plus-one/" property="og:url">
+  
+  
+    <meta content="2021-09-28T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/nplusone.jpeg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="JPA" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="JPA Pagination, 그리고 N + 1 문제">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//pagination-n-plus-one/">
+  
+  
+    <meta name="twitter:description" content="Pagination과 Fetch Join을 함께 사용할 때 발생할 수 있는 문제를 대처해봅시다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/nplusone.jpeg">
+  
+
+	<meta name="description" content="Pagination과 Fetch Join을 함께 사용할 때 발생할 수 있는 문제를 대처해봅시다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/nplusone.jpeg alt="JPA Pagination, 그리고 N + 1 문제">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">JPA Pagination, 그리고 N + 1 문제</h1>
+        <div class="page-date"><span>2021, Sep 28&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="1-들어가며">1. 들어가며</h2>
+
+<p>안녕하세요, 케빈입니다. 게시판 기능을 제공하는 웹 어플리케이션에 접속하여 게시물 목록을 요청하는 경우를 상상해봅시다. DB에 저장되어 있는 게시물은 수백 만개에 육박할 수도 있습니다. 모든 게시물 목록을 조회해 화면에 렌더링하는 경우, 클라이언트가 브라우저 혹은 모바일 기기로 이를 한 눈에 보기 어려움을 겪을 공산이 큽니다. 또한 클라이언트가 보지도 않을 데이터까지 DB에서 조회하여 네트워크를 통해 전달하기 때문에, 서버의 리소스가 불필요하게 낭비됩니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/126959267-f01b6829-19bf-4662-829b-651049cc55c2.png" alt="image" /></p>
+
+<p>반면 위 사진처럼 한 페이지에서는 N개의 데이터만 보여주고, 다음 페이지로 이동하라는 클라이언트의 추가 요청이 있을 때 마다 다음 순번의 N개의 데이터를 보여준다면 UX 및 리소스 측면의 단점을 보완할 수 있습니다. 이 처럼 한 화면에 보여주는 데이터의 범위를 결정하는 일련의 방식을 페이지네이션 혹은 페이징이라고 합니다. Pick-Git은 위 사진과 같이 게시판 형태가 아닌 인피니티 스크롤을 기반으로 페이지네이션을 적용하고 있습니다. 그리고 이번 글에서는 Pick-Git을 개발하면서 당면했던 JPA Pagination 및 N + 1 문제 및 해결 방법을 공유하고자 합니다.</p>
+
+<p><br /></p>
+
+<h2 id="2-pagination">2. Pagination</h2>
+
+<p>일반적으로 DB 벤더에 따라 페이징을 처리하는 쿼리가 천차만별입니다. MySQL의 경우 LIMIT 및 OFFSET 구문 등을 사용함으로써 페이징을 처리할 수 있지만, Oracle은 그보다 더 복잡한 쿼리가 수반됩니다. 그러나 JPA를 사용한다면 별도의 쿼리 작성 없이 Pagination API를 사용하기만 하면 됩니다. JPA가 설정된 DB 벤더 방언에 맞게 페이징 쿼리를 자동으로 생성하기 때문입니다.</p>
+
+<blockquote>
+  <p>PostRepository.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Query</span><span class="o">(</span><span class="s">"select p from Post p"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">findWithPagination</span><span class="o">(</span><span class="nc">Pageable</span> <span class="n">pageable</span><span class="o">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>PostRepositoryTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Pageable을 사용하여 페이징 처리한다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">pagination</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">postRepository</span><span class="o">.</span><span class="na">findWithPagination</span><span class="o">(</span><span class="nc">Pageable</span><span class="o">.</span><span class="na">ofSize</span><span class="o">(</span><span class="mi">10</span><span class="o">));</span>
+    <span class="c1">// postRepository.findWithPagination(PageRequest.of(0, 2)); 가능</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>SQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_4_</span><span class="p">,</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_4_</span>
+    <span class="k">from</span>
+        <span class="n">post</span> <span class="n">post0_</span> <span class="k">limit</span> <span class="o">?</span>
+</code></pre></div></div>
+
+<p>Spring Data JPA의 경우 Pageable 구현체를 Repository 쿼리 메서드의 파라미터로 전달함으로써 쿼리에 페이징을 동적으로 추가할 수 있습니다. 개발자가 Pageable 인터페이스를 직접 구현하거나, 미리 준비되어 있는 정적 팩토리 메서드를 통해 간편하게 페이지네이션 범위를 지정할 수 있습니다. 현재 설정된 방언에 따라 JPQL 쿼리 및 페이지네이션 기능이 SQL 쿼리로 변환되는 것을 확인할 수 있습니다.</p>
+
+<p><br /></p>
+
+<h2 id="3-n--1-및-fetch-join">3. N + 1 및 Fetch Join</h2>
+
+<blockquote>
+  <p>Post.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Post</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nd">@ManyToOne</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+    <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user_id"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">User</span> <span class="n">user</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"post"</span><span class="o">,</span> <span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Image</span><span class="o">&gt;</span> <span class="n">images</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"post"</span><span class="o">,</span> <span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Like</span><span class="o">&gt;</span> <span class="n">likes</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"post"</span><span class="o">,</span> <span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Comment</span><span class="o">&gt;</span> <span class="n">comments</span><span class="o">;</span>
+
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"post"</span><span class="o">,</span> <span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">LAZY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">PostTag</span><span class="o">&gt;</span> <span class="n">postTags</span><span class="o">;</span>
+
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Pick-Git 프로젝트에서 사용하는 Post 엔티티를 간략하게 표현한 예제 코드입니다.</p>
+
+<blockquote>
+  <p>PostService.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">PostResponseDto</span><span class="o">&gt;</span> <span class="nf">homeFeed</span><span class="o">(</span><span class="nc">HomeFeedRequestDto</span> <span class="n">homeFeedRequestDto</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Pageable</span> <span class="n">pageable</span> <span class="o">=</span> <span class="n">getPagination</span><span class="o">(</span><span class="n">homeFeedRequestDto</span><span class="o">);</span>
+    <span class="nc">User</span> <span class="n">requestUser</span> <span class="o">=</span> <span class="n">findUserByName</span><span class="o">(</span><span class="n">homeFeedRequestDto</span><span class="o">.</span><span class="na">getRequestUserName</span><span class="o">());</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">postRepository</span><span class="o">.</span><span class="na">findAllAssociatedPostsByUser</span><span class="o">(</span><span class="n">requestUser</span><span class="o">,</span> <span class="n">pageable</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">PostDtoAssembler</span><span class="o">.</span><span class="na">assembleFrom</span><span class="o">(</span><span class="n">requestUser</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>복수건의 게시물 조회 요청의 경우, Pagination API를 바탕으로 게시물을 조회합니다.</p>
+
+<blockquote>
+  <p>PostResponseDto.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PostResponseDto</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">imageUrls</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">authorName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">likesCount</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">tags</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CommentResponseDto</span><span class="o">&gt;</span> <span class="n">comments</span><span class="o">;</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이후 Post 엔티티 내부 필드(연관 엔티티)들을 <code class="language-plaintext highlighter-rouge">getter</code>로 호출해 가공하여 응답 DTO를 작성합니다. 기능을 구현하고 보니 JPA가 Post 페이징 조회 쿼리 1건 이외에도 추가적으로 5건(Comment, Like, Image, User, Tag)의 조회 쿼리를 날리고 있었습니다. 즉, 한 개의 트랜잭션을 처리하는데 총 6번의 SQL 조회 쿼리가 발생하는 심각한 문제였습니다.</p>
+
+<p>이러한 현상을 N + 1 이라고 합니다. 쿼리 1번으로 N건의 엔티티를 가져왔는데, 글로벌 지연 로딩 전략으로 인해 관련 컬럼을 얻기 위해 쿼리를 N번 추가로 수행하는 현상을 의미합니다. 테스트 코드를 통해 더 자세히 살펴보겠습니다.</p>
+
+<blockquote>
+  <p>PostRepositoryTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Pageable을 사용하여 페이징 처리한다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">pagination</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">posts</span> <span class="o">=</span> <span class="n">postRepository</span><span class="o">.</span><span class="na">findWithPagination</span><span class="o">(</span><span class="nc">PageRequest</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">3</span><span class="o">));</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="nc">Post</span> <span class="n">post</span> <span class="o">:</span> <span class="n">posts</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">post</span><span class="o">.</span><span class="na">getComments</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>SQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_4_</span><span class="p">,</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_4_</span>
+    <span class="k">from</span>
+        <span class="n">post</span> <span class="n">post0_</span> <span class="k">limit</span> <span class="o">?</span>
+<span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">like_id</span> <span class="k">as</span> <span class="n">like_id3_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_1_</span>
+    <span class="k">from</span>
+        <span class="k">comment</span> <span class="n">comments0_</span>
+    <span class="k">where</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span><span class="o">=?</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">3</span><span class="n">a1238cc</span><span class="p">]</span>
+<span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">like_id</span> <span class="k">as</span> <span class="n">like_id3_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_1_</span>
+    <span class="k">from</span>
+        <span class="k">comment</span> <span class="n">comments0_</span>
+    <span class="k">where</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span><span class="o">=?</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="n">ce5df3f</span><span class="p">]</span>
+<span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">like_id</span> <span class="k">as</span> <span class="n">like_id3_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_1_</span>
+    <span class="k">from</span>
+        <span class="k">comment</span> <span class="n">comments0_</span>
+    <span class="k">where</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span><span class="o">=?</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">5</span><span class="n">ab690ec</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>페이징으로 조회한 N개의 Post 엔티티를 순회하며 Comment를 조회해봅시다. Post는 1:N 관계를 맺고 있는 Comment에 대해 글로벌 지연 로딩 전략을 채택하고 있습니다. 그 결과, 페이징(LIMIT)을 통해 조회한 Post 리스트를 순회하면서 <code class="language-plaintext highlighter-rouge">getComments()</code>를 호출할 때마다 추가적으로 Comment 조회 쿼리가 발생합니다. 즉, 조회한 Post가 1000개라면 1000개의 추가 쿼리가 발생하는 전형적인 <strong>N + 1 문제</strong>가 나타납니다.</p>
+
+<p>실제 Pick-Git에서 사용하는 Post 엔티티의 경우, 응답을 작성할 때 Comment 뿐만 아니라 Image, Tag, Like, User 등 여러 지연 로딩된 엔티티 테이블들을 추가적으로 참조합니다. 따라서 조회한 Post가 1000건이면 5000건의 추가 쿼리가 발생하게 됩니다.</p>
+
+<p>이를 해결하기 위해 대게 Fetch Join을 적용하게 됩니다.</p>
+
+<h3 id="31-fetch-join">3.1. Fetch Join</h3>
+
+<p>Fetch Join이란 JPQL로 특정 엔티티를 조회할 때 연관된 엔티티 혹은 컬렉션을 즉시 로딩과 같이 한 번에 함께 조회하는 기능입니다.</p>
+
+<blockquote>
+  <p>PostRepository.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Query</span><span class="o">(</span><span class="s">"select distinct p from Post p join fetch p.comments"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">findWithPagination</span><span class="o">(</span><span class="nc">Pageable</span> <span class="n">pageable</span><span class="o">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>SQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">2021</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">26</span> <span class="mi">22</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">32</span><span class="p">.</span><span class="mi">764</span>  <span class="n">WARN</span> <span class="mi">14832</span> <span class="c1">--- [    Test worker] o.h.h.internal.ast.QueryTranslatorImpl   : HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!</span>
+<span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="k">distinct</span> <span class="n">post0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_4_0_</span><span class="p">,</span>
+        <span class="n">comments1_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_1_</span><span class="p">,</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_4_0_</span><span class="p">,</span>
+        <span class="n">comments1_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_2_1_</span><span class="p">,</span>
+        <span class="n">comments1_</span><span class="p">.</span><span class="n">like_id</span> <span class="k">as</span> <span class="n">like_id3_2_1_</span><span class="p">,</span>
+        <span class="n">comments1_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_1_</span><span class="p">,</span>
+        <span class="n">comments1_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_0__</span><span class="p">,</span>
+        <span class="n">comments1_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_0__</span>
+    <span class="k">from</span>
+        <span class="n">post</span> <span class="n">post0_</span>
+    <span class="k">inner</span> <span class="k">join</span>
+        <span class="k">comment</span> <span class="n">comments1_</span>
+            <span class="k">on</span> <span class="n">post0_</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">comments1_</span><span class="p">.</span><span class="n">post_id</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">72</span><span class="n">dc246c</span><span class="p">]</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">6</span><span class="n">e76be45</span><span class="p">]</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">37</span><span class="n">ef8e6b</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Post 전체 조회 쿼리 1개 (1) + 각 Post별 Comment 조회 쿼리 3개 (N)</code> 총 쿼리가 4개가 날아가던 것이 Fetch Join을 적용함으로써 1개로 줄어들었습니다. 성능이 최적화된 것으로 보이지만 다소 이상한 부분이 존재합니다.</p>
+
+<p>먼저, 페이징할 때 사용하던 기존의 SQL LIMIT 구문이 등장하지 않았습니다. 또한 쿼리 결과를 전부 메모리에 적재한 뒤 어플리케이션 단에서 Pagination 작업을 수행한다는 경고 로그가 발생합니다. 왜 이러한 현상이 발생하는 것일까요?</p>
+
+<p>Post 엔티티가 3개 있고, 각각의 Post 엔티티는 연관된 Comment가 7개 존재한다고 가정해봅시다. 1:N 관계를 Join하면 총 21(3 * 7)개의 DB Row가 조회됩니다. 데이터의 수가 변경되기 때문에 단순하게 LIMIT 구문을 사용하는 쿼리로 페이지네이션을 적용하기 어렵습니다. 따라서 조회한 결과를 모두 메모리로 가져와서 JPA가 페이지네이션 계산을 진행합니다.</p>
+
+<p><strong>1:N 관계의 컬렉션을 Fetch Join하면서 동시에 Pagination API를 사용하면 OutOfMemoryError가 발생할 수 있기 때문에, 이 둘을 동시에 사용해서는 안 됩니다.</strong></p>
+
+<blockquote>
+  <p>CommentTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Comment</span><span class="o">&gt;</span> <span class="n">comments</span> <span class="o">=</span> <span class="n">entityManager</span>
+    <span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="s">"select c from Comment c join fetch c.post"</span><span class="o">,</span> <span class="nc">Comment</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setFirstResult</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setMaxResults</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>SQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">comment0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_0_</span><span class="p">,</span>
+        <span class="n">post1_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_4_1_</span><span class="p">,</span>
+        <span class="n">comment0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_2_0_</span><span class="p">,</span>
+        <span class="n">comment0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_0_</span><span class="p">,</span>
+        <span class="n">post1_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_4_1_</span>
+    <span class="k">from</span>
+        <span class="k">comment</span> <span class="n">comment0_</span>
+    <span class="k">inner</span> <span class="k">join</span>
+        <span class="n">post</span> <span class="n">post1_</span>
+            <span class="k">on</span> <span class="n">comment0_</span><span class="p">.</span><span class="n">post_id</span><span class="o">=</span><span class="n">post1_</span><span class="p">.</span><span class="n">id</span> <span class="k">limit</span> <span class="o">?</span>
+</code></pre></div></div>
+
+<p>반대로 N:1 관계의 엔티티를 Fetch Join할 때는 문제없이 Pagination API를 적용할 수 있습니다. Comment와 Post는 N:1 관계이기 때문에 Join해도 조회되는 DB ROW의 수가 변경되지 않기 때문입니다. SQL 로그에도 LIMIT 구문이 잘 찍혀있고, 별도의 경고 로그가 발생하지 않습니다.</p>
+
+<p><br /></p>
+
+<h2 id="4-해결-방안">4. 해결 방안</h2>
+
+<p>Pagination API를 사용할 때 <code class="language-plaintext highlighter-rouge">~ToOne</code> 관계의 엔티티는 Fetch Join해도 괜찮지만, <code class="language-plaintext highlighter-rouge">~ToMany</code> 관계의 엔티티에 대해서는 다른 접근이 필요합니다.</p>
+
+<blockquote>
+  <p>application.properties</p>
+</blockquote>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">spring.jpa.properties.hibernate.default_batch_fetch_size</span><span class="p">=</span><span class="s">1000</span>
+</code></pre></div></div>
+
+<p>그 중 가장 쉬운 해결 방안으로는 Batch Size를 지정하는 것입니다. @BatchSize 애너테이션을 부착할 수도 있지만, 어플리케이션 전역 설정을 위해 properties에 값을 정의했습니다. 해당 옵션에 대한 설명은 후술하겠습니다.</p>
+
+<blockquote>
+  <p>PostRepositoryTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">posts</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="s">"select p from Post p"</span><span class="o">,</span> <span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setFirstResult</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setMaxResults</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>SQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_4_</span><span class="p">,</span>
+        <span class="n">post0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_4_</span>
+    <span class="k">from</span>
+        <span class="n">post</span> <span class="n">post0_</span> <span class="k">limit</span> <span class="o">?</span>
+<span class="n">Hibernate</span><span class="p">:</span>
+    <span class="k">select</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_1_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">id</span> <span class="k">as</span> <span class="n">id1_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">content</span> <span class="k">as</span> <span class="n">content2_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">like_id</span> <span class="k">as</span> <span class="n">like_id3_2_0_</span><span class="p">,</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">as</span> <span class="n">post_id4_2_0_</span>
+    <span class="k">from</span>
+        <span class="k">comment</span> <span class="n">comments0_</span>
+    <span class="k">where</span>
+        <span class="n">comments0_</span><span class="p">.</span><span class="n">post_id</span> <span class="k">in</span> <span class="p">(</span>
+            <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span>
+        <span class="p">)</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">6090</span><span class="n">a8fc</span><span class="p">]</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">77</span><span class="n">d45b37</span><span class="p">]</span>
+<span class="p">[</span><span class="n">com</span><span class="p">.</span><span class="n">learning</span><span class="p">.</span><span class="n">jpa</span><span class="p">.</span><span class="k">domain</span><span class="p">.</span><span class="k">Comment</span><span class="o">@</span><span class="mi">23447</span><span class="n">af</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Fetch Join 없이 Pagination API를 사용해보았습니다. 페이징(LIMIT)을 통해 POST 리스트를 조회하지만, Comment 관련 조회 쿼리가 기존과 다르게 나갑니다. 기존에는 반복문을 순회하면서 N개의 Post 엔티티에 대해 <code class="language-plaintext highlighter-rouge">where comments0_.post_id=?</code>를 포함하는 Comment 조회 쿼리가 N번 발생했습니다. 그러나 Batch Size를 적용한 결과 <code class="language-plaintext highlighter-rouge">where comments0_.post_id in (?, ?, ?)</code>를 포함하는 Comment 조회 쿼리 1개로 줄어들었습니다.</p>
+
+<p>@BatchSize 혹은 <code class="language-plaintext highlighter-rouge">spring.jpa.properties.hibernate.default_batch_fetch_size</code> 옵션을 적용하면</p>
+
+<ol>
+  <li>X 타입 엔티티가 지연 로딩된 <code class="language-plaintext highlighter-rouge">~ToMany</code> 관계의 Y 타입 컬렉션을 최초 조회할 때</li>
+  <li>이미 조회한 X 타입 엔티티(즉, 영속성 컨텍스트에서 관리되고 있는 엔티티)들의 ID들을 모아서</li>
+  <li><code class="language-plaintext highlighter-rouge">WHERE Y.X_ID IN (?, ?, ?...)</code> 와 같은 SQL IN 구문에 담아 Y 타입 데이터 조회 쿼리를 날립니다.</li>
+  <li>X 타입 엔티티들이 필요로 하는 모든 Y 타입 데이터를 한 번에 조회합니다.</li>
+</ol>
+
+<p>여기서 Batch Size 옵션에 할당되는 숫자는 <strong>IN 구문에 넣을 부모 엔티티 Key(ID)의 최대 개수</strong>를 의미합니다.</p>
+
+<p>예를 들어 봅시다. 별다른 조치를 취하지 않은 상황에서, Post 1000개가 담긴 리스트를 순회하면서 Comment를 호출하는 코드는 지연 로딩으로 인해 1000개의 추가 쿼리가 발생합니다.</p>
+
+<p>반면 Batch Size 옵션을 1000으로 지정해두면, 반복문을 순회하며 Comments를 최초로 조회하는 시점에</p>
+
+<ol>
+  <li>영속성 컨텍스트에서 관리되고 있는 1000개의 Post 엔티티 ID가</li>
+  <li>Comments 조회 쿼리의 IN 구문 <code class="language-plaintext highlighter-rouge">where comment.post_id in (?, ?, ?, ...)</code>에 포함되어 날아갑니다.</li>
+  <li>단 하나의 Comment 조회 쿼리로 1000개의 Post 엔티티가 필요로 하는 모든 Comment 관련 데이터를 조회해옵니다.</li>
+</ol>
+
+<p>보통 옵션값을 1,000 이상 주지 않습니다.</p>
+
+<h3 id="41-결론">4.1. 결론</h3>
+
+<blockquote>
+  <p>PostRepository.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Query</span><span class="o">(</span><span class="s">"select p from Post p left join fetch p.user order by p.createdAt desc"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">findAllPosts</span><span class="o">(</span><span class="nc">Pageable</span> <span class="n">pageable</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>따라서 Pick-Git은 Post를 Pagination API를 통해 조회할 때 다음과 같은 방법을 사용합니다.</p>
+
+<ul>
+  <li>@ManyToOne 등 N:1 관계의 자식 엔티티에 대해서는 모두 Fetch Join을 적용함으로써 한방 쿼리를 수행한다.</li>
+  <li>@OneToMany 등 1:N 관계의 자식 엔티티는 Fetch Join을 하지 않는다.
+    <ul>
+      <li>대신 상기 선언한 <code class="language-plaintext highlighter-rouge">hibernate.default_batch_fetch_size</code> 적용을 통한 in 쿼리로 성능을 보장한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="5-마치며">5. 마치며</h2>
+
+<p>Batch Size 옵션은 상술한 <code class="language-plaintext highlighter-rouge">Pagination + Fetch Join 문제</code>뿐만 아니라, 다른 JPA의 한계를 극복하는데 도움이 됩니다.</p>
+
+<p>가령, JPA는 엔티티를 조회할 때 2개 이상의 1:N 관계의 컬렉션을 Fetch Join하지 못하도록 되어있습니다. 조회되는 데이터가 너무 많아지는 카테시안 곱(Cartesian Product) 때문에, 2개 이상의 컬렉션을 Fetch Join하면 MultipleBagFetchException이 발생합니다. 오직 1개의 컬렉션만 Fetch Join이 가능합니다.</p>
+
+<p>특정 엔티티가 보유하는 1:N 관계의 컬렉션 모두를 즉시 로딩처럼 조회할 수 없다는 것은, 이번 글의 Post 엔티티 예제처럼 N + 1 문제가 발생한다는 것을 시사합니다. 하지만 Batch Size 옵션을 통해 이러한 JPA Fetch Join 한계로 인해 발생하는 N + 1 문제를 어느 정도 해소할 수 있습니다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="reference">Reference</h2>
+
+<ul>
+  <li><a href="https://velog.io/@rainmaker007/jpa-fetch-join">jpa fetch join</a></li>
+  <li><a href="https://jojoldu.tistory.com/457">MultipleBagFetchException 발생시 해결 방법</a></li>
+  <li><a href="https://www.inflearn.com/questions/14663">fetch join 시 paging 문제</a></li>
+  <li><a href="https://javabom.tistory.com/104">fetch join 과 pagination 을 같이 쓸 때 [HHH000104: firstResult/maxResults specified with collection fetch; applying in memory]</a></li>
+  <li><a href="https://zetawiki.com/wiki/N%2B1_%EC%BF%BC%EB%A6%AC_%EB%AC%B8%EC%A0%9C">N+1 쿼리 문제</a></li>
+  <li><a href="https://www.infragistics.com/help/aspnet/webdatagrid-paging">이미지 출처</a></li>
+  <li><a href="https://medium.com/the-marcy-lab-school/what-is-the-n-1-problem-in-graphql-dd4921cb3c1a">티저 출처</a></li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=JPA Pagination, 그리고 N + 1 문제&url=https://2021-pick-git.github.io//pagination-n-plus-one/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//pagination-n-plus-one/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//pagination-n-plus-one/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#JPA" class="tag">&#35; JPA</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
