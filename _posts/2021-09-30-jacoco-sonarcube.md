@@ -3,8 +3,8 @@ layout: post
 title: Gradle 프로젝트에 JaCoCo & SonarQube 적용
 date: 2021-09-30 13:32:20 +0300
 description: 소프트웨어는 변화가 잦은 만큼 개발 과정에서 예기치못한 부작용을 직면하기 쉽습니다.
-img: sonarcube.png
-tags: [백엔드, SonarCube, JaCoCo]
+img: sonarQube.png
+tags: [백엔드, SonarQube, JaCoCo]
 ---
 
 ## 1. 들어가며
@@ -242,9 +242,9 @@ lombok.addLombokGeneratedAnnotation = true
 
 앞서 언급한 JaCoCo는 코드 커버리지만 체크할 뿐 그 외적인 코드 품질 요소를 검사하는 기능은 없습니다. 이를 보완하기 위해 정적 코드 분석 도구를 함께 사용합니다.
 
-SonarCube는 대표적인 정적 코드 분석 도구입니다. PMD, FindBugs, CheckStyle 등 대안 도구가 존재하지만 레퍼런스가 상대적으로 부족합니다. 또한 SonarCube는 Github 및 Jenkins 등과 연동이 간편하며, 자동 정적 코드 분석을 쉽게 구성할 수 있습니다. 아울러 오픈 소스이며 플러그인 및 언어를 다양하게 지원합니다.
+SonarQube는 대표적인 정적 코드 분석 도구입니다. PMD, FindBugs, CheckStyle 등 대안 도구가 존재하지만 레퍼런스가 상대적으로 부족합니다. 또한 SonarQube는 Github 및 Jenkins 등과 연동이 간편하며, 자동 정적 코드 분석을 쉽게 구성할 수 있습니다. 아울러 오픈 소스이며 플러그인 및 언어를 다양하게 지원합니다.
 
-JaCoCo(코드 커버리지 분석 리포트) 및 SonarCube(정적 분석 도구)를 함께 사용하면 개발된 코드를 자동 및 지속적으로 검사하게 됩니다. 이는 코드 커버리지 및 코드 품질 목표를 달성하고 일정 수준 이상을 유지하는데 기여합니다.
+JaCoCo(코드 커버리지 분석 리포트) 및 SonarQube(정적 분석 도구)를 함께 사용하면 개발된 코드를 자동 및 지속적으로 검사하게 됩니다. 이는 코드 커버리지 및 코드 품질 목표를 달성하고 일정 수준 이상을 유지하는데 기여합니다.
 
 <br>
 
@@ -344,7 +344,7 @@ $ docker-compose up -d
 
 코드 배포를 위해 사용하는 일반적인 Jenkins 파이프라인은 특정 브랜치에 코드가 푸시될 때, 빌드 및 테스트 등을 진행하는 구조입니다.
 
-그러나 SonarCube 파이프라인의 경우 PR이 생성되고 Merge되기 전에 파이프라인이 동작합니다. SonarCube 파이프라인은 다음 항목들을 검사할 계획입니다.
+그러나 SonarQube 파이프라인의 경우 PR이 생성되고 Merge되기 전에 파이프라인이 동작합니다. SonarQube 파이프라인은 다음 항목들을 검사할 계획입니다.
 
 * Build & Test 성공인가?
 * JaCoCo가 설정한 코드 커버리지 기준을 충족하는가?
@@ -584,7 +584,7 @@ SonarQube 서버가 정상적으로 분석을 처리하는 것을 확인할 수 
 > Log
 
 ```
-/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarcube-server/bin/sonar-scanner: not found
+/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarQube-server/bin/sonar-scanner: not found
 ```
 
 파이프라인 빌드할 때 위 예외가 발생하면, Jenkins EC2 내부의 볼륨 마운팅 디렉토리에 해당 경로가 존재하는지 확인합니다. 만약 없다면 신규 Pipeline 프로젝트 생성 후 다음과 같은 스크립트들을 빌드해보고, 해당 경로가 생겼는지 확인해봅시다.
@@ -617,7 +617,7 @@ stage('SonarQube analysis') {
 }
 ```
 
-이래도 해결되지 않는다면 Sonar Scanner를 mvn으로 다운받는 방법들을 찾아 적용해보시길 바랍니다. ``/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarcube-server/bin/sonar-scanner`` 디렉토리가 정상적으로 생성되면 기존의 SonarQube 스크립트가 잘 작동할 것입니다.
+이래도 해결되지 않는다면 Sonar Scanner를 mvn으로 다운받는 방법들을 찾아 적용해보시길 바랍니다. ``/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarQube-server/bin/sonar-scanner`` 디렉토리가 정상적으로 생성되면 기존의 SonarQube 스크립트가 잘 작동할 것입니다.
 
 ### 10.2. 기타
 
