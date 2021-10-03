@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>우리는 왜 CI/CD에 실패하였는가? - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="우리는 왜 CI/CD에 실패하였는가?" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Pickgit의 테스트코드 최적화 방법을 소개합니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//%EC%9A%B0%EB%A6%AC%EB%8A%94-%EC%99%9C-CI-CD%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%95%98%EC%98%80%EB%8A%94%EA%B0%80/" property="og:url">
+  
+  
+    <meta content="2021-09-30T18:00:00+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/ci-cd.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="CI/CD" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="우리는 왜 CI/CD에 실패하였는가?">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//%EC%9A%B0%EB%A6%AC%EB%8A%94-%EC%99%9C-CI-CD%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%95%98%EC%98%80%EB%8A%94%EA%B0%80/">
+  
+  
+    <meta name="twitter:description" content="Pickgit의 테스트코드 최적화 방법을 소개합니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/ci-cd.png">
+  
+
+	<meta name="description" content="Pickgit의 테스트코드 최적화 방법을 소개합니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/ci-cd.png alt="우리는 왜 CI/CD에 실패하였는가?">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">우리는 왜 CI/CD에 실패하였는가?</h1>
+        <div class="page-date"><span>2021, Sep 30&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>프로젝트를 진행하면서 CI/CD 를 통한 자동화 배포 프로세스를 구축하는 경우가 많다.</p>
+
+<p>우테코에서 이번 팀 프로젝트를 진행하면서 깃들다팀 역시 CI/CD 프로세스를 구축했으나 결론적으로 CI/CD를 제대로 성공시키지 못했다는 생각을 떨쳐버릴수 없었다.</p>
+
+<p>이번 글에서는 필자가 생각하는 CI/CD란 무엇인지, 그리고 어떤 부분이 문제였는지 한번 작성해 보도록 한다.</p>
+
+<h2 id="cicd란-무엇인가">CI/CD란 무엇인가?</h2>
+
+<p>많은 글과 주변 크루들의 이야기를 들어봤을때 CI/CD에 대한 의견이 많이 갈리는것을 볼 수 있었다. redhat에서 작성한 글과 그 외의 여러 글들을 통해 필자가 이해한 CI/CD에 대해 설명해보겠다.</p>
+
+<h2 id="지속적-통합">지속적 통합</h2>
+
+<p>지속적 통합은 우리가 pr을 날리고 머지하는 행위라고 말하고싶다. 지속적 통합의 목표는 “머지데이”의 문제점을 제거하기 위함에있다. 과거, CI/CD 가 정착화되지 않았을때 “머지데이”는 많은 인력 리소스를 낭비시켰다. 필자의 경우만 하더라도, 학부시절 팀 프로젝트를 진행하면 서로 변경한 소스를 합치는데 있어서 많은 고통이 있었다(부끄럽게도 학부시절에 Git과같은 버전관리 시스템을 전혀 사용하지 않았다).</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/135378389-92ad8c60-3451-4e18-818c-9847429e5a99.png" alt="1" />
+CI 프로세스 (출처: redhat)</p>
+
+<p>위 그림을 살펴보면 Build, Test, Merge까지의 과정을 CI라고 말하고있다. 결국 이 프로세스가 의미하는것은 정상적으로 동작하는, 그리고 충돌이 없는 코드의 병합 을 말한다.</p>
+
+<p>Github를 기준으로 말하자면, PR을 올리고 빌드, 테스트를 검증하고 머지하여 특정 브랜치에 코드가 병합하는 과정까지를 의미한다고 볼 수 있다.</p>
+
+<h2 id="지속적-전달">지속적 전달</h2>
+
+<p>지속적 전달은 솔직히 말하자면 이름이 잘못된것같다. 이 과정의 목적은 즉시 배포 가능한 코드의 확보 라고 말하고싶다.</p>
+
+<p>Github를 예로 들자면, PR들이 특정 브랜치로 Merge됐다면, 그 브랜치의 코드는 언제든 배포 가능한 상태여야 한다는 것을 의미한다.</p>
+
+<p>따라서 필자는 PR이 Merge될때마다 CI와 같이 Build, Test를 진행하여 코드가 정상적으로 동작하는지 확인해야 한다고 생각한다. 이와 관련하여 혹자는 “PR을 올렸을때 이미 Build와 Test를 진행하고 정상인 것을 확인하였는데 뭐하러 또 다시 이를 확인해야 하는가?” 라고 물을지도 모른다. 이에대한 답변은 우테코의 prolog 프로젝트에서 필자가 작성한 글을 인용하여 답변하도록 하겠다.
+<img src="https://user-images.githubusercontent.com/33603557/135378726-fbe38271-0fa5-49d5-8823-ab08ff75f946.png" alt="image" /></p>
+
+<h2 id="지속적-배포">지속적 배포</h2>
+
+<p>이부분은 모두가 동의하는것 같다. 코드를 Merge 했다면, 적절한 서버로 어플리케이션을 자동 배포하는 그 행위를 의미한다. 레드헷에서는 지속적 배포란 개발자가 애플리케이션에 변경 사항을 작성한 후 몇 분 이내에 애플리케이션을 자동으로 실행할 수 있는 것을 의미합니다. 라고 명시하고 있다.</p>
+
+<hr />
+
+<h1 id="우리는-왜-cicd에-실패하였는가">우리는 왜 CI/CD에 실패하였는가?</h1>
+
+<p>엄밀히 말하자면 필자는 CD보다는, CI에 실패했다고 생각하고 있다. 이전글에서도 말했듯, CI의 가장 큰 목적은 머지데이의 안좋은점을 제거하는데 있다고 생각한다. 하지만 프로젝트를 진행하면서 나름 치밀하게 CI/CD를 구축했다고 생각했음에도 불구하고 언제나 코드를 머지할때면 수 많은 Merge Confilict에 치이고 말았다.</p>
+
+<p>이러한 상황은 필자를 “이게 정말 CI가 구축된것이 맞는가?” 란 의문으로 이끌었다.</p>
+
+<p>이에대한 분석을 진행한 결과, 결국 모든 문제는 PR에서 부터 시작됐다는 결론을 내리게 됐다.</p>
+
+<p><strong>1. PR의 크기가 너무 크다</strong></p>
+
+<p>필자가 속한 깃들다팀은 모든 PR에 대하여 팀원들의 Approve가 있어야지만 PR의 Merge가 가능하도록 컨벤션을 만들었다. 그 말인 즉슨, 팀원들이 코드를 읽고, 피드백을 남겨야 한다는 것을 의미하게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/135378766-9e37d975-4036-43af-8650-068849fa76c8.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/33603557/135378776-e02a5c41-fecc-4abd-97fe-4c6ce6e3474b.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/33603557/135378782-e6cbeacc-6a6a-4877-8c39-9581f62d7fe5.png" alt="image" /></p>
+
+<p>위 숫자를 보자, 필자가 속한 팀의 PR Line수를 3개정도만 임의로 가져온 것이다. 기본적으로 항상 1000줄에 가까운 Line수를 보인다. 이러게 많은 Line의 추가와 File Changes는 코드리뷰의 병목을 가져올수밖에 없다. 각각의 팀원들도 자신이 맡은 일이 있기때문에 다른 팀원의 코드에 많은 리소스를 쏟을 수 없다. Line의 기술블로그 를 읽어보면 코드리뷰에 대하여 많은 팁을 제공하고 있으며 공통적으로 하는 말은 리뷰의 시간과 리소스를을 짧고, 적게 가져가자로 귀결된다. 그렇다. 결국 이러한 큰 PR단위가 CI를 망치는 주된 원인이 된 것이다.</p>
+
+<p>아직까지는 감이 오지 않는 독자가 있을것이다. 그렇다면 필자는 큰 PR단위가 무엇이 문제이기에 CI를 망쳤다고 주장하는것일까?</p>
+
+<p><strong>2. PR이 너무 많이 쌓인다.</strong></p>
+
+<p>큰 PR단위는 결국 리뷰의 병목을 발생시키고 PR이 쌓이도록 유도한다. CI의 목적이 무엇인가? 이름 그대로 코드의 지속적 통합이다. 하지만 PR이 쌓인다는것은, 지속적인 통합이 진행되지 않고, 통합이 계속 미뤄진다는 것을 의미한다. 이제 눈치를 챘는가?? 큰 PR이 지속적으로 쌓이면 어떤 문제가 발생할지…….</p>
+
+<p><strong>3. 결국에는 또 다시 머지데이로…</strong></p>
+
+<p>그렇다. 큰 PR이 수십개 쌓이는 순간 머지데이의 늪에 또 다시 빠지게 된다. 수십개의 파일 변경과 수천라인의 PR이 적개는 몇개, 많게는 수십개 쌓였다면 이를 머지하는데 또 다시 다른 PR과의 병합을 해결해야 한다. 또한 지속적인 코드 병합에 실패하면서 지속적 통합이라는 그 근본에도 접근하지 못하게 된다. 이것이 과연 올바른 CI라고 할 수 있을까?</p>
+
+<p>실제로 프로젝트를 진행하면서 이렇게 쌓인 PR은 데모데이 전날에 다함께 모여 후다닥 Merge하는 형태로 이어졌다. 이것도 머지데이의 차이점이 무엇인가? CI를 힘들게 구축해놓고 또 다시 과거의 머지데이를 반복하는꼴이 돼버렸다.</p>
+
+<h2 id="결론">결론.</h2>
+
+<p>이번 글에서는 왜 필자의 프로젝트에서 구축한 CI가 실패한 CI라고 생각했는지에 대하여 작성해봤다. 정말 아이러니하게도. CI프로세스 자체는 제대로 구축되어 있었으나, 그 실패의 원인은 전혀 다른곳에 있었다.</p>
+
+<p>작은 PR 법칙이 왜 존재하는지 또 다시 체감하였다. 그렇다면 이를 깨닫고 필자는 작은PR법칙을 잘 지키고 있냐고 물어본다면 대답은 NO다. 아직까지는 PR의 크기를 나누고, Issue의 발행 단위를 제대로 나누는 연습을 더 해야한다고 생각한다. 이론적으로는 이해했지만 아직까지 적용하기에는 내공이 부족한 것 같다.</p>
+
+<p>이 글을 통해 CI/CD 프로세스를 구축하는것만으로 만족하지 말고 힘들게 구축한 프로세스를 제대로 활용할 수 있는 힌트가 되었으면 한다.</p>
+
+<p><strong>reference</strong></p>
+
+<p>https://blog.banksalad.com/tech/banksalad-code-review-culture/
+https://engineering.linecorp.com/ko/blog/effective-codereview/#send-pull-request-early</p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=우리는 왜 CI/CD에 실패하였는가?&url=https://2021-pick-git.github.io//%EC%9A%B0%EB%A6%AC%EB%8A%94-%EC%99%9C-CI-CD%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%95%98%EC%98%80%EB%8A%94%EA%B0%80/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//%EC%9A%B0%EB%A6%AC%EB%8A%94-%EC%99%9C-CI-CD%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%95%98%EC%98%80%EB%8A%94%EA%B0%80/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//%EC%9A%B0%EB%A6%AC%EB%8A%94-%EC%99%9C-CI-CD%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%95%98%EC%98%80%EB%8A%94%EA%B0%80/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#CI/CD" class="tag">&#35; CI/CD</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>

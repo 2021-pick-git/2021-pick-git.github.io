@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>nGrinder 설치 방법 및 파일 업로드 테스트 예제 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="nGrinder 설치 방법 및 파일 업로드 테스트 예제" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="nGrinder를 통해 스트레스 테스트를 진행해봅시다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//nGrinder-basic/" property="og:url">
+  
+  
+    <meta content="2021-09-30T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/ngrinder.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="nGrinder" property="article:tag">
+    
+    <meta content="Test" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="nGrinder 설치 방법 및 파일 업로드 테스트 예제">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//nGrinder-basic/">
+  
+  
+    <meta name="twitter:description" content="nGrinder를 통해 스트레스 테스트를 진행해봅시다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/ngrinder.png">
+  
+
+	<meta name="description" content="nGrinder를 통해 스트레스 테스트를 진행해봅시다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/ngrinder.png alt="nGrinder 설치 방법 및 파일 업로드 테스트 예제">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">nGrinder 설치 방법 및 파일 업로드 테스트 예제</h1>
+        <div class="page-date"><span>2021, Sep 30&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="1-ngrinder">1. nGrinder</h2>
+
+<p>안녕하세요, 케빈입니다. nGrinder는 Naver가 개발한 오픈 소스 프로젝트로서, 어플리케이션의 성능을 측정할 수 있는 스트레스 테스트 플랫폼을 제공합니다. Grinder 오픈 소스를 기반으로 하며 Jython으로 개발되었는데요. nGrinder를 통해 서비스의 가용성 및 임계점 등을 확인할 수 있습니다.</p>
+
+<p>nGrinder 이외에도 JMeter, K6, Gatling 등 다양한 성능 측정 도구가 있습니다. 이 중 nGrinder를 선택한 이유는 groovy 스크립트 기반의 테스트 작성 및 강력한 시각화 기능 제공 등의 장점 때문이었습니다. 아무래도 Gradle 및 Jenkins를 통해 groovy를 자주 다루었던 만큼 가장 친숙했습니다. 또한 공식 문서 내용이 풍부하고 관련 포럼이 활성화되어 있다는 점 또한 한 몫했습니다.</p>
+
+<p><br /></p>
+
+<h2 id="2-architecture">2. Architecture</h2>
+
+<p>nGrinder를 구성하는 요소는 크게 Controller와 Agent 및 Target 등 세 가지가 존재합니다.</p>
+
+<ul>
+  <li>Controller
+    <ul>
+      <li>전반적인 작업이 Controller를 통해 수행됩니다.</li>
+      <li>스트레스 테스트를 위한 웹 인터페이스를 제공합니다.</li>
+      <li>테스트 프로세스를 체계화하며, 테스트 결과를 수집해 통계를 보여줍니다.</li>
+      <li>Controller를 통해 사용자는 테스트 수행을 위한 스크립트를 생성 및 수정할 수 있습니다.</li>
+    </ul>
+  </li>
+  <li>Agent
+    <ul>
+      <li>Controller의 명령을 받아 작업을 수행합니다.</li>
+      <li>Agent 모드시 프로세스 및 스레드를 실행시켜 Target 머신에 부하를 발생시킵니다.</li>
+      <li>Monitor 모드시 대상 시스템의 CPU 및 Memory 등을 모니터링합니다.</li>
+    </ul>
+  </li>
+  <li>Target
+    <ul>
+      <li>테스트 대상이 되는 머신입니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="21-설치-방법">2.1. 설치 방법</h3>
+
+<p>이번 글에서는 Docker를 활용해 EC2에 설치할 계획입니다. 자세한 내용은 <a href="https://hub.docker.com/r/ngrinder/controller/">DockerHub</a>를 참조하길 바랍니다. 원한다면 Docker 없이 <a href="https://github.com/naver/ngrinder/wiki/Installation-Guide">Controller 및 Agent를 WAR 파일로 다운받아 실행할 수 있습니다.</a></p>
+
+<blockquote>
+  <p>Shell</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker pull ngrinder/controller
+<span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">-v</span> ~/ngrinder-controller:/opt/ngrinder-controller <span class="nt">--name</span> controller <span class="se">\</span>
+<span class="nt">-p</span> 80:80 <span class="nt">-p</span> 16001:16001 <span class="nt">-p</span> 12000-12009:12000-12009 ngrinder/controller
+</code></pre></div></div>
+
+<p>EC2에 Controller 컨테이너를 실행시키며, 필요한 포트 포워딩 및 볼륨 마운팅을 지정합니다.</p>
+
+<ul>
+  <li>80번 포트는 Controller의 기본 Web UI 포트입니다.</li>
+  <li>9010 - 9019 포트를 통해 Agent들이 Controller 클러스터로 연결됩니다.</li>
+  <li>12000 - 12029 포트는 테스트 실행 및 종료 등 컨트롤러 명령어와 에이전트별 테스트 실행 통계를 초별로 수집하는 포트입니다.
+    <ul>
+      <li>컨트롤러는 해당 포트를 통해 스트레스 테스트를 할당합니다.</li>
+    </ul>
+  </li>
+  <li>16001 포트를 통해 테스트를 하지 않는 유휴 상태의 Agent가 Controller에게 테스트 가능 메시지를 전달합니다.</li>
+</ul>
+
+<blockquote>
+  <p>Shell</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker pull ngrinder/agent
+</code></pre></div></div>
+
+<p>공식 문서는 Controller 컨테이너가 동작 중인 머신과 Agent 컨테이너를 구동하지 말것을 강력하게 권고합니다. 여러 Agent들이 동작하다 보면, 부하를 발생시키는 머신의 자원을 모두 소모할 수 있기 때문입니다.</p>
+
+<blockquote>
+  <p>Shell</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">--name</span> agent <span class="nt">--link</span> controller:controller ngrinder/agent
+</code></pre></div></div>
+
+<p>그럼에도 불구하고 편의상 Controller 컨테이너가 동작 중인 EC2에 Agent를 구동해야 한다면 위 명령어를 입력하면 됩니다. 여러 Agent 컨테이너를 띄워도 됩니다.</p>
+
+<blockquote>
+  <p>Shell</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-v</span> ~/ngrinder-agent:/opt/ngrinder-agent <span class="nt">-d</span> ngrinder/agent <span class="o">{</span>controller-ec2-ip<span class="o">}</span>:<span class="o">{</span>controller-ec2-web-port<span class="o">}</span>
+</code></pre></div></div>
+
+<p>별도의 EC2에서 Agent를 동작시킨다면 위처럼 Controller EC2 IP 및 Controller EC2 Web Port를 함께 인자로 넣어 컨테이너를 실행합니다. 이 때, 볼륨 마운팅 옵션은 생략해도 좋습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133430489-c5c18ee3-6309-4f57-b9d2-e8795b5b279e.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">http://{controller-ec2-ip}</code>로 nGrinder Controller 웹 페이지로 접속해봅니다. 저는 설명글 편의상 localhost에 띄웠습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ID : admin, Password : admin</code>으로 로그인합니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133431769-c8e41d4a-0eb4-4966-8e88-7337e2df6570.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">계정 정보 - 에이전트 관리</code> 탭에 지정한 Agent들이 Controller에 잘 연결되었는지 확인합니다. Agent가 없다면 구동한 Agent들이 Controller에 붙지 못한 것이니 설정을 재점검해야합니다.</p>
+
+<p><br /></p>
+
+<h2 id="3-quick-start">3. Quick Start</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133432384-3f02aec8-1d79-4389-9e78-2dc871d74378.png" alt="스크린샷 2021-09-15 오후 9 20 25" /></p>
+
+<p>이제 간단하게 nGrinder를 실행해보겠습니다. 메인 페이지의 검색란에 부하 테스트를 진행할 URL을 입력하고 <code class="language-plaintext highlighter-rouge">테스트 시작</code> 버튼을 누릅시다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133433024-59d2bd96-f3f3-4597-b916-4fc534271fb5.png" alt="스크린샷 2021-09-15 오후 9 23 53" /></p>
+
+<p>여러 메뉴들에 대해 간략하게 정리했습니다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">테스트명</code> : 추후 해당 테스트 기록을 식별하는데 사용합니다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Agent</code> : 해당 테스트에 사용할 Agent 개수를 선택할 수 있습니다.</li>
+  <li><code class="language-plaintext highlighter-rouge">VUser</code> : Agent 별 VUser 개수를 선택할 수 있습니다.
+    <ul>
+      <li>사용할 수 있는 최대 VUser의 총합 개수는 <code class="language-plaintext highlighter-rouge">Agent 개수 * Agent 별 VUser 개수</code>입니다.</li>
+    </ul>
+  </li>
+  <li>해당 부하 테스트를 수행할 기간 및 실행 회수 등을 세밀하게 조정할 수 있습니다.</li>
+  <li><code class="language-plaintext highlighter-rouge">저장 후 시작 버튼</code>을 통해 테스트를 실행합니다.
+    <ul>
+      <li>테스트를 바로 시작할 수 있으며, 특정 시간에 예약을 걸어둘 수 있습니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133433651-bd6b5bbd-78b4-41ba-827b-500a71f8f16c.png" alt="image" /></p>
+
+<p>Quick Start로 테스트를 시작하면 nGrinder가 <code class="language-plaintext highlighter-rouge">target-url/</code> 디렉토리 경로에 <code class="language-plaintext highlighter-rouge">TestRunner.groovy</code> 테스트 스크립트를 기본적으로 생성해줍니다.</p>
+
+<p>원한다면 nGrinder에 작성해둔 다른 테스트 스크립트를 선택해서 사용할 수 있는데요. 우측의 <code class="language-plaintext highlighter-rouge">R HEAD</code>를 눌러서 스크립트를 편집할 수 있습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133434172-81d18a84-5199-4b18-bf03-c2bf5d820873.png" alt="image" /></p>
+
+<p>테스트 스크립트는 groovy 문법을 사용하고 있어서 크게 어렵지 않습니다. 테스트할 API URL, Request Header, Request Body, Response Assertion, Logging 등을 스크립트에서 설정할 수 있습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133441067-66d8877f-b0f9-4828-9e2f-849dc74a8aaa.png" alt="image" /></p>
+
+<p>테스트를 시작하면 실시간 TPS 그래프가 화면에 시각화되며, 테스트가 종료되면 요약 결과가 집계됩니다. 아울러 좌측 하단에서 테스트 스크립트 로그 다운로드가 가능합니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133442499-9e417c45-c27c-4cde-bf7e-df0f3e855b62.png" alt="image" /></p>
+
+<p>상세 보고서를 클릭하면 TPS 이외의 지표들을 확인할 수 있으며, CSV 다운로드를 제공합니다.</p>
+
+<blockquote>
+  <p>TestRunner.groovy</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nc">HTTPResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">GET</span><span class="o">(</span><span class="s">"https://google.com"</span><span class="o">,</span> <span class="n">params</span><span class="o">)</span>
+
+  <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span> <span class="o">==</span> <span class="mi">301</span> <span class="o">||</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">"Warning. The response may not be correct. The response code was {}."</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="mi">200</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>샘플 테스트 스크립트의 Test 메서드에는 응답 결과에 대한 Assertion 검증이 있는 것을 확인할 수 있습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133441864-38d9a77e-83c7-48a8-ad25-80239a215791.png" alt="image" /></p>
+
+<p>테스트 수행시 Assertion 검증이 실패하면 <code class="language-plaintext highlighter-rouge">에러</code>로 잡히게 됩니다. 통상적으로 너무 많은 에러가 발생하는 경우 테스트가 중단됩니다.</p>
+
+<h3 id="31-주의사항">3.1. 주의사항</h3>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133446468-7994932d-d4d1-4fc4-ac57-40f48753aa09.png" alt="image" /></p>
+
+<p>Quick Start가 생성해준 <code class="language-plaintext highlighter-rouge">TestRunner.groovy</code> 파일에 테스트 스크립트를 작성(Overwrite)하는 경우, <strong>날려먹기 정말 정말 쉽습니다.</strong></p>
+
+<p>Quick Start로 <code class="language-plaintext highlighter-rouge">https://test.com/api/comments</code> URL에 대해 테스트를 시작했다고 가정해보겠습니다. nGrinder는 <code class="language-plaintext highlighter-rouge">test.com/api/comments/</code> 디렉토리에 <code class="language-plaintext highlighter-rouge">TestRunner.groovy</code> 스크립트를 생성합니다. 해당 스크립트 파일에 테스트 수행 코드를 작성하고 저장하더라도, 이후 메인 페이지에서 실수로 <code class="language-plaintext highlighter-rouge">https://test.com/api/comments</code> 동일 URL에 대해 Quick Start 테스트 시작 버튼을 누르면 어떻게 될까요?</p>
+
+<p>nGrinder가 제공하는 기본 <code class="language-plaintext highlighter-rouge">TestRunner.groovy</code> 파일이 개발자가 커스터마이징한 <code class="language-plaintext highlighter-rouge">TestRunner.groovy</code> 파일을 덮어써버립니다! Quick Start는 무조건 <code class="language-plaintext highlighter-rouge">target-url/</code> 디렉토리에 <code class="language-plaintext highlighter-rouge">TestRunner.groovy</code> 파일을 새로 생성하기 때문입니다.</p>
+
+<p>또한 TestRunner라는 스크립트 파일 이름이 의미하는 바가 모호하기 때문에, 테스트 스크립트를 관리하기 복잡해집니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133440066-749b22f9-c74d-453c-a072-4968d953d43a.png" alt="image" /></p>
+
+<p>따라서 웹 상단의 <code class="language-plaintext highlighter-rouge">스크립트</code> 메뉴에서 직접 테스트 스크립트를 작성하는 것이 낫습니다. 테스트 스크립트의 이름을 적절하게 지어주면 나중에 테스트에서 원하는 스크립트를 찾기 수월하합니다.</p>
+
+<p>아울러 부하 테스트 또한 웹 상단의 <code class="language-plaintext highlighter-rouge">성능 테스트</code>에서 직접 생성합시다.</p>
+
+<p><br /></p>
+
+<h2 id="4-파일-업로드-테스트-예제">4. 파일 업로드 테스트 예제</h2>
+
+<blockquote>
+  <p>PostRequest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PostRequest</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">MultipartFile</span><span class="o">&gt;</span> <span class="n">images</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">githubRepoUrl</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">tags</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">content</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">PostRequest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="c1">//생성자 및 Getter 생략</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>PostController.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Slf4j</span>
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PostController</span> <span class="o">{</span>
+
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/api/abc"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">write</span><span class="o">(</span><span class="nc">PostRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">"{} {} {}"</span><span class="o">,</span> <span class="n">request</span><span class="o">.</span><span class="na">getImages</span><span class="o">(),</span> <span class="n">request</span><span class="o">.</span><span class="na">getTags</span><span class="o">(),</span> <span class="n">request</span><span class="o">.</span><span class="na">getContent</span><span class="o">());</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getImages</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>MultipartFile 요청을 처리할 수 있는 컨트롤러를 작성하고 Spring 어플리케이션을 실행해봅시다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133446714-a8278e90-d5df-45d1-adb3-c5286b7b219b.png" alt="image" /></p>
+
+<p>nGrinder가 업로드 테스트에 사용할 테스트용 정적 파일을 업로드하는 단계입니다. 테스트 스크립트와 동일한 위치에 <code class="language-plaintext highlighter-rouge">resources</code> 디렉토리를 생성하고, 해당 폴더 내부에 업로드에 사용할 파일을 업로드해둡시다.</p>
+
+<blockquote>
+  <p>PostWrite.groovy</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">net</span><span class="o">.</span><span class="na">grinder</span><span class="o">.</span><span class="na">script</span><span class="o">.</span><span class="na">Grinder</span><span class="o">.</span><span class="na">grinder</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.*</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">hamcrest</span><span class="o">.</span><span class="na">Matchers</span><span class="o">.*</span>
+<span class="kn">import</span> <span class="nn">net.grinder.script.GTest</span>
+<span class="kn">import</span> <span class="nn">net.grinder.script.Grinder</span>
+<span class="kn">import</span> <span class="nn">net.grinder.scriptengine.groovy.junit.GrinderRunner</span>
+<span class="kn">import</span> <span class="nn">net.grinder.scriptengine.groovy.junit.annotation.BeforeProcess</span>
+<span class="kn">import</span> <span class="nn">net.grinder.scriptengine.groovy.junit.annotation.BeforeThread</span>
+<span class="c1">// import static net.grinder.util.GrinderUtils.* // You can use this if you're using nGrinder after 3.2.3</span>
+<span class="kn">import</span> <span class="nn">org.junit.Before</span>
+<span class="kn">import</span> <span class="nn">org.junit.BeforeClass</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span>
+<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span>
+
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.HTTPRequest</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.HTTPRequestControl</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.HTTPResponse</span>
+<span class="kn">import</span> <span class="nn">HTTPClient.Codecs</span>
+<span class="kn">import</span> <span class="nn">HTTPClient.NVPair</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.cookie.Cookie</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.cookie.CookieManager</span>
+
+<span class="cm">/**
+* A simple example using the HTTP plugin that shows the retrieval of a single page via HTTP.
+*
+* This script is automatically generated by ngrinder.
+*
+* @author admin
+*/</span>
+<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">GrinderRunner</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">PostWrite</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">GTest</span> <span class="n">test</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">HTTPRequest</span> <span class="n">request</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">NVPair</span><span class="o">[]</span> <span class="n">headers</span> <span class="o">=</span> <span class="o">[]</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Cookie</span><span class="o">&gt;</span> <span class="n">cookies</span> <span class="o">=</span> <span class="o">[]</span>
+
+	<span class="nd">@BeforeProcess</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">beforeProcess</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">HTTPRequestControl</span><span class="o">.</span><span class="na">setConnectionTimeout</span><span class="o">(</span><span class="mi">300000</span><span class="o">)</span>
+		<span class="n">test</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GTest</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"32.232.168.41"</span><span class="o">)</span>
+		<span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTPRequest</span><span class="o">()</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before process."</span><span class="o">)</span>
+	<span class="o">}</span>
+
+	<span class="nd">@BeforeThread</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeThread</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">test</span><span class="o">.</span><span class="na">record</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"test"</span><span class="o">)</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">statistics</span><span class="o">.</span><span class="na">delayReports</span> <span class="o">=</span> <span class="kc">true</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before thread."</span><span class="o">)</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Before</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">headers</span> <span class="o">=</span> <span class="o">[</span><span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="s">"Bearer abc.def.xyz"</span><span class="o">),</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"multipart/form-data"</span><span class="o">)]</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setHeaders</span><span class="o">(</span><span class="n">headers</span><span class="o">)</span>
+		<span class="nc">CookieManager</span><span class="o">.</span><span class="na">addCookies</span><span class="o">(</span><span class="n">cookies</span><span class="o">)</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before. init headers and cookies"</span><span class="o">)</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Test</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>		
+		<span class="nc">NVPair</span> <span class="n">param1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"githubRepoUrl"</span><span class="o">,</span> <span class="s">"https://github.com/test"</span><span class="o">);</span>
+		<span class="nc">NVPair</span> <span class="n">param2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"content"</span><span class="o">,</span> <span class="s">"content"</span><span class="o">);</span>
+		<span class="nc">NVPair</span> <span class="n">param3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"tags"</span><span class="o">,</span> <span class="s">"typescript"</span><span class="o">);</span>
+		<span class="nc">NVPair</span> <span class="n">param4</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"tags"</span><span class="o">,</span> <span class="s">"html"</span><span class="o">);</span>
+
+		<span class="nc">NVPair</span><span class="o">[]</span> <span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">param1</span><span class="o">,</span> <span class="n">param2</span><span class="o">,</span> <span class="n">param3</span><span class="o">,</span> <span class="n">param4</span><span class="o">];</span>
+		<span class="nc">NVPair</span><span class="o">[]</span> <span class="n">files</span> <span class="o">=</span> <span class="o">[</span><span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"images"</span><span class="o">,</span> <span class="s">"./resources/test.png"</span><span class="o">),</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"images"</span><span class="o">,</span> <span class="s">"./resources/test.png"</span><span class="o">)];</span>
+
+		<span class="n">def</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Codecs</span><span class="o">.</span><span class="na">mpFormDataEncode</span><span class="o">(</span><span class="n">params</span><span class="o">,</span> <span class="n">files</span><span class="o">,</span> <span class="n">headers</span><span class="o">)</span>
+		<span class="nc">HTTPResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">POST</span><span class="o">(</span><span class="s">"http://32.232.168.41:8080/api/abc"</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
+
+		<span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span> <span class="o">==</span> <span class="mi">301</span> <span class="o">||</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">"Warning. The response may not be correct. The response code was {}."</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">)</span>
+		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+			<span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="mi">200</span><span class="o">))</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 테스트 스크립트를 작성할 차례입니다. 스크립트를 완성하면 스크립트 편집기 우측 상단의 <code class="language-plaintext highlighter-rouge">검증</code> 버튼을 눌러 API 서버와 잘 통신되는지 확인해봅시다. 아래는 코드에 대한 간략한 설명입니다.</p>
+
+<ul>
+  <li>헤더에 Authorization 및 Content-Type를 넣었습니다.</li>
+  <li><code class="language-plaintext highlighter-rouge">/api/abc</code> API 스펙대로 Request Body에 들어갈 <code class="language-plaintext highlighter-rouge">multipart/form-data</code> 형식의 데이터(Key-Value)를 정의합니다.
+    <ul>
+      <li>업로드할 MultipartFile의 경우, Value는 업로드할 파일의 상대 경로가 됩니다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Codecs.mpFormDataEncode</code> 메서드는 Key-Value 쌍의 데이터 및 파일을 <code class="language-plaintext highlighter-rouge">multipart/form-data</code> 인코딩을 통해 바이트 배열로 인코딩합니다.
+    <ul>
+      <li>자세한 내용은 <a href="http://grinder.sourceforge.net/g3/script-javadoc/HTTPClient/Codecs.html">Docs</a>를 참고하시길 바랍니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="41-삽질의-시작">4.1. 삽질의 시작</h3>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133449208-e41b41d8-ddfd-4e6b-a411-0cba791eeb45.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/56240505/133448867-7b0d583c-910d-408d-a958-3f6288facb9e.png" alt="image" /></p>
+
+<p>그러나 테스트 스크립트를 검증해보면 예상했던 200 응답이 아닌 500 응답을 받았습니다. Multipart Servlet Request를 Resolve할 수 없다는 로그가 발생했는데요. <code class="language-plaintext highlighter-rouge">multipart boundary</code>가 표기되지 않아서 생기는 에러라고 합니다.</p>
+
+<p>Spring 어플리케이션의 Access Log를 보니 Authorization 및 Content-Type 헤더는 정상적으로 잘 적용된 것을 확인할 수 있었습니다. 또한 Request Body에 바이너리 데이터가 잘 들어와있다는 것을 추측할 수 있었는데요. Content-Length가 과하게 크며, Groovy 테스트 스크립트에서 <code class="language-plaintext highlighter-rouge">println(data)</code>를 호출했을 때 바이너리 배열이 출력됬기 때문입니다.</p>
+
+<blockquote>
+  <p>PostWrite.groovy</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Before</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">()</span> <span class="o">{</span>
+  <span class="n">headers</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="k">new</span> <span class="nf">NVPair</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="s">"Bearer abc.def.xyz"</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">NVPair</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"multipart/form-data; boundary=-----1234"</span><span class="o">)</span>
+  <span class="o">]</span>
+  <span class="n">request</span><span class="o">.</span><span class="na">setHeaders</span><span class="o">(</span><span class="n">headers</span><span class="o">)</span>
+  <span class="nc">CookieManager</span><span class="o">.</span><span class="na">addCookies</span><span class="o">(</span><span class="n">cookies</span><span class="o">)</span>
+  <span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before. init headers and cookies"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이번에는 <a href="https://stackoverflow.com/questions/54940472/no-multipart-boundary-was-found">관련 글</a>을 참고하여, Content-Type을 정의할 때 boundary 값을 추가했습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133450950-5fb1d1a3-2911-44d4-b126-54219375b02d.png" alt="image" /></p>
+
+<p>검증을 해본 결과, 이번에는 Multipart Servlet Request를 Resolve했으나 정작 <code class="language-plaintext highlighter-rouge">PostRequest</code>에 데이터가 전부 null로 바인딩되는 문제가 발생했습니다.</p>
+
+<p>Request Body에 바이너리 데이터는 확실히 들어있으니, 아무래도 요청 본문의 Form-Data들이 제가 지정한 Boundary로 잘 구분되지 않아 생긴 에러로 추측했습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133452279-22f83661-97c5-483e-b70a-b43b1979e1c6.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Codecs.mpFormDataEncode</code> 메서드 <a href="http://grinder.sourceforge.net/g3/script-javadoc/HTTPClient/Codecs.html">Docs</a>를 확인해본 결과, 세 번째 파라미터에 대한 설명이 제대로 나와있습니다.</p>
+
+<p>세 번째 파라미터에 배열을 대입하면, 배열의 0번째 원소를 <code class="language-plaintext highlighter-rouge">Key: "Content-Type", Value: "multipart/form-data; boundary={random_string}"</code>으로 변환합니다.</p>
+
+<blockquote>
+  <p>PostWrite.groovy</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Before headers[0]: ${headers[0]}, headers[1]: ${headers[1]}"</span><span class="o">)</span>
+<span class="n">def</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Codecs</span><span class="o">.</span><span class="na">mpFormDataEncode</span><span class="o">(</span><span class="n">params</span><span class="o">,</span> <span class="n">files</span><span class="o">,</span> <span class="n">headers</span><span class="o">)</span>
+<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"After headers[0]: ${headers[0]}, headers[1]: ${headers[1]}"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Log</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2021-09-15 23:29:36,925 DEBUG Before headers[0]: HTTPClient.NVPair[name=Authorization,value=Bearer abc.def.xyz], headers[1]: HTTPClient.NVPair[name=Content-Type,value=multipart/form-data; boundary=-----1234]
+2021-09-15 23:29:36,960 DEBUG After headers[0]: HTTPClient.NVPair[name=Content-Type,value=multipart/form-data; boundary=--------ieoau._._+2_8_GoodLuck8.3-ds0d0J0S0Kl234324jfLdsjfdAuaoei-----], headers[1]: HTTPClient.NVPair[name=Content-Type,value=multipart/form-data; boundary=-----1234]
+</code></pre></div></div>
+
+<p>해당 메서드 호출 전후로 로그를 찍어본 결과, headers 배열의 첫 번째 원소가 Authorization에서 Content-Type으로 변경된 것을 확인할 수 있었습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/133450950-5fb1d1a3-2911-44d4-b126-54219375b02d.png" alt="image" /></p>
+
+<p>그런데 검증을 다시 해봐도, Spring Controller에는 변경된 Headers가 아닌 예전 Headers가 담긴 요청이 날아가고 있었습니다. 😭</p>
+
+<h3 id="42-삽질의-끝">4.2. 삽질의 끝</h3>
+
+<blockquote>
+  <p>PostWrite.groovy</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Before headers[0]: ${headers[0]}, headers[1]: ${headers[1]}"</span><span class="o">)</span>
+<span class="n">def</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Codecs</span><span class="o">.</span><span class="na">mpFormDataEncode</span><span class="o">(</span><span class="n">params</span><span class="o">,</span> <span class="n">files</span><span class="o">,</span> <span class="n">headers</span><span class="o">)</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setHeaders</span><span class="o">(</span><span class="n">headers</span><span class="o">);</span>
+<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"After headers[0]: ${headers[0]}, headers[1]: ${headers[1]}"</span><span class="o">)</span>
+<span class="nc">HTTPResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">POST</span><span class="o">(</span><span class="s">"http://localhost:8081/api/abc"</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Codecs.mpFormDataEncode</code> 메서드 수행 이후 <code class="language-plaintext highlighter-rouge">request.setHeaders</code>를 한 번더 호출해주니 문제가 해결되었습니다. @Before 메서드에서 <code class="language-plaintext highlighter-rouge">request.setHeaders()</code>를 호출하기 때문에 당연히 <code class="language-plaintext highlighter-rouge">request</code> 객체는 <code class="language-plaintext highlighter-rouge">headers</code>를 참조하기 있을 것이라 예단했었는데요. 참조 변수 <code class="language-plaintext highlighter-rouge">headers</code> 내부 값이 변경되면 <code class="language-plaintext highlighter-rouge">request</code> 또한 변경된 <code class="language-plaintext highlighter-rouge">headers</code>를 바라볼 것이라고 생각했기 때문입니다.</p>
+
+<blockquote>
+  <p>HttpRequest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setHeaders</span><span class="o">(</span><span class="nc">NVPair</span><span class="o">[]</span> <span class="n">nvPairHeaders</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">setHeaders</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">nvPairHeaders</span><span class="o">,</span> <span class="nl">BasicHeader:</span><span class="o">:</span><span class="k">new</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>PairListConvertUtils.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">R</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">R</span><span class="o">&gt;</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">NVPair</span><span class="o">[]</span> <span class="n">pairs</span><span class="o">,</span> <span class="nc">BiFunction</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;</span> <span class="n">converter</span><span class="o">)</span> <span class="o">{</span>
+  <span class="nc">Function</span><span class="o">&lt;</span><span class="nc">NVPair</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;</span> <span class="n">pairMapper</span> <span class="o">=</span> <span class="n">pair</span> <span class="o">-&gt;</span> <span class="n">converter</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">pair</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">pair</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+  <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">pairs</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">pairMapper</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>실제 메서드 코드를 까보니 <code class="language-plaintext highlighter-rouge">setHeaders()</code> 메서드는 내부적으로 주어진 Map 혹은 NVPair 배열의 값을 방어적으로 복사해서 사용하고 있었습니다. 😣</p>
+
+<h3 id="43-스크립트-최종본">4.3. 스크립트 최종본</h3>
+
+<blockquote>
+  <p>PostWrite.groovy</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">static</span> <span class="n">net</span><span class="o">.</span><span class="na">grinder</span><span class="o">.</span><span class="na">script</span><span class="o">.</span><span class="na">Grinder</span><span class="o">.</span><span class="na">grinder</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.*</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">hamcrest</span><span class="o">.</span><span class="na">Matchers</span><span class="o">.*</span>
+<span class="kn">import</span> <span class="nn">net.grinder.script.GTest</span>
+<span class="kn">import</span> <span class="nn">net.grinder.script.Grinder</span>
+<span class="kn">import</span> <span class="nn">net.grinder.scriptengine.groovy.junit.GrinderRunner</span>
+<span class="kn">import</span> <span class="nn">net.grinder.scriptengine.groovy.junit.annotation.BeforeProcess</span>
+<span class="kn">import</span> <span class="nn">net.grinder.scriptengine.groovy.junit.annotation.BeforeThread</span>
+<span class="c1">// import static net.grinder.util.GrinderUtils.* // You can use this if you're using nGrinder after 3.2.3</span>
+<span class="kn">import</span> <span class="nn">org.junit.Before</span>
+<span class="kn">import</span> <span class="nn">org.junit.BeforeClass</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span>
+<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span>
+
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.HTTPRequest</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.HTTPRequestControl</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.HTTPResponse</span>
+<span class="kn">import</span> <span class="nn">HTTPClient.Codecs</span>
+<span class="kn">import</span> <span class="nn">HTTPClient.NVPair</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.cookie.Cookie</span>
+<span class="kn">import</span> <span class="nn">org.ngrinder.http.cookie.CookieManager</span>
+
+<span class="cm">/**
+* A simple example using the HTTP plugin that shows the retrieval of a single page via HTTP.
+*
+* This script is automatically generated by ngrinder.
+*
+* @author admin
+*/</span>
+<span class="nd">@RunWith</span><span class="o">(</span><span class="nc">GrinderRunner</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">test</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">GTest</span> <span class="n">test</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">HTTPRequest</span> <span class="n">request</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">NVPair</span><span class="o">[]</span> <span class="n">headers</span> <span class="o">=</span> <span class="o">[]</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Cookie</span><span class="o">&gt;</span> <span class="n">cookies</span> <span class="o">=</span> <span class="o">[]</span>
+
+	<span class="nd">@BeforeProcess</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">beforeProcess</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">HTTPRequestControl</span><span class="o">.</span><span class="na">setConnectionTimeout</span><span class="o">(</span><span class="mi">300000</span><span class="o">)</span>
+		<span class="n">test</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GTest</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"32.232.168.41"</span><span class="o">)</span>
+		<span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HTTPRequest</span><span class="o">()</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before process."</span><span class="o">)</span>
+	<span class="o">}</span>
+
+	<span class="nd">@BeforeThread</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeThread</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">test</span><span class="o">.</span><span class="na">record</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"test"</span><span class="o">)</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">statistics</span><span class="o">.</span><span class="na">delayReports</span> <span class="o">=</span> <span class="kc">true</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before thread."</span><span class="o">)</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Before</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">headers</span> <span class="o">=</span> <span class="o">[</span><span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">""</span><span class="o">,</span> <span class="s">""</span><span class="o">),</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="s">"Bearer abc.def.xyz"</span><span class="o">)]</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setHeaders</span><span class="o">(</span><span class="n">headers</span><span class="o">)</span>
+		<span class="nc">CookieManager</span><span class="o">.</span><span class="na">addCookies</span><span class="o">(</span><span class="n">cookies</span><span class="o">)</span>
+		<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"before. init headers and cookies"</span><span class="o">)</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Test</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>		
+		<span class="nc">NVPair</span> <span class="n">param1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"githubRepoUrl"</span><span class="o">,</span> <span class="s">"https://github.com/test"</span><span class="o">);</span>
+		<span class="nc">NVPair</span> <span class="n">param2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"content"</span><span class="o">,</span> <span class="s">"content"</span><span class="o">);</span>
+		<span class="nc">NVPair</span> <span class="n">param3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"tags"</span><span class="o">,</span> <span class="s">"typescript"</span><span class="o">);</span>
+		<span class="nc">NVPair</span> <span class="n">param4</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"tags"</span><span class="o">,</span> <span class="s">"html"</span><span class="o">);</span>
+
+		<span class="nc">NVPair</span><span class="o">[]</span> <span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">param1</span><span class="o">,</span> <span class="n">param2</span><span class="o">,</span> <span class="n">param3</span><span class="o">,</span> <span class="n">param4</span><span class="o">];</span>
+		<span class="nc">NVPair</span><span class="o">[]</span> <span class="n">files</span> <span class="o">=</span> <span class="o">[</span><span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"images"</span><span class="o">,</span> <span class="s">"./resources/test.png"</span><span class="o">),</span> <span class="k">new</span> <span class="nc">NVPair</span><span class="o">(</span><span class="s">"images"</span><span class="o">,</span> <span class="s">"./resources/test.png"</span><span class="o">)];</span>
+
+		<span class="n">def</span> <span class="n">data</span> <span class="o">=</span> <span class="nc">Codecs</span><span class="o">.</span><span class="na">mpFormDataEncode</span><span class="o">(</span><span class="n">params</span><span class="o">,</span> <span class="n">files</span><span class="o">,</span> <span class="n">headers</span><span class="o">)</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setHeaders</span><span class="o">(</span><span class="n">headers</span><span class="o">);</span>
+		<span class="nc">HTTPResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">POST</span><span class="o">(</span><span class="s">"http://32.232.168.41:8080/api/abc"</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
+
+		<span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span> <span class="o">==</span> <span class="mi">301</span> <span class="o">||</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">grinder</span><span class="o">.</span><span class="na">logger</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">"Warning. The response may not be correct. The response code was {}."</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">)</span>
+		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+			<span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="mi">200</span><span class="o">))</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>아무튼 인코딩 메서드를 호출하면 주어진 Headers 배열의 0번 인덱스의 값이 변경된다는 것을 알았습니다. Authorization 헤더를 Headers 배열의 0번 인덱스에 지정해두면 인코딩 메서드 호출 이후 해당 헤더가 누락될 수 있으니, 1번 인덱스에 저장해두고 0번 인덱스는 빈 값을 넣어줍니다. 이후 검증해보면 MultipartFile이 Spring Controller의 DTO에 잘 바인딩되는 것을 확인할 수 있습니다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="reference">Reference</h2>
+
+<ul>
+  <li><a href="https://github.com/naver/ngrinder/wiki">nGrinder - WiKi</a></li>
+  <li><a href="https://gist.github.com/ihoneymon/a83b22a42795b349c389a883a7bbf356">20190322 nGrinder file upload(multipart/form-data) 기능 확인</a></li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=nGrinder 설치 방법 및 파일 업로드 테스트 예제&url=https://2021-pick-git.github.io//nGrinder-basic/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//nGrinder-basic/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//nGrinder-basic/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#nGrinder" class="tag">&#35; nGrinder</a>
+          
+            <a href="/tags#Test" class="tag">&#35; Test</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>

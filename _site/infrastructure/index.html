@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Pick-Git의 Infrasturcture - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="Pick-Git의 Infrasturcture" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Pick-Git 서비스를 지탱하는 Infrasturcture를 소개합니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//infrastructure/" property="og:url">
+  
+  
+    <meta content="2021-09-30T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/infra.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="Infrasturcture" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Pick-Git의 Infrasturcture">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//infrastructure/">
+  
+  
+    <meta name="twitter:description" content="Pick-Git 서비스를 지탱하는 Infrasturcture를 소개합니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/infra.png">
+  
+
+	<meta name="description" content="Pick-Git 서비스를 지탱하는 Infrasturcture를 소개합니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/infra.png alt="Pick-Git의 Infrasturcture">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Pick-Git의 Infrasturcture</h1>
+        <div class="page-date"><span>2021, Sep 30&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="1-들어가며">1. 들어가며</h2>
+
+<p>안녕하세요, 케빈입니다. Pick-Git 서비스 개발 초기에는 정말 몇 개 안되는 AWS EC2만을 사용했었는데요. 지속적으로 서비스를 개선 및 운영하면서 다양한 요구 사항을 직면하게 되었으며, 소기의 목적을 달성하기 위해 수 많은 AWS EC2를 생성해 사용하게 되었습니다. 그 결과 Pick-Git의 Infrasturcture가 다소 복잡해졌고, 프론트엔드뿐만 아니라 백엔드 팀원조차 자신이 맡은 영역이 아니면 제대로 이해하기 힘든 문제가 발생했습니다.</p>
+
+<p>해당 문제를 해결하기 위해 Infrasturcture에 대한 팀내 WiKi 자료를 제작하게 되었는데요. 기술 블로그를 통해 독자님들에게도 Pick-Git 서비스를 지탱하는 Infrasturcture를 함께 공유하고자 합니다.</p>
+
+<p><br /></p>
+
+<h2 id="2-overall">2. Overall</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135635452-ceaf6374-6731-4457-a887-6ee05f024401.png" alt="image" /></p>
+
+<p>Pick-Git에서 사용 중인 EC2는 크게 4가지 그룹으로 분류됩니다.</p>
+
+<ul>
+  <li>Product 환경 관련 EC2</li>
+  <li>Develop 환경 관련 EC2</li>
+  <li>Test 환경 관련 EC2</li>
+  <li>기타 EC2 (Jenkins, SonarQube, nGrinder 등)</li>
+</ul>
+
+<p>서비스에서 사용 중인 EC2 서버에 대한 SSH(22번 포트) 접근은 Bastion 서버 내부에서만 접속 가능하도록 구성했습니다. 개발 팀원은 자신의 Local PC에서 SSH를 통해 서비스 EC2 서버로 직접 접근할 수 없습니다. Bastion EC2 서버로 SSH 접속한 다음, Bastion 서버 내부에서 서비스 EC2 서버로 SSH 접속이 가능합니다.</p>
+
+<p>SSH(22번 포트)는 호스트들이 Public Network를 통해 통신할 때 보안적으로 안전하게 통신하기 위해 사용하는 프로토콜(공개키 &amp; 비밀키 방식)입니다. 만약 SSH 관련 보안 결함이 발생하면 서비스에 심각한 문제를 야기할 수 있습니다.</p>
+
+<p>SSH(22번 포트)로 접근할 수 있는 모든 EC2 서버에 대해 동일한 수준의 보안을 설정하려면, Auto-Scaling 등 확장성을 고려한 구성과 배치가 필요합니다. Infrasturcture 규모가 커지면 관리 포인트 또한 늘어나기 때문에, 일반적으로 보안 설정을 일정 부분 포기해야 합니다.</p>
+
+<p>Bastion 서버로 보안을 집중 시키고, 새로 생성하는 EC2 서버를 Bastion 서버로 연결시키면 모든 서버가 동일한 수준의 보안을 손쉽게 가질 수 있습니다. 악성 루트킷 혹은 랜섬웨어 등으로 피해를 보더라도 Bastion Server만 재구성하면 되므로, 서비스에 끼치는 악영향을 최소화할 수 있습니다.</p>
+
+<p>Bastion 서버에 대한 구성 방법은 <a href="https://xlffm3.github.io/devops/bastion/">Bastion 서버 구성</a> 글을 참고하시길 바랍니다.</p>
+
+<p><br /></p>
+
+<h2 id="3-product-환경">3. Product 환경</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135310979-e8bcc484-0118-4bda-b9a6-ab51c3360ab0.png" alt="image" /></p>
+
+<p>서비스 초기에는 웹 서버(Product Reverse Proxy)에 프론트엔드 정적 파일을 배포한 다음, 정적 파일 요청은 웹 서버가 처리하고 동적인 컨텐츠 요청은 뒷단의 WAS로 요청을 위임해 처리하도록 구성했었습니다.</p>
+
+<p>그러나 AWS에서 제공하는 CDN 서비스인 CloudFront로도 웹 서버가 제공하는 캐싱 기능 등의 이점을 충분히 누릴 수 있다고 판단했습니다. 따라서 AWS S3에 프론트엔드 정적 파일을 배포한 다음, S3 정적 파일 읽기 작업을 수행하는 CloudFront 주소에 Pick-Git 서비스 실 도메인 주소(https://pick-git.com)를 연결했습니다.</p>
+
+<p>Product Reverse Proxy 주소는 TLS 적용 및 Product API 서버 도메인 주소를 연결해둔 상태입니다. 이 외에도 Reverse Proxy는 Product WAS에 대한 로드 밸런싱 및 Blue/Green 배포 작업 등을 수행합니다.</p>
+
+<p>서비스 초기에는 단일 DB 서버를 구성했으나, 단일 장애점을 없애고 가용성을 높이기 위해 DB Replication을 적용했습니다. DB Replication을 이번 글에서 전부 설명하긴 어려울 것 같은데요. 짧게 요약하자면 DB 스토리지를 물리적으로 다른 서버에 복제하는 것입니다. 2대 이상의 DB 서버가 동일한 데이터를 담도록 실시간으로 동기화하는 기술인만큼 DB 데이터 백업이 가능합니다.</p>
+
+<p>하나의 Slave Node에 장애가 발생하더라도 다른 Slave Node(다중화)를 통해 서비스가 중단되지 않고 계속 정상 운영됩니다. 특히 Master Node 서버에 장애가 발생해 서버가 중지되더라도, Slave Node 중 1개를 Master Node로 승격시켜 서비스 중단 없이 데이터를 빠르게 복구하는 자동 Failover 기능을 제공합니다.</p>
+
+<p>Write 작업은 Master Node가 담당하고 Read 작업은 Slave Node가 담당함으로써 DB 서버 부하를 분산시킬 수 있습니다. 어플리케이션에서 DB 부하로 인한 병목 현상이 서비스 장애의 주 원인인데, 이를 개선하는데 도움이 됩니다.</p>
+
+<p>이미지 업로드 요청 API의 경우 Product WAS가 S3로 이미지를 업로드합니다.</p>
+
+<p><br /></p>
+
+<h2 id="4-test-환경">4. Test 환경</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135311128-0cd0c00a-b0e3-492e-81df-e04b7cfa2425.png" alt="image" /></p>
+
+<p>Test 환경은 백엔드 API와 시나리오에 대한 Load &amp; Stress Test 수행 및 성능 진단을 목적으로 생성했습니다. 최대한 Product 환경과 유사하게 구성했으며, nGrinder 서버를 통해 테스트를 진행합니다.</p>
+
+<p>테스트 대상 시스템의 성능을 측정하기 위해서 외부 시스템은 항상 기대한 결과만을 반환하는 환경이 필요합니다. 이 때, 어플리케이션에서 객체를 Mocking하거나 Dummy Controller를 사용하지 않았습니다.</p>
+
+<ul>
+  <li>Http Connection Pool 미사용</li>
+  <li>Connection Thread 미사용</li>
+  <li>I/O 미발생</li>
+</ul>
+
+<p>등의 문제가 존재하기 때문입니다. 성능 테스트에서 중요한 관점인 Thread 및 리소스 사용을 무시하게 되며, 테스트 시스템의 자원과 리소스를 함께 사용하는 등 테스트의 신뢰성이 떨어집니다.</p>
+
+<p>테스트를 위한 요소는 테스트 대상 시스템에 절대로 영향을 미쳐서는 안 되기 때문에, S3 이미지 업로드 및 GitHub API와 같은 외부 시스템은 테스트 대상 시스템과 완벽히 분리된 Mock 서버를 만들어 배포한 다음 테스트를 진행했습니다.</p>
+
+<p>nGrinder를 활용한 부하 및 스트레스 테스트에 대한 상세한 내용은 우아한형제들 기술블로그의 <a href="https://techblog.woowahan.com/2572/">결제 시스템 성능, 부하, 스트레스 테스트</a> 글을 참고하시길 바랍니다.</p>
+
+<p><br /></p>
+
+<h2 id="5-develop-환경">5. Develop 환경</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135313157-4c48b29d-11b6-43cf-b0e4-34b43583f820.png" alt="image" /></p>
+
+<p>Develop 환경의 경우 주로 개발 과정에서 프론트엔드 및 백엔드 기능들이 유기적으로 잘 연동되는지 등을 확인하는 역할입니다. 웹 서버(Develop Reverse Proxy)에 프론트엔드 정적 파일을 배포합니다.</p>
+
+<p><br /></p>
+
+<h2 id="6-sonarqube">6. SonarQube</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135635587-432966df-eab7-4e13-960b-7f4dc87b8c2a.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/56240505/135635724-9a3ab678-cbc1-4e5c-a7fc-1c9103bc51f2.png" alt="image" /></p>
+
+<p>Pick-Git 백엔드 프로젝트는 SonarQube를 통해 프로젝트 코드에 대한 정적 분석을 진행하고 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Backend</code> 라벨이 달린 Pull Request가 생성 및 업데이트될 때마다 WebHook이 Jenkins 서버로 전송됩니다. Jenkins 서버의 SonarQube 파이프라인이 이를 감지하고 작업을 시작합니다. Build &amp; Test 작업을 진행하고, JaCoCo 라이브러리를 통해 코드 커버리지 분석 리포트를 생성합니다. 최종적으로 SonarQube 서버에 정적 분석을 요청합니다.</p>
+
+<p>이러한 분석 과정을 진행하면서 성공 혹은 실패했을 때 Jenkins는 GitHub Open API를 바탕으로 해당 PR에 결과를 댓글로 알림합니다. 테스트 커버리지 기준 미충족 등 파이프라인이 실패한 경우 Pull Request Merge를 방지하고 있습니다.</p>
+
+<p><br /></p>
+
+<h2 id="7-cicd-pipeline">7. CI/CD Pipeline</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135314865-ed0d7176-baf3-4a5a-88ca-7359732668b6.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/56240505/135314932-00405217-7c00-40cd-a174-8c33bdd24e4e.png" alt="image" /></p>
+
+<p>Pull Request Merge가 발생하면 WebHook이 Jenkins 서버로 전송됩니다. 이 때, 어떤 브랜치로 코드가 병합됬으며 Pull Request의 라벨이 <code class="language-plaintext highlighter-rouge">Backend</code>와 <code class="language-plaintext highlighter-rouge">Frontend</code> 중 어떤 것인지 등의 정보를 Jenkins가 분석합니다. 이후 조건에 부합하는 Pipeline을 찾아 작업을 수행하고 적합한 서버로 코드를 배포합니다.</p>
+
+<p>백엔드의 경우 Build &amp; Test 작업 및 Rest Docs 등의 작업을 수행한 다음 코드를 배포합니다.</p>
+
+<p><br /></p>
+
+<h2 id="8-마치며">8. 마치며</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135315783-f42a9cd5-d2e8-46a8-af6a-cace24dfba31.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/56240505/135315820-a708bd5c-7de0-4d62-9d54-645d3b475f7e.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/56240505/135315841-34e130e1-bf1e-4bfc-8e8f-7c495242d766.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/56240505/135318118-f3570032-9cf1-4305-a39e-fc6d0e5fbcc4.png" alt="image" /></p>
+
+<p>이번 WiKi 자료를 제작하면서 커뮤니케이션의 중요성에 대해 다시금 생각해보는 계기가 되었습니다. 프론트엔드 팀원들과 기능 시연을 진행하던 도중 백엔드 이슈로 인해 시연이 중단되는 경우가 왕왕 있었는데요. 백엔드 팀원들은 나름대로(?) 문제 원인을 설명하고 디버깅에 착수하곤 했습니다.</p>
+
+<p>그런데 문제 원인을 프론트엔드 팀원의 눈높이가 아닌 백엔드 입장에서 너무 간략하게 설명하고 넘어갔습니다. 😅 이후 회고 때, 프론트엔드 팀원이 <strong>문제 원인을 제대로 이해하지 못하고 백엔드가 문제가 해결할 때까지 그저 대기해야만 하니 약간 답답하다</strong>는 고충을 토로했습니다.</p>
+
+<p>따라서 Infrasturcture 설명 자료를 제작하면서, 신규 기능 배포 과정에서 발생할 수 있는 백엔드 이슈들에 대한 FAQ를 정리해 프론트엔드 팀원들과 소통하는 시간을 가졌습니다. 항상 <code class="language-plaintext highlighter-rouge">나만 아는 지식이 없도록 하자</code>는 팀 규칙을 준수하려고 노력했는데요. <code class="language-plaintext highlighter-rouge">소통의 시작은 상대방과 눈높이를 맞추는 것에서 시작</code>한다는 기본적인 격언부터 충실히 실천해야겠다고 느낀 하루였습니다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="reference">Reference</h2>
+
+<ul>
+  <li><a href="https://techblog.woowahan.com/2572/">결제 시스템 성능, 부하, 스트레스 테스트</a></li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Pick-Git의 Infrasturcture&url=https://2021-pick-git.github.io//infrastructure/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//infrastructure/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//infrastructure/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#Infrasturcture" class="tag">&#35; Infrasturcture</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>

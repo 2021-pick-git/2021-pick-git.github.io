@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Gradle 프로젝트에 JaCoCo & SonarQube 적용 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="Gradle 프로젝트에 JaCoCo & SonarQube 적용" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="소프트웨어는 변화가 잦은 만큼 개발 과정에서 예기치못한 부작용을 직면하기 쉽습니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//jacoco-sonarcube/" property="og:url">
+  
+  
+    <meta content="2021-09-30T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/sonarQube.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="SonarQube" property="article:tag">
+    
+    <meta content="JaCoCo" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Gradle 프로젝트에 JaCoCo & SonarQube 적용">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//jacoco-sonarcube/">
+  
+  
+    <meta name="twitter:description" content="소프트웨어는 변화가 잦은 만큼 개발 과정에서 예기치못한 부작용을 직면하기 쉽습니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/sonarQube.png">
+  
+
+	<meta name="description" content="소프트웨어는 변화가 잦은 만큼 개발 과정에서 예기치못한 부작용을 직면하기 쉽습니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/sonarQube.png alt="Gradle 프로젝트에 JaCoCo & SonarQube 적용">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Gradle 프로젝트에 JaCoCo & SonarQube 적용</h1>
+        <div class="page-date"><span>2021, Sep 30&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="1-들어가며">1. 들어가며</h2>
+
+<p>안녕하세요, 케빈입니다. 개발 관련 서적 및 강의에서 단연 강조하는 내용 중 하나가 테스트 코드 작성의 중요성이 아닐까 싶습니다. 테스트 코드를 꼼꼼하게 작성하면 어떤 장점이 있을까요?</p>
+
+<ul>
+  <li>개발자가 작성한 기능들이 의도한대로 정상 동작하는지 확인할 수 있습니다.</li>
+  <li>기능 검증 과정을 통해 미처 생각하지 못한 엣지 케이스를 사전에 포착 및 대응함으로써 서비스의 안정성을 높여줍니다.</li>
+  <li>기존 기능이 수정되거나 신규 기능이 추가되었을 때 발생할 수 있는 부작용(Side-Effect)를 쉽게 발견하고 제거합니다.</li>
+  <li>TDD를 통해 가독성 및 재사용성이 높은 객체지향적인 코드를 작성하는데 의식적인 노력을 할 수 있습니다.</li>
+</ul>
+
+<p>소프트웨어는 변화가 잦은 만큼 개발 과정에서 예기치못한 부작용을 직면하기 쉽습니다. 이 때문에 Pick-Git 팀 또한 꼼꼼하게 테스트 코드를 작성하고자 의식적으로 노력 중입니다. 위의 장점을 제대로 누리기 위해서는 로직 분기상 발생할 수 있는 모든 경우의 수에 대해 빠짐없이 테스트 코드를 작성해야 합니다. 그러나 개발자도 사람인지라 테스트 코드를 작성하는 과정에서, 일부 로직에 대한 테스트 코드 작성이 인적 실수로 누락되고는 합니다.</p>
+
+<p>우리가 작성한 테스트 코드가 얼마나 꼼꼼하게 잘 작성되었는지 정량적으로 확인할 수 있는 지표가 있다면, 이런 문제를 초기에 해결함으로써 코드 품질을 높게 유지할 수 있을 것입니다. 오늘 글에서 알아볼 코드 커버리지 및 정적 코드 분석 도구가 바로 테스트 코드 작성에 대한 대표적인 정량 지표입니다.</p>
+
+<p><br /></p>
+
+<h2 id="2-code-coverage">2. Code Coverage</h2>
+
+<p>코드 커버리지는 소프트웨어의 테스트 케이스가 얼마나 충족되었는지를 나타내는 지표 중 하나입니다. 테스트를 진행했을 때 코드 자체가 얼마나 실행되었는지 <strong>수치</strong>를 의미합니다. 코드의 안정성을 보장해주는 지표라고 생각하면 쉽습니다. 코드 커버리지는 대게 <strong>소스 코드를 기반으로 수행하는 테스트</strong>를 통해 측정합니다.</p>
+
+<p>테스트 코드는 모든 시나리오에 대해 작성되는 것이 베스트지만, 인적 실수로 인해 누락되기 싶습니다. 코드 커버리지 분석을 통해 테스트가 누락된 부분을 빠르게 파악함으로써 인적 실수를 예방할 수 있습니다. 코드 커버리지는 후술할 정적 코드 분석 도구 등과 함께 활용하는데요. 코드 커버리지 기준에 미달하면 코드를 Merge하지 못하게 방지함으로써, 코드 커버리지 및 프로덕트 코드 품질을 항상 일정 수준 이상으로 유지하는 것이 일반적입니다.</p>
+
+<h3 id="21-기준">2.1. 기준</h3>
+
+<p>코드의 구조는 크게 구문, 조건, 결정으로 분류할 수 있습니다. 코드 커버리지는 이러한 코드 구조를 얼마나 커버했느냐에 따라 측정 기준이 달라집니다. 예제 및 상세한 설명이 궁금하다면 <a href="https://velog.io/@lxxjn0/%EC%BD%94%EB%93%9C-%EB%B6%84%EC%84%9D-%EB%8F%84%EA%B5%AC-%EC%A0%81%EC%9A%A9%EA%B8%B0-1%ED%8E%B8-%EC%BD%94%EB%93%9C-%EC%BB%A4%EB%B2%84%EB%A6%AC%EC%A7%80Code-Coverage%EA%B0%80-%EB%AD%94%EA%B0%80%EC%9A%94">코드 분석 도구 적용기 - 1편, 코드 커버리지(Code Coverage)가 뭔가요?</a> 글을 참고 바랍니다.</p>
+
+<ul>
+  <li>구문(Statement)
+    <ul>
+      <li>라인 커버리지로서, 코드 한 줄이 한 번이상 실행되면 충족됩니다.</li>
+      <li>가장 많이 사용되는 기준이다.</li>
+    </ul>
+  </li>
+  <li>조건(Condition)
+    <ul>
+      <li>모든 조건식의 내부 조건이 true/false을 가지게 되면 충족된다.</li>
+      <li>조건 커버리지를 기준으로 테스트를 진행할 경우, 구문 커버리지와 결정 커버리지를 만족하지 못하는 경우가 존재합니다.</li>
+    </ul>
+  </li>
+  <li>결정(Decision)
+    <ul>
+      <li>브랜치 커버리지로서, 모든 조건식이 true/false을 가지게 되면 충족됩니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-각-기준의-장단점">2.2. 각 기준의 장단점</h3>
+
+<p>조건 및 결정 커버리지는 코드 실행에 대한 테스트보다는 로직의 시나리오에 대한 테스트입니다. 조건(true/false)에 대해 모두 만족하면 코드 커버리지를 만족한다고 봅니다. 즉, 조건문이 존재하지 않는 코드는 두 커버리지의 대상에서 제외되며 해당 코드를 아예 테스트하지 않습니다.</p>
+
+<p>반면 라인 커버리지는 조건문의 true/false 시나리오에 대해 완벽히 테스트했다고 보장할 수 없지만, 조건문 내부의 코드가 실행되었을 때 문제가 없다는 것은 보장할 수 있습니다. 다시 말해 라인 커버리지를 만족하면 모든 시나리오를 테스트한다는 보장은 할 수 없지만, 어떤 코드가 실행되더라도 해당 코드는 문제가 없다는 보장은 할 수 있다는 의미입니다. 따라서 라인 커버리지를 많이 사용하는 편입니다.</p>
+
+<p><br /></p>
+
+<h2 id="3-jacoco">3. JaCoCo</h2>
+
+<p>Java 어플리케이션의 코드 커버리지를 분석해주는 라이브러리입니다. 대안으로 Cobertura 및 Clover 등이 있으나 JaCoCo가 가장 레퍼런스가 많으며 사용 방법이 간단합니다.</p>
+
+<ul>
+  <li>코드 커버리지에 대한 결과를 HTML, CSV, XML 등의 리포트로 산출합니다.</li>
+  <li>설정한 커버리지 만족 여부를 확인할 수 있습니다.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="4-gradle-설정">4. Gradle 설정</h2>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plugins</span> <span class="o">{</span>
+    <span class="n">id</span> <span class="s1">'jacoco'</span>
+<span class="o">}</span>
+
+<span class="n">jacoco</span> <span class="o">{</span>
+    <span class="n">toolVersion</span> <span class="o">=</span> <span class="s1">'0.8.7'</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>기본적으로 HTML 리포트는 <code class="language-plaintext highlighter-rouge">$buildDir/reports/jacoco/test</code> 디렉토리에 생성됩니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test</span> <span class="o">{</span>
+    <span class="n">useJUnitPlatform</span><span class="o">()</span>
+    <span class="n">finalizedBy</span> <span class="n">jacocoTestReport</span>
+<span class="o">}</span>
+
+<span class="n">jacocoTestReport</span> <span class="o">{</span>
+    <span class="n">dependsOn</span> <span class="n">test</span>
+    <span class="n">reports</span> <span class="o">{</span>
+        <span class="n">html</span><span class="o">.</span><span class="na">enabled</span> <span class="kc">true</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">enabled</span> <span class="kc">true</span>
+        <span class="n">csv</span><span class="o">.</span><span class="na">enabled</span> <span class="kc">true</span>
+
+        <span class="n">html</span><span class="o">.</span><span class="na">destination</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"src/jacoco/jacoco.html"</span><span class="o">)</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">destination</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"src/jacoco/jacoco.xml"</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">finalizedBy</span> <span class="s1">'jacocoTestCoverageVerification'</span>
+<span class="o">}</span>
+
+<span class="n">jacocoTestCoverageVerification</span> <span class="o">{</span>
+    <span class="n">violationRules</span> <span class="o">{</span>
+        <span class="n">rule</span> <span class="o">{</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="s1">'CLASS'</span>
+            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+
+            <span class="n">limit</span> <span class="o">{</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="s1">'LINE'</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">'COVEREDRATIO'</span>
+                <span class="n">minimum</span> <span class="o">=</span> <span class="mf">0.60</span>
+            <span class="o">}</span>
+
+            <span class="n">limit</span> <span class="o">{</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="s1">'METHOD'</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">'COVEREDRATIO'</span>
+                <span class="n">minimum</span> <span class="o">=</span> <span class="mf">0.60</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>JaCoCo로 분석 리포트를 생성하는 Task 수행 전에 항상 테스트 Task 수행되도록 finalizedBy 및 dependsOn 명령어를 추가합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">jacocoTestReport</code>는 코드 커버리지 결과를 원하는 형태의 리포트로 생성해주는 Task입니다. 분석 리포트 수행시 생성되는 파일 종류를 설정할 수 있으며, build 디렉토리에 생성되는 파일을 원하는 위치로 가져올 수 있습니다.</p>
+
+<p>이후 수행되는 <code class="language-plaintext highlighter-rouge">jacocoTestCoverageVerification</code>는 분석된 코드 커버리지가 미리 설정한 기준치에 충족하는지 여부를 확인합니다. 참고로 limit 구문에 들어갈 수 있는 Key 값과 Value 값은 다양하니 공식 문서를 참고하길 바랍니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131561797-7af304a9-178e-4e1b-aef8-cf7e584c43ef.png" alt="image" /></p>
+
+<p>기능적으로 테스트들은 모두 통과하더라도, violationRules에 정한 기준치를 통과하지 못하면 결국 <code class="language-plaintext highlighter-rouge">jacocoTestCoverageVerification</code> Task가 실패해서 빌드에 실패합니다. 코드 커버리지 충족이 어렵다면 기준을 현실적으로 적당히 타협한 뒤 점진적으로 향상하는 방법을 고려합시다. 아울러 테스트 할 필요가 없거나 하기 어려운 파일들은 인위적으로 검사에서 제외할 수 있습니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jacocoTestReport</span> <span class="o">{</span>
+    <span class="n">dependsOn</span> <span class="n">test</span>
+    <span class="n">reports</span> <span class="o">{</span>
+        <span class="n">html</span><span class="o">.</span><span class="na">enabled</span> <span class="kc">true</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">enabled</span> <span class="kc">true</span>
+        <span class="n">csv</span><span class="o">.</span><span class="na">enabled</span> <span class="kc">true</span>
+
+        <span class="n">html</span><span class="o">.</span><span class="na">destination</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"src/jacoco/jacoco.html"</span><span class="o">)</span>
+        <span class="n">xml</span><span class="o">.</span><span class="na">destination</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"src/jacoco/jacoco.xml"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="kt">def</span> <span class="n">Qdomains</span> <span class="o">=</span> <span class="o">[]</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">qPattern</span> <span class="k">in</span> <span class="s1">'**/QA'</span><span class="o">..</span><span class="s1">'**/QZ'</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Qdomains</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">qPattern</span> <span class="o">+</span> <span class="s1">'*'</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">afterEvaluate</span> <span class="o">{</span>
+        <span class="n">classDirectories</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span>
+                <span class="n">files</span><span class="o">(</span><span class="n">classDirectories</span><span class="o">.</span><span class="na">files</span><span class="o">.</span><span class="na">collect</span> <span class="o">{</span>
+                    <span class="n">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="n">it</span><span class="o">,</span> <span class="nl">excludes:</span> <span class="o">[</span>
+                            <span class="s1">'**/BlogApplication*'</span><span class="o">,</span>
+                            <span class="s1">'**/*Request*'</span><span class="o">,</span>
+                            <span class="s1">'**/*Response*'</span><span class="o">,</span>
+                            <span class="s1">'**/*Dto*'</span><span class="o">,</span>
+                            <span class="s1">'**/*OAuthClient*'</span><span class="o">,</span>
+                            <span class="s1">'**/*Interceptor*'</span><span class="o">,</span>
+                            <span class="s1">'**/*Exception*'</span><span class="o">,</span>
+                            <span class="s1">'**/*Storage*'</span><span class="o">,</span>
+                            <span class="s1">'**/*BaseDate*'</span><span class="o">,</span>
+                            <span class="s1">'**/*PageController*'</span>
+                    <span class="o">]</span> <span class="o">+</span> <span class="n">Qdomains</span><span class="o">)</span>
+                <span class="o">})</span>
+        <span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">finalizedBy</span> <span class="s1">'jacocoTestCoverageVerification'</span>
+<span class="o">}</span>
+
+<span class="n">jacocoTestCoverageVerification</span> <span class="o">{</span>
+    <span class="kt">def</span> <span class="n">Qdomains</span> <span class="o">=</span> <span class="o">[]</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">qPattern</span> <span class="k">in</span> <span class="s1">'*.QA'</span><span class="o">..</span><span class="s1">'*.QZ'</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Qdomains</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">qPattern</span> <span class="o">+</span> <span class="s1">'*'</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">violationRules</span> <span class="o">{</span>
+        <span class="n">rule</span> <span class="o">{</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="s1">'CLASS'</span>
+            <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+
+            <span class="n">limit</span> <span class="o">{</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="s1">'LINE'</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">'COVEREDRATIO'</span>
+                <span class="n">minimum</span> <span class="o">=</span> <span class="mf">0.60</span>
+            <span class="o">}</span>
+
+            <span class="n">limit</span> <span class="o">{</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="s1">'METHOD'</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">'COVEREDRATIO'</span>
+                <span class="n">minimum</span> <span class="o">=</span> <span class="mf">0.60</span>
+            <span class="o">}</span>
+
+            <span class="n">excludes</span> <span class="o">=</span> <span class="o">[</span>
+                    <span class="s1">'**.*BlogApplication*'</span><span class="o">,</span>
+                    <span class="s1">'**.*Request*'</span><span class="o">,</span>
+                    <span class="s1">'**.*Response*'</span><span class="o">,</span>
+                    <span class="s1">'**.*Dto*'</span><span class="o">,</span>
+                    <span class="s1">'**.*OAuthClient*'</span><span class="o">,</span>
+                    <span class="s1">'**.*Interceptor*'</span><span class="o">,</span>
+                    <span class="s1">'**.*Exception*'</span><span class="o">,</span>
+                    <span class="s1">'**.*Storage*'</span><span class="o">,</span>
+                    <span class="s1">'**.*BaseDate*'</span><span class="o">,</span>
+                    <span class="s1">'**.*PageController*'</span><span class="o">,</span>
+            <span class="o">]</span> <span class="o">+</span> <span class="n">Qdomains</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>afterEvaluate 옵션은 분석 리포트 생성시 특정 파일들을 제외합니다. excludes 옵션은 코드 커버리지 조건 충족 확인시 특정 파일들을 제외합니다.</p>
+
+<p>QueryDsl을 사용하는 경우 추가적으로 생성되는 QClass 파일들을 분석 리포트 생성 및 커버리지 조건 검사에서 제외시켜야 합니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131563842-56ec5f6d-788f-4f3d-9e2d-c5b8f6588987.png" alt="image" /></p>
+
+<p>테스트를 수행하면 build 디렉토리에 분석 리포트가 잘 생성된 것을 확인할 수 있습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131563575-ae6032b5-78aa-4a0a-9afc-693468175262.png" alt="image" /></p>
+
+<p>또한 build 디렉토리에 생성된 파일들이 원하는 경로로 복사된 것을 확인할 수 있습니다.</p>
+
+<p><img width="1179" alt="스크린샷 2021-09-01 오전 4 42 58" src="https://user-images.githubusercontent.com/56240505/131565965-45d20924-0c61-4e93-b4f0-a5c128f3aa50.png" />
+<img width="1179" alt="스크린샷 2021-09-01 오전 4 43 25" src="https://user-images.githubusercontent.com/56240505/131565940-135298d5-2bc8-42af-bf69-d24088f85b34.png" /></p>
+
+<p>세부적으로 코드 커버리지를 확인할 수 있습니다.</p>
+
+<h3 id="41-lombok-제외">4.1. Lombok 제외</h3>
+
+<blockquote>
+  <p>lombok.config</p>
+</blockquote>
+
+<div class="language-config highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lombok</span>.<span class="n">addLombokGeneratedAnnotation</span> = <span class="n">true</span>
+</code></pre></div></div>
+
+<p>해당 파일을 gradlew가 위치한 프로젝트 루트 위치에 저장장합니다. 이는 @Builder, @Getter 등의 테스트를 제외시킵니다.</p>
+
+<p><br /></p>
+
+<h2 id="5-sonarqube">5. SonarQube</h2>
+
+<p>정적 프로그램 분석이란 실제 실행 없이 컴퓨터 소프트웨어를 분석하는 것을 의미합니다. 정적 코드 분석 도구는 개발된 코드에서 버그, 코드 스멜, 보안 취약점 등 코드 품질을 지속적으로 검사해주는 플랫폼입니다.</p>
+
+<p>앞서 언급한 JaCoCo는 코드 커버리지만 체크할 뿐 그 외적인 코드 품질 요소를 검사하는 기능은 없습니다. 이를 보완하기 위해 정적 코드 분석 도구를 함께 사용합니다.</p>
+
+<p>SonarQube는 대표적인 정적 코드 분석 도구입니다. PMD, FindBugs, CheckStyle 등 대안 도구가 존재하지만 레퍼런스가 상대적으로 부족합니다. 또한 SonarQube는 Github 및 Jenkins 등과 연동이 간편하며, 자동 정적 코드 분석을 쉽게 구성할 수 있습니다. 아울러 오픈 소스이며 플러그인 및 언어를 다양하게 지원합니다.</p>
+
+<p>JaCoCo(코드 커버리지 분석 리포트) 및 SonarQube(정적 분석 도구)를 함께 사용하면 개발된 코드를 자동 및 지속적으로 검사하게 됩니다. 이는 코드 커버리지 및 코드 품질 목표를 달성하고 일정 수준 이상을 유지하는데 기여합니다.</p>
+
+<p><br /></p>
+
+<h2 id="6-ec2-sonarqube-컨테이너-실행">6. EC2 SonarQube 컨테이너 실행</h2>
+
+<blockquote>
+  <p>Shell</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> docker.io <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> docker-compose
+<span class="nv">$ </span><span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker ubuntu
+</code></pre></div></div>
+
+<p>Docker를 설치하고 이후 <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> 파일을 작성합니다.</p>
+
+<blockquote>
+  <p>docker-compose.yml</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: <span class="s1">'3'</span>
+services:
+   SonarQube:
+      image: sonarqube:7.7-community
+      container_name: SonarQube-conatiner
+      ports:
+        - 8080:9000
+      <span class="c"># environment:</span>
+		  <span class="c">#     - sonar.jdbc.url=jdbc:mysql://localhost:3306/sonarqube?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance</span>
+		  <span class="c">#     - sonar.jdbc.username=sonar</span>
+		  <span class="c">#     - sonar.jdbc.password=sonar</span>
+	    <span class="c"># volumes:</span>
+      <span class="c">#   - /home/SonarQube:/opt/sonarqube</span>
+</code></pre></div></div>
+
+<p>SonarQube 7.8 이상부터는 JDK11 및 PostgreSQL만 지원하기 때문에 7.7을 사용했습니다. SonarQube 분석 결과를 별도로 DB에 저장할 수 있는데요. 원한다면 해당 옵션 주석을 해제하고 DB를 구성하면 됩니다.</p>
+
+<p>SonarQube는 기본적으로 9000 포트를 사용하는데, 위 예제의 경우 8080으로 접속하도록 설정했습니다.</p>
+
+<blockquote>
+  <p>Shell</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose up <span class="nt">-d</span>
+</code></pre></div></div>
+
+<p>컨테이너를 실행합니다.</p>
+
+<p><br /></p>
+
+<h2 id="7-sonarqube-설정">7. SonarQube 설정</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131566189-17e468af-cd99-454f-bde6-26df829d8dc8.png" alt="스크린샷 2021-08-31 오후 12 09 51" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">http://{ec2-SonarQube-public-ip}:{port}</code>로 접속한 뒤 로그인합니다. 기본 계정은 아이디 및 비밀번호가 모두 admin입니다.</p>
+
+<p><img width="433" alt="스크린샷 2021-08-31 오후 2 24 48" src="https://user-images.githubusercontent.com/56240505/131567754-5ba54a93-aebb-44d4-a395-e653caf00616.png" /></p>
+
+<p>프로젝트를 생성합니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131566456-1cf5554c-9f53-434e-83e8-f816ae311041.png" alt="image" /></p>
+
+<p>토큰을 생성하고 메모해둡니다.</p>
+
+<p><img width="757" alt="스크린샷 2021-09-01 오전 4 49 14" src="https://user-images.githubusercontent.com/56240505/131566750-3bf316c6-ff23-4217-87a4-76a79c4db1ba.png" /></p>
+
+<p>이후 친절하게 Gradle로 SonarQube Scanner를 실행하는 방법을 알려주는데요. 해당 방법은 Gradle 프로젝트에 SonarQube를 설정하는 방식이라 이번 글에서는 사용하지 않습니다.</p>
+
+<p><img width="606" alt="스크린샷 2021-09-01 오전 4 51 24" src="https://user-images.githubusercontent.com/56240505/131566952-404e7f03-f0bf-4e70-be70-ba521fc62201.png" />
+<img width="486" alt="스크린샷 2021-09-01 오전 4 52 11" src="https://user-images.githubusercontent.com/56240505/131567072-d92496a9-ff3d-4c2c-b93e-25b33a308f32.png" /></p>
+
+<p>생성한 프로젝트로 들어가서 Webhook을 위와 같이 설정해줍니다. Jenkins에서 SonarQube 정적 분석 요청을 보내면 처리 결과를 Jenkins로 보내기 위함입니다.</p>
+
+<p><br /></p>
+
+<h2 id="8-jenkins-설정">8. Jenkins 설정</h2>
+
+<p>아직 Jenkins를 구축하지 않았다면 <a href="https://xlffm3.github.io/devops/jenkins-pipeline/">Jenkins Pipeline를 통한 CI/CD 구현</a> 글을 참고하여 Jenkins 서버를 구축합니다. 이후 다음 플러그인 3개를 설치합니다.</p>
+
+<ul>
+  <li>SonarQube Scanner for Jenkins</li>
+  <li>Sonar Quality Gates Plugin</li>
+  <li>GitHub Pull Request Builder</li>
+</ul>
+
+<p><img width="441" alt="스크린샷 2021-08-31 오후 2 31 59" src="https://user-images.githubusercontent.com/56240505/131567980-b24eee21-bc83-4778-8a71-ded1552bf648.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Jenkins 관리- Credentials 관리</code> 탭에서 새로운 Credential을 추가합시다. 이전에 발급받은 SonarQube Token을 Secret text로 설정하면 됩니다.</p>
+
+<p><img width="527" alt="스크린샷 2021-08-31 오후 2 34 35" src="https://user-images.githubusercontent.com/56240505/131567986-54c350ba-4946-4a95-acc4-12e0fd94f6a5.png" /></p>
+
+<p>그 다음 환경 설정에서 SonarQube Server 이름과 URL 및 토큰을 지정해주면 됩니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131568653-bd849f70-dd53-4a34-b4c0-b414931a92f4.png" alt="image" /></p>
+
+<p>동일한 환경 설정 탭에서 GitHub Pull Request Builder를 설정해줍시다. Credentials는 <a href="https://github.com/settings/tokens">GitHub Personal Access Token</a>입니다. Admin list에 본인의 GitHub id를 기입해둡시다.</p>
+
+<p><img width="421" alt="스크린샷 2021-09-01 오전 4 59 18" src="https://user-images.githubusercontent.com/56240505/131567967-ecd36dba-0b81-4570-99b4-c40f31ea7709.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Jenkins 관리- Global Tool Configuration</code>에서 위 사진과 같이 SonarQube Scanner를 설정합니다.</p>
+
+<h3 id="81-github-pull-request-builder">8.1. GitHub Pull Request Builder</h3>
+
+<p>코드 배포를 위해 사용하는 일반적인 Jenkins 파이프라인은 특정 브랜치에 코드가 푸시될 때, 빌드 및 테스트 등을 진행하는 구조입니다.</p>
+
+<p>그러나 SonarQube 파이프라인의 경우 PR이 생성되고 Merge되기 전에 파이프라인이 동작합니다. SonarQube 파이프라인은 다음 항목들을 검사할 계획입니다.</p>
+
+<ul>
+  <li>Build &amp; Test 성공인가?</li>
+  <li>JaCoCo가 설정한 코드 커버리지 기준을 충족하는가?</li>
+  <li>SonarQube가 설정한 코드 스멜 기준을 충족하는가?</li>
+</ul>
+
+<p>만약 하나라도 실패한다면 PR Merge를 금지시킵니다. 이를 통해 코드의 문제점을 신속하게 특정하고 점진적으로 코드 퀄리티를 향상 시킬 수 있습니다.</p>
+
+<p>GitHub Pull Request Builder는 PR이 발생하면 스크립트를 실행하고, 빌드가 끝난 뒤에 결과를 리포팅 해주는 플러그인입니다. Jenkins가 PR에 결과 리포팅을 하기 위해 어드민의 Personal Access Token이 필요한 것입니다.</p>
+
+<p><br /></p>
+
+<h2 id="9-pipeline-프로젝트-설정">9. Pipeline 프로젝트 설정</h2>
+
+<p><img width="625" alt="스크린샷 2021-09-01 오전 5 20 28" src="https://user-images.githubusercontent.com/56240505/131570473-bd28bfe4-e768-4fd3-9785-f9915a4b89bb.png" /></p>
+
+<p>먼저 SonarQube를 위한 Pipeline 프로젝트를 생성하고 위와 같이 설정해줍시다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131570625-787d8c00-6e8a-4a0e-a338-efa396f50a01.png" alt="image" /></p>
+
+<p>고급 버튼을 선택하여 Pipeline 스크립트 실행을 유발시키는 라벨과 그렇지 않은 라벨 및 화이트 리스트 등을 자유롭게 선택할 수 있습니다. 저는 backend 라벨을 붙인 PR에 한해서 정적 분석을 진행하고자 합니다.</p>
+
+<p><img width="609" alt="스크린샷 2021-09-01 오전 5 18 31" src="https://user-images.githubusercontent.com/56240505/131570242-394bbc69-13ad-45e7-9865-76529fde5920.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Use github hooks for build triggering</code>을 체크한 뒤 저장했면, 정적 분석을 진행할 GitHub 프로젝트 레포지토리에 위와 같은 Webhook이 추가됩니다.</p>
+
+<h3 id="91-참고">9.1. 참고</h3>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131571051-585c2813-d648-4962-bb2f-797091d5a80a.png" alt="image" /></p>
+
+<p>SonarQube를 사용하는 방법에는 크게 3가지가 있습니다. 복잡한 파이프라인이 불필요하다면 Freestyle로도 충분합니다.</p>
+
+<ul>
+  <li>SonarQube 분석에 필요한 정보(서버 주소, 토큰, 파일 위치 등)를 Gradle 프로젝트에 기술하고 Jenkins Pipeline에서는 간단히 <code class="language-plaintext highlighter-rouge">./gradlew --info sonarqube</code>를 실행하는 방식.</li>
+  <li>위 사진 처럼 Jenkins Freestyle 프로젝트를 통해 간단히 SonarQube를 사용하는 방식.</li>
+  <li>Gradle 프로젝트에 별다른 설정 없이 이번 글처럼 Jenkins Pipeline을 통해 SonarQube를 사용하는 방식.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="10-pipeline-스크립트-작성">10. Pipeline 스크립트 작성</h2>
+
+<blockquote>
+  <p>Pipeline Script</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">'Checkout'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">checkout</span><span class="o">([</span><span class="n">$class</span><span class="o">:</span> <span class="s1">'GitSCM'</span><span class="o">,</span> <span class="nl">branches:</span> <span class="o">[[</span><span class="nl">name:</span> <span class="s1">'${sha1}'</span><span class="o">]],</span> <span class="nl">extensions:</span> <span class="o">[[</span><span class="n">$class</span><span class="o">:</span> <span class="s1">'SubmoduleOption'</span><span class="o">,</span> <span class="nl">disableSubmodules:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">parentCredentials:</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">recursiveSubmodules:</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">reference:</span> <span class="s1">'서브모듈 레포 주소'</span><span class="o">,</span> <span class="nl">trackingSubmodules:</span> <span class="kc">true</span><span class="o">]],</span> <span class="nl">userRemoteConfigs:</span> <span class="o">[[</span><span class="nl">credentialsId:</span> <span class="s1">'액세스토큰 지정값'</span><span class="o">,</span> <span class="nl">refspec:</span> <span class="s1">'+refs/pull/*:refs/remotes/origin/pr/*'</span><span class="o">,</span> <span class="nl">url:</span> <span class="s1">'프로젝트 레포 주소'</span><span class="o">]]])</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">stage</span><span class="o">(</span><span class="s1">'Build &amp; Test'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">sh</span><span class="s1">'''
+                   cd backend/ &amp;&amp; ./gradlew clean build || IS_FAIL=true
+                   if [[ $IS_FAIL = "true" ]]; then
+                      echo "Build Failure"
+                      /* 원한다면 GitHub API PR에 댓글다는 기능을 여기에 작성하여 실패 사유 알람을 보낼 수 있다. */
+                      exit 1
+                   else
+                      echo "Build Success"
+                   fi
+                '''</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">stage</span><span class="o">(</span><span class="s1">'JaCoCo Report'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">sh</span><span class="s1">'''
+                    cd backend/ &amp;&amp; ./gradlew jacocoTestReport || IS_FAIL=true
+                    if [[ $IS_FAIL = "true" ]]; then
+                        echo "JaCoCo Report Failure"
+                        /* 원한다면 GitHub API PR에 댓글다는 기능을 여기에 작성하여 실패 사유 알람을 보낼 수 있다. */
+                        exit 1
+                    else
+                        echo "JaCoCo Report Success"
+                    fi
+                '''</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">stage</span><span class="o">(</span><span class="s1">'SonarQube Analysis'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">'환경설정에서 지정한 소나큐브 서버 이름'</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">sh</span><span class="s1">'''
+                        cd backend/
+                        /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/지정한 소나큐브 스캐너 이름/bin/sonar-scanner \
+                        -D sonar.host.url=소나큐브 서버 주소 \
+                        -D sonar.login=소나큐브 토큰 \
+                        -D sonar.projectKey=소나큐브 프로젝트 키 \
+                        -D sonar.projectName=소나큐브 프로젝트 이름 \
+                        -D sonar.projectVersion=0.0.1-SNAPSHOT \
+                        -D sonar.sources=src/main/java \
+                        -D sonar.tests=src/test \
+                        -D sonar.java.binaries=build/classes \
+                        -D sonar.java.libraries= \
+                        -D sonar.java.libraries.empty=true \
+                        -D sonar.sourceEncoding=UTF-8 \
+                        -D sonar.java.coveragePlugin=jacoco \
+                        -D sonar.coverage.jacoco.xmlReportPaths=src/jacoco/jacoco.xml \
+                        -D sonar.test.inclusions=**/*Test.java \
+                        -D sonar.exclusions=**/dto/**,**/*OAuthClient.java,**/S3*.java \
+                    '''</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">stage</span><span class="o">(</span><span class="s1">'SonarQube'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">script</span> <span class="o">{</span>
+                    <span class="kt">def</span> <span class="n">qg</span> <span class="o">=</span> <span class="n">waitForQualityGate</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">qg</span><span class="o">.</span><span class="na">status</span> <span class="o">!=</span> <span class="s1">'OK'</span><span class="o">)</span> <span class="o">{</span>
+                       <span class="n">sh</span><span class="s1">'''
+                          echo "SonarQube Quality Failure"
+                          /* 원한다면 GitHub API PR에 댓글다는 기능을 여기에 작성하여 실패 사유 알람을 보낼 수 있다. */
+                       '''</span>
+                       <span class="n">error</span> <span class="s2">"Pipeline aborted due to quality gate failure"</span>
+                    <span class="o">}</span>
+                    <span class="n">echo</span> <span class="s2">"All Passed!"</span>
+                    <span class="cm">/* 원한다면 GitHub API PR에 댓글다는 기능을 여기에 작성하여 성공 사유 알람을 보낼 수 있다. */</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Pipeline을 작성하는 방법은 <a href="https://xlffm3.github.io/devops/jenkins-pipeline/">Jenkins Pipeline를 통한 CI/CD 구현</a> 글을 참고하길 바랍니다. Checkout의 경우 서브 모듈을 사용하고 있는 스크립트이기 때문에, 서브 모듈을 사용하지 않는다면 스크립트가 다를 수 있습니다.</p>
+
+<blockquote>
+  <p>stage(‘Checkout’)</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">branches:</span> <span class="o">[[</span><span class="nl">name:</span> <span class="s1">'${sha1}'</span><span class="o">]]</span>
+<span class="nl">refspec:</span> <span class="s1">'+refs/pull/*:refs/remotes/origin/pr/*'</span>
+</code></pre></div></div>
+
+<p>Checkout의 경우 위 두 부분을 주의해서 작성해야 합니다. <code class="language-plaintext highlighter-rouge">${sha1}</code> 는 PR을 발생시킨 브랜치 명을 의미합니다.</p>
+
+<blockquote>
+  <p>stage(‘JaCoCo Report’)</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stage</span><span class="o">(</span><span class="s1">'JaCoCo Report'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">steps</span> <span class="o">{</span>
+        <span class="n">sh</span><span class="s1">'''
+            cd backend/ &amp;&amp; ./gradlew jacocoTestReport || IS_FAIL=true
+            if [[ $IS_FAIL = "true" ]]; then
+                echo "JaCoCo Report Failure"
+                exit 1
+            else
+                echo "JaCoCo Report Success"
+            fi
+        '''</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>JaCoCo 리포트를 생성하는 Task를 실행합니다. 사실 이번 글의 Gradle 예제에서는 JaCoCo 관련 Task가 Test Task와 의존 관계를 맺기에, 그 이전의 Stage인 Build &amp; Test에서 <code class="language-plaintext highlighter-rouge">./gradlew clean build</code>를 할 때 리포트가 생성됩니다.</p>
+
+<p>따라서 해당 stage는 지워도 되는데요. Pick-Git 서비스의 경우 예제 Gradle 설정과 다르게 Test 및 JaCoCo 관련 Task들이 서로 의존 관계가 없는 상태라 추가해두었습니다.</p>
+
+<blockquote>
+  <p>stage(‘SonarQube Analysis’)</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stage</span><span class="o">(</span><span class="s1">'SonarQube Analysis'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">steps</span> <span class="o">{</span>
+        <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">'환경설정에서 지정한 소나큐브 서버 이름'</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sh</span><span class="s1">'''
+                cd backend/
+                /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/지정한 소나큐브 스캐너 이름/bin/sonar-scanner \
+                -D sonar.host.url=소나큐브 서버 주소 \
+                -D sonar.login=소나큐브 토큰 \
+                -D sonar.projectKey=소나큐브 프로젝트 키 \
+                -D sonar.projectName=소나큐브 프로젝트 이름 \
+                -D sonar.projectVersion=0.0.1-SNAPSHOT \
+                -D sonar.sources=src/main/java \
+                -D sonar.tests=src/test \
+                -D sonar.java.binaries=build/classes \
+                -D sonar.java.libraries= \
+                -D sonar.java.libraries.empty=true \
+                -D sonar.sourceEncoding=UTF-8 \
+                -D sonar.java.coveragePlugin=jacoco \
+                -D sonar.coverage.jacoco.xmlReportPaths=src/jacoco/jacoco.xml \
+                -D sonar.test.inclusions=**/*Test.java \
+                -D sonar.exclusions=**/dto/**,**/*OAuthClient.java,**/S3*.java \
+            '''</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">withSonarQubeEnv</code> 블록을 사용해 연동할 SonarQube 서버를 선택할 수 있습니다. Jenkins global configuration에 저장된 연결 설정 정보를 자동으로 Scanner에 전달합니다.</p>
+
+<p>Freestyle 프로젝트는 설정 값을 넘겨주면 알아서 Sonar Scanner를 실행하지만, Pipeline의 경우 직접 실행 스크립트를 작성해야 합니다. <code class="language-plaintext highlighter-rouge">-D</code> 를 통해 제공하는 파라미터는 적당히 본인의 상황에 맞게 잘 조절하면 됩니다.</p>
+
+<blockquote>
+  <p>stage(‘SonarQube Analysis’)</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stage</span><span class="o">(</span><span class="s1">'SonarQube analysis'</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// requires SonarQube Scanner 2.8+</span>
+  <span class="kt">def</span> <span class="n">scannerHome</span> <span class="o">=</span> <span class="n">tool</span> <span class="s1">'SonarQube Scanner 2.8'</span><span class="o">;</span>
+  <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">'My SonarQube Server'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">sh</span> <span class="s2">"${scannerHome}/bin/sonar-scanner"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>코드가 너무 길다고 느껴지면 공식 문서를 참고해 축약하는 것을 시도해보시길 바랍니다.</p>
+
+<blockquote>
+  <p>stage(‘SonarQube’)</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stage</span><span class="o">(</span><span class="s1">'SonarQube'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">steps</span> <span class="o">{</span>
+        <span class="n">script</span> <span class="o">{</span>
+            <span class="kt">def</span> <span class="n">qg</span> <span class="o">=</span> <span class="n">waitForQualityGate</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">qg</span><span class="o">.</span><span class="na">status</span> <span class="o">!=</span> <span class="s1">'OK'</span><span class="o">)</span> <span class="o">{</span>
+               <span class="n">sh</span><span class="s1">'''
+                  echo "SonarQube Quality Failure"
+               '''</span>
+               <span class="n">error</span> <span class="s2">"Pipeline aborted due to quality gate failure"</span>
+            <span class="o">}</span>
+            <span class="n">echo</span> <span class="s2">"All Passed!"</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">waitForQualityGate</code>를 사용하면, SaonrQube 서버가 분석을 완료하고 보낸 응답 결과를 받아볼 수 있습니다. SonarQube 쪽의 프로젝트에서 반드시 이 글 초기 설정처럼 Jenkins 서버에 대한 <code class="language-plaintext highlighter-rouge">&lt;your Jenkins instance&gt;/sonarqube-webhook</code> Webhook을 지정해두어야 합니다.</p>
+
+<p><img width="1035" alt="스크린샷 2021-09-01 오전 6 25 25" src="https://user-images.githubusercontent.com/56240505/131577869-2f37d33b-276c-44a0-8c7d-133526815951.png" /></p>
+
+<p>SonarQube 서버가 정상적으로 분석을 처리하는 것을 확인할 수 있습니다.</p>
+
+<h3 id="101-주의">10.1. 주의</h3>
+
+<blockquote>
+  <p>Log</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarQube-server/bin/sonar-scanner: not found
+</code></pre></div></div>
+
+<p>파이프라인 빌드할 때 위 예외가 발생하면, Jenkins EC2 내부의 볼륨 마운팅 디렉토리에 해당 경로가 존재하는지 확인합니다. 만약 없다면 신규 Pipeline 프로젝트 생성 후 다음과 같은 스크립트들을 빌드해보고, 해당 경로가 생겼는지 확인해봅시다.</p>
+
+<blockquote>
+  <p>Pipeline Script</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stage</span><span class="o">(</span><span class="s2">"SonarQube analysis"</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">script</span> <span class="o">{</span>
+                <span class="kt">def</span> <span class="n">scannerHome</span> <span class="o">=</span> <span class="n">tool</span> <span class="s1">'SonarQube Scanner'</span><span class="o">;</span>
+                <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">'지정한 소나 큐브 서버 이름'</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">sh</span> <span class="s1">'mvn clean package sonar:sonar'</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>혹은</p>
+
+<blockquote>
+  <p>Pipeline Script</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stage</span><span class="o">(</span><span class="s1">'SonarQube analysis'</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">withSonarQubeEnv</span><span class="o">(</span><span class="s1">'지정한 소나 큐브 서버 이름'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// requires SonarQube Scanner for Maven 3.2+</span>
+    <span class="n">sh</span> <span class="s1">'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이래도 해결되지 않는다면 Sonar Scanner를 mvn으로 다운받는 방법들을 찾아 적용해보시길 바랍니다. <code class="language-plaintext highlighter-rouge">/var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarQube-server/bin/sonar-scanner</code> 디렉토리가 정상적으로 생성되면 기존의 SonarQube 스크립트가 잘 작동할 것입니다.</p>
+
+<h3 id="102-기타">10.2. 기타</h3>
+
+<p><img width="713" alt="스크린샷 2021-08-31 오후 3 01 50" src="https://user-images.githubusercontent.com/56240505/131578055-509cb132-2451-48c5-abef-af438d2fa3d7.png" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135467996-6c259683-127e-4c48-9120-766dfe788445.png" alt="image" /></p>
+
+<p>파이프라인 구축에 큰 문제가 없다면, PR 생성시 Jenkins가 스크립트 빌드를 시작합니다. 이후 코드 커버리지 및 정적 분석 기준 충족 여하에 따라 해당 PR에 결과를 리포팅합니다.</p>
+
+<p><img width="900" alt="스크린샷 2021-09-01 오전 5 14 36" src="https://user-images.githubusercontent.com/56240505/131577650-cf45436a-5de9-4a3a-b3ae-7641045b9cab.png" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/135468084-1aef9df1-15d5-44e3-a240-45d2dbb5a5e0.png" alt="image" /></p>
+
+<p>정적 분석 Pipeline이 실패하는 경우 특정 브랜치로의 Merge를 금지하도록 브랜치 보호 규칙을 설정할 수 있습니다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="reference">Reference</h2>
+
+<ul>
+  <li>Special Thanks to <a href="https://github.com/bperhaps">손너잘</a> &amp; <a href="https://github.com/da-nyee">다니</a></li>
+  <li><a href="https://velog.io/@lxxjn0/%EC%BD%94%EB%93%9C-%EB%B6%84%EC%84%9D-%EB%8F%84%EA%B5%AC-%EC%A0%81%EC%9A%A9%EA%B8%B0-1%ED%8E%B8-%EC%BD%94%EB%93%9C-%EC%BB%A4%EB%B2%84%EB%A6%AC%EC%A7%80Code-Coverage%EA%B0%80-%EB%AD%94%EA%B0%80%EC%9A%94">코드 분석 도구 적용기 - 1편, 코드 커버리지(Code Coverage)가 뭔가요?</a></li>
+  <li><a href="https://velog.io/@lxxjn0/%EC%BD%94%EB%93%9C-%EB%B6%84%EC%84%9D-%EB%8F%84%EA%B5%AC-%EC%A0%81%EC%9A%A9%EA%B8%B0-2%ED%8E%B8-JaCoCo-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0">코드 분석 도구 적용기 - 2편, JaCoCo 적용하기</a></li>
+  <li><a href="https://woowabros.github.io/experience/2020/02/02/jacoco-config-on-gradle-project.html">Gradle 프로젝트에 JaCoCo 설정하기</a></li>
+  <li><a href="https://docs.gradle.org/current/userguide/jacoco_plugin.html">The JaCoCo Plugin - Gradle User Manual</a></li>
+  <li><a href="https://bottom-to-top.tistory.com/36">좌충우돌 jacoco 적용기</a></li>
+  <li><a href="https://waspro.tistory.com/596">SonarQube 정적분석 및 Jenkins CI/CD 통합</a></li>
+  <li><a href="https://wickso.me/sonarqube/mysql-to-postgresql/">SonarQube: MySQL, PostgreSQL 전환 및 버전 업</a></li>
+  <li><a href="https://sonarqubekr.atlassian.net/wiki/spaces/SCAN/pages/88768984/Analyzing+with+SonarQube+Scanner+for+Jenkins">Analyzing with SonarQube Scanner for Jenkins</a></li>
+  <li><a href="https://stackoverflow.com/questions/52772631/no-tool-named-sonarqube-scanner-2-8-found-error">No tool named SonarQube Scanner 2.8 found error</a></li>
+  <li><a href="https://stackoverflow.com/questions/54428685/set-a-sonarqube-webhook-in-jenkinsfile">Set a SonarQube webhook in Jenkinsfile</a></li>
+  <li><a href="https://taetaetae.github.io/2020/09/07/github-pullrequest-build/">빌드/테스트는 내가 해줄게. 너는 코딩에 집중해 (by GitHub Pull Request Builder)</a></li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Gradle 프로젝트에 JaCoCo & SonarQube 적용&url=https://2021-pick-git.github.io//jacoco-sonarcube/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//jacoco-sonarcube/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//jacoco-sonarcube/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#SonarQube" class="tag">&#35; SonarQube</a>
+          
+            <a href="/tags#JaCoCo" class="tag">&#35; JaCoCo</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
