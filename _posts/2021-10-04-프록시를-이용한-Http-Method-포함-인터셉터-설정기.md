@@ -1,3 +1,12 @@
+---
+layout: post
+title: 프록시를 이용한 Http Method 포함 인터셉터 설정기
+date: 2021-10-04 14:39:38 +0900
+description: 프록시를 이용한 Http Method 포함 인터셉터 설정기
+img: mark.png
+tags: [백엔드, Spring, Interceptor, Proxy]
+---
+
 # 목차
 
 <br>
