@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Spring REST Docs 적용 (Gradle 7) - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="Spring REST Docs 적용 (Gradle 7)" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="API를 문서화해봅시다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//spring-rest-docs/" property="og:url">
+  
+  
+    <meta content="2021-09-28T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/restdocs.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="Spring" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Spring REST Docs 적용 (Gradle 7)">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//spring-rest-docs/">
+  
+  
+    <meta name="twitter:description" content="API를 문서화해봅시다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/restdocs.png">
+  
+
+	<meta name="description" content="API를 문서화해봅시다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/restdocs.png alt="Spring REST Docs 적용 (Gradle 7)">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Spring REST Docs 적용 (Gradle 7)</h1>
+        <div class="page-date"><span>2021, Sep 28&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="1-spring-rest-docs">1. Spring REST Docs</h2>
+
+<p>안녕하세요, 케빈입니다. Pick-Git 서비스 개발 초기에는 프론트엔드 팀원들과 API 스펙 협의 후 Notion에 작성해서 공유했었는데요. 해당 방법에는 여러 문제점이 존재했습니다. 수기로 작성하다 보니 인적 실수로 인해 오기재 하는 경우가 많았습니다. 또한 개발 과정에서 API 스펙 변경이 매우 빈번하게 발생하는데, 이를 미기재하는 실수로 인해 일정에 차질이 종종 생기곤 했습니다.</p>
+
+<p>팀원 모두 조금 더 규격화된 API 문서화의 도입의 필요성을 느꼈습니다. 우리 팀이 선택한 도구는 Spring Rest Docs입니다. Spring REST Docs는 RESTful 서비스의 문서화를 도와주는 도구인데요. 문서 작성 도구로 기본적으로 Asciidoctor를 사용하고, 이를 통해 최종적으로 HTML을 생성합니다. 심지어 Markdown을 사용하도록 설정할 수 있습니다.</p>
+
+<p>전반적인 흐름은 다음과 같습니다.</p>
+
+<ul>
+  <li>Spring MVC Test, Spring WebFlux WebTestClient, RestAssured 등으로 테스트 코드를 작성한다.</li>
+  <li>해당 테스트 코드를 통해 Snippet이 자동 생성된다.</li>
+  <li>사용자가 미리 작성해둔 템플릿 문서와 Snippet을 결합해 최종적인 API 문서를 만들어낸다.</li>
+</ul>
+
+<h3 id="11-swagger-대비-장점">1.1. Swagger 대비 장점</h3>
+
+<p>비슷한 대안으로 Swagger가 있습니다. 이 또한 쉽게 API를 문서화할 수 있는데요. 특히 Swagger는 API 동작을 테스트하는데 특화되었습니다. 그러나 Swagger는 프로덕션 코드에 애너테이션을 부착하는 등 코드 침투라는 단점이 존재합니다.</p>
+
+<p>반면 Spring REST Docs는 프로덕션 코드에 별다른 영향을 주지 않습니다. 아울러 테스트를 기반으로 생성되며, Snippet이 올바르지 않을 경우 테스트가 실패합니다. 테스트를 강제하며, 테스트가 검증되면 작성되는 문서 또한 신뢰할 수 있다는 장점이 존재합니다.</p>
+
+<p><br /></p>
+
+<h2 id="2-설정">2. 설정</h2>
+
+<blockquote>
+  <p>log</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Some problems were found with the configuration of task <span class="s1">':asciidoctor'</span> <span class="o">(</span><span class="nb">type</span> <span class="s1">'AsciidoctorTask'</span><span class="o">)</span><span class="nb">.</span>
+  - In plugin <span class="s1">'org.asciidoctor.convert'</span> <span class="nb">type</span> <span class="s1">'org.asciidoctor.gradle.AsciidoctorTask'</span> method <span class="s1">'asGemPath()'</span> should not be annotated with: @Optional, @InputDirectory.
+</code></pre></div></div>
+
+<p>설정을 위해 공식 문서에 기술된 방법을 참고했으나 위 에러에 계속 직면했습니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plugins</span> <span class="o">{</span>
+    <span class="n">id</span> <span class="s1">'org.asciidoctor.jvm.convert'</span> <span class="n">version</span> <span class="s1">'3.3.2'</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Gradle 7 부터는 <code class="language-plaintext highlighter-rouge">org.asciidoctor.convert</code>가 아닌 <code class="language-plaintext highlighter-rouge">asciidoctor.jvm.convert</code>를 사용한다고 합니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">testImplementation</span> <span class="s1">'org.springframework.restdocs:spring-restdocs-mockmvc'</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>REST Docs를 RestAssured 혹은 WebTestClient로 작성하고 싶다면 <code class="language-plaintext highlighter-rouge">spring-restdocs-webtestclient</code> 혹은 <code class="language-plaintext highlighter-rouge">spring-restdocs-restassured</code>로 교체하면 됩니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ext</span> <span class="o">{</span>
+    <span class="n">snippetsDir</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s1">'build/generated-snippets'</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="n">test</span> <span class="o">{</span>
+    <span class="n">outputs</span><span class="o">.</span><span class="na">dir</span> <span class="n">snippetsDir</span>
+    <span class="nf">useJUnitPlatform</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">asciidoctor</span> <span class="o">{</span>
+    <span class="n">inputs</span><span class="o">.</span><span class="na">dir</span> <span class="n">snippetsDir</span>
+    <span class="n">dependsOn</span> <span class="n">test</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Gradle 문법에 익숙하지 않지만 알아두면 좋은 개념들을 정리했습니다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dependsOn</code> : 특정 Task가 의존하는 Task를 명시합니다.
+    <ul>
+      <li>즉, <code class="language-plaintext highlighter-rouge">asciidoctor</code> Task는 의존하는 <code class="language-plaintext highlighter-rouge">test</code> Task 이후에 수행됩니다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">finalizedBy</code> : 특정 Task의 후행 Task를 명시합니다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">asciidoctor</code> Task에 <code class="language-plaintext highlighter-rouge">finalizedBy copy</code>라고 명시되어 있으면, <code class="language-plaintext highlighter-rouge">asciidoctor</code> Task 이후 copy Task가 실행됩니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ext</span> <span class="o">{</span>
+    <span class="n">snippetsDir</span> <span class="o">=</span> <span class="n">file</span><span class="o">(</span><span class="s1">'build/generated-snippets'</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>생성된 스니펫의 저장 위치를 명시합니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test</span> <span class="o">{</span>
+    <span class="n">outputs</span><span class="o">.</span><span class="na">dir</span> <span class="n">snippetsDir</span>
+    <span class="nf">useJUnitPlatform</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>테스트 Task의 아웃풋 디렉토리를 스니펫 저장 위치로 설정합니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">asciidoctor</span> <span class="o">{</span>
+    <span class="n">inputs</span><span class="o">.</span><span class="na">dir</span> <span class="n">snippetsDir</span>
+    <span class="n">dependsOn</span> <span class="n">test</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>스니펫 저장 위치를 인풋으로 지정합니다. <code class="language-plaintext highlighter-rouge">asciidoctor</code> Task는 테스트 Task 수행 이후에 수행됩니다. 따라서 문서가 생성되기 전에 테스트가 수행되도록 보장합니다. 물론 꼭 의존성을 위와 같이 설정하지 않고 Jenkins Pipeline에서 Task를 적당히 순서에 맞춰 수행해도 됩니다.</p>
+
+<p><br /></p>
+
+<h2 id="3-테스트-코드-작성">3. 테스트 코드 작성</h2>
+
+<blockquote>
+  <p>PostControllerTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// when, then</span>
+<span class="nc">ResultActions</span> <span class="n">resultActions</span> <span class="o">=</span> <span class="n">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">"/api/posts/{id}"</span><span class="o">,</span> <span class="s">"1"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="nc">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">content</span><span class="o">().</span><span class="na">string</span><span class="o">(</span><span class="n">expected</span><span class="o">));</span>
+
+<span class="n">verify</span><span class="o">(</span><span class="n">postService</span><span class="o">,</span> <span class="n">times</span><span class="o">(</span><span class="mi">1</span><span class="o">)).</span><span class="na">readById</span><span class="o">(</span><span class="mi">1L</span><span class="o">);</span>
+
+<span class="c1">// restDocs</span>
+<span class="n">resultActions</span><span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">document</span><span class="o">(</span><span class="s">"post-read-one"</span><span class="o">,</span>
+    <span class="n">preprocessRequest</span><span class="o">(</span><span class="n">prettyPrint</span><span class="o">()),</span>
+    <span class="n">preprocessRequest</span><span class="o">(</span><span class="n">prettyPrint</span><span class="o">()),</span>
+    <span class="n">responseFields</span><span class="o">(</span><span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"id"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"게시물 id"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"title"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"제목"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"content"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"내용"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"author"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"글쓴이"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"viewCounts"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"조회수"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"createdDate"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"작성일"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"modifiedDate"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"수정일"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"imageUrls"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"사진 링크"</span><span class="o">)))</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>MockMvcRestDocumentation</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">RestDocumentationResultHandler</span> <span class="nf">document</span><span class="o">(</span><span class="nc">String</span> <span class="n">identifier</span><span class="o">,</span>
+			<span class="nc">OperationRequestPreprocessor</span> <span class="n">requestPreprocessor</span><span class="o">,</span> <span class="nc">OperationResponsePreprocessor</span> <span class="n">responsePreprocessor</span><span class="o">,</span>
+			<span class="nc">Snippet</span><span class="o">...</span> <span class="n">snippets</span><span class="o">)</span> <span class="o">{</span>
+         <span class="c1">//...</span>
+      <span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">andDo()</code>메서드에 <code class="language-plaintext highlighter-rouge">document()</code>를 추가하여 스니펫을 생성합니다. 가장 첫 번째 인자는 스니펫의 Identifier입니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">preprocessRequest(prettyPrint())</code>를 넣어주면 요청과 응답의 내용을 형식화함으로써 가독성이 높아집니다. <code class="language-plaintext highlighter-rouge">document()</code> 메서드는 오버로딩되어 있어서 <code class="language-plaintext highlighter-rouge">prettyPrint()</code>를 요청, 응답, 요청 및 응답 모두 등 총 3가지에 적용할 수 있습니다.</p>
+
+<p>Snippet의 경우 요청 헤더, 응답 헤더, 응답 본문 데이터 필드 등 다양하게 작성할 수 있는데요. 사용 예제 및 공식 문서를 보면서 학습하면 이해가 빠를 것입니다.</p>
+
+<blockquote>
+  <p>PostControllerTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// restDocs</span>
+<span class="n">resultActions</span><span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">document</span><span class="o">(</span><span class="s">"post-read-multiple"</span><span class="o">,</span>
+    <span class="n">getDocumentRequest</span><span class="o">(),</span>
+    <span class="n">getDocumentResponse</span><span class="o">(),</span>
+    <span class="n">responseFields</span><span class="o">(</span><span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].id"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"게시물 id"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].title"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"제목"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].content"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"내용"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].author"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"글쓴이"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].viewCounts"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"조회수"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].createdDate"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"작성일"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"simplePostResponses[].modifiedDate"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"수정일"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"startPage"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"시작 페이지"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"endPage"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"끝 페이지"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"prev"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"이전 페이지 여부"</span><span class="o">),</span>
+        <span class="n">fieldWithPath</span><span class="o">(</span><span class="s">"next"</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"다음 페이지 여부"</span><span class="o">)))</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>List가 포함된 응답은 <code class="language-plaintext highlighter-rouge">[]</code>를 통해 처리합니다. 만약 응답이 단일 리스트만을 포함하고 있다면 예제와 다르게 <code class="language-plaintext highlighter-rouge">[].id</code>, <code class="language-plaintext highlighter-rouge">[].title</code>과 같이 작성할 수 있습니다.</p>
+
+<blockquote>
+  <p>PostControllerTest.java</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">resultActions</span><span class="o">.</span><span class="na">andDo</span><span class="o">(</span><span class="n">document</span><span class="o">(</span><span class="s">"post-write-login"</span><span class="o">,</span>
+    <span class="n">getDocumentRequest</span><span class="o">(),</span>
+    <span class="n">getDocumentResponse</span><span class="o">(),</span>
+    <span class="n">requestHeaders</span><span class="o">(</span><span class="n">headerWithName</span><span class="o">(</span><span class="nc">HttpHeaders</span><span class="o">.</span><span class="na">AUTHORIZATION</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"Bearer token"</span><span class="o">)),</span>
+    <span class="n">requestPartBody</span><span class="o">(</span><span class="s">"images"</span><span class="o">),</span>
+    <span class="n">responseHeaders</span><span class="o">(</span><span class="n">headerWithName</span><span class="o">(</span><span class="nc">HttpHeaders</span><span class="o">.</span><span class="na">LOCATION</span><span class="o">).</span><span class="na">description</span><span class="o">(</span><span class="s">"게시물 주소"</span><span class="o">)))</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>헤더 또한 검증이 가능합니다.</p>
+
+<p><img width="337" alt="스크린샷 2021-09-01 오전 2 48 32" src="https://user-images.githubusercontent.com/56240505/131551597-ee2fdecf-5633-4420-8214-6dfc2a0bb034.png" /></p>
+
+<p>Gradle 옵션에서 Test를 실행하면 다음과 같이 스니펫이 생성됩니다. 테스트 코드를 통해 생성된 스니펫과 <strong>사용자가 미리 작성해둔 템플릿 문서</strong>를 결합해 최종 API HTML 문서를 생성합니다.</p>
+
+<p>사용자가 미리 작성해둘 파일은 Gradle 기준 <code class="language-plaintext highlighter-rouge">src/docs/asciidoc</code>에 위치시킵니다. 이 때 파일 확장자는 <code class="language-plaintext highlighter-rouge">.adoc</code>입니다.</p>
+
+<blockquote>
+  <p>api.adoc</p>
+</blockquote>
+
+<pre><code class="language-adoc">ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== User
+=== 회원탈퇴 (비로그인)
+==== Request
+include::{snippets}/withdraw-not-login/http-request.adoc[]
+==== Response
+include::{snippets}/withdraw-not-login/http-response.adoc[]
+
+=== 회원탈퇴 (로그인)
+=== 게시물 단건 조회
+==== Request
+include::{snippets}/post-read-one/http-request.adoc[]
+==== Response
+include::{snippets}/post-read-one/http-response.adoc[]
+==== Fields
+include::{snippets}/post-read-one/response-fields.adoc[]
+</code></pre>
+
+<p>정적 블로그를 꾸미듯이 API 문서 또한 조금만 더 노력을 들이면 매우 아름답게 구성할 수 있습니다. 또한 각각의 스니펫 identifier 폴더 하위에는 첨부할 수 있는 다양한 adoc들이 존재하는데, 상황에 맞게 잘 선택하시면 됩니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bootJar</span> <span class="o">{</span>
+    <span class="n">dependsOn</span> <span class="n">asciidoctor</span>
+    <span class="n">copy</span> <span class="o">{</span>
+        <span class="n">from</span> <span class="s2">"${asciidoctor.outputDir}"</span>
+        <span class="n">into</span> <span class="s1">'BOOT-INF/classes/static/docs'</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>해당 설정을 추가해주고, 이번에는 Gradle 옵션에서 bootJar를 실행해봅시다.</p>
+
+<p><img width="324" alt="스크린샷 2021-09-01 오전 2 59 33" src="https://user-images.githubusercontent.com/56240505/131552947-69d0a451-1da1-41fb-a690-30e16a6cbc42.png" /></p>
+
+<p>bootJar를 실행하면 <code class="language-plaintext highlighter-rouge">src/docs/asciidoc</code>에 위치시킨 사용자가 정의한 adoc 파일과 테스트 코드에서 생성된 스니펫들이 조합된 최종 API 문서가 <code class="language-plaintext highlighter-rouge">build/docds/asciidoc</code> 디렉토리에 생성됩니다.</p>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bootJar</span> <span class="o">{</span>
+    <span class="n">dependsOn</span> <span class="n">asciidoctor</span>
+    <span class="n">copy</span> <span class="o">{</span>
+        <span class="n">from</span> <span class="s2">"${asciidoctor.outputDir}"</span>
+        <span class="n">into</span> <span class="s1">'BOOT-INF/classes/static/docs'</span>
+    <span class="o">}</span>
+    <span class="n">finalizedBy</span> <span class="s1">'copyDocument'</span>
+<span class="o">}</span>
+
+<span class="n">task</span> <span class="nf">copyDocument</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Copy</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">dependsOn</span> <span class="n">bootJar</span>
+    <span class="n">from</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"build/docs/asciidoc"</span><span class="o">)</span>
+    <span class="n">into</span> <span class="nf">file</span><span class="o">(</span><span class="s2">"src/main/resources/static/docs"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>bootJar Task를 통해 <code class="language-plaintext highlighter-rouge">api.html</code>이 생성되면, 후행 Task로 copyDocument가 실행되도록 합시다. copyDocument가 수행되면 classpath(resources)로 API 문서가 복사됩니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131554209-8727e655-12b7-4e7e-b811-ab9507fd0416.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131554295-6907e473-0694-47ef-9572-e65eecae3a17.png" alt="image" /></p>
+
+<p>bootJar로 실행하면 컴파일을 거치고 테스트 Task가 시작됩니다. 테스트 Task가 종료되면 의존 관계에 따라 asciidoctor, bootJar, copyDocument Task가 각각 실행됩니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/131554549-9c6978bf-f20b-4e84-967f-72d43469deb9.png" alt="image" /></p>
+
+<p>어플리케이션을 실행하면 잘 접속되는 것을 확인할 수 있습니다.</p>
+
+<p><br /></p>
+
+<h2 id="3-기타">3. 기타</h2>
+
+<blockquote>
+  <p>build.gradle</p>
+</blockquote>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">asciidoctor</span><span class="o">.</span><span class="na">doFirst</span> <span class="o">{</span>
+    <span class="n">delete</span> <span class="nf">file</span><span class="o">(</span><span class="s1">'src/main/resources/static/docs'</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>만약 문서에 수정이 발생했음에도 반영되지 않는다면 다음 태스크를 추가하여 복사 이전에 기존에 있던 클래스패스의 API 문서를 제거하도록 합시다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<h2 id="reference">Reference</h2>
+
+<ul>
+  <li><a href="https://docs.spring.io/spring-restdocs/docs/current/reference/html5/">Spring REST Docs</a></li>
+  <li><a href="https://velog.io/@max9106/Spring-Spring-rest-docs%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%AC%B8%EC%84%9C%ED%99%94">[Spring] Spring rest docs 적용기(gradle 7.0.2)</a></li>
+  <li><a href="https://stackoverflow.com/questions/68539790/configuring-asciidoctor-when-using-spring-restdoc">Configuring asciidoctor when using Spring Restdoc</a></li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Spring REST Docs 적용 (Gradle 7)&url=https://2021-pick-git.github.io//spring-rest-docs/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//spring-rest-docs/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//spring-rest-docs/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#Spring" class="tag">&#35; Spring</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
