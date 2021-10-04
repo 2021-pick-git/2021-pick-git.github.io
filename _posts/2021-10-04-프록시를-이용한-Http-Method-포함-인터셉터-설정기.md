@@ -3,7 +3,7 @@ layout: post
 title: 프록시를 이용한 Http Method 포함 인터셉터 설정기
 date: 2021-10-04 14:39:38 +0900
 description: 프록시를 이용한 Http Method 포함 인터셉터 설정기
-img: mark.png
+img: mark.jpg
 tags: [백엔드, Spring, Interceptor, Proxy]
 ---
 
@@ -193,7 +193,7 @@ public boolean preHandle(HttpServletRequest request, HttpServletResponse respons
 
 <p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_with_url_and_method.png"><br>커스텀한 매칭 방식 (URL + Method)</p>
 
-<p>
+<br>
 
 쉽게 얘기해서 `POST /api/posts`로 설정해두면 `GET`으로 요청오는 것을 `PathMatchInterceptor`에서 걸러주는 것.
 
