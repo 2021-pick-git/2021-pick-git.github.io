@@ -40,7 +40,7 @@ Bastion 서버에 대한 구성 방법은 [Bastion 서버 구성](https://xlffm3
 
 ## 3. Product 환경
 
-![image](https://user-images.githubusercontent.com/56240505/135310979-e8bcc484-0118-4bda-b9a6-ab51c3360ab0.png)
+<img width="1440" alt="스크린샷 2021-10-04 오후 5 52 21" src="https://user-images.githubusercontent.com/56240505/135822109-80b3fd80-7bc7-4cd7-9ca3-17316ef6d905.png">
 
 서비스 초기에는 웹 서버(Product Reverse Proxy)에 프론트엔드 정적 파일을 배포한 다음, 정적 파일 요청은 웹 서버가 처리하고 동적인 컨텐츠 요청은 뒷단의 WAS로 요청을 위임해 처리하도록 구성했었습니다.
 
@@ -60,7 +60,7 @@ Write 작업은 Master Node가 담당하고 Read 작업은 Slave Node가 담당�
 
 ## 4. Test 환경
 
-![image](https://user-images.githubusercontent.com/56240505/135311128-0cd0c00a-b0e3-492e-81df-e04b7cfa2425.png)
+<img width="1440" alt="스크린샷 2021-10-04 오후 5 52 29" src="https://user-images.githubusercontent.com/56240505/135822119-2c90d5ae-3b28-401c-8a3e-2945a62d91c7.png">
 
 Test 환경은 백엔드 API와 시나리오에 대한 Load & Stress Test 수행 및 성능 진단을 목적으로 생성했습니다. 최대한 Product 환경과 유사하게 구성했으며, nGrinder 서버를 통해 테스트를 진행합니다.
 
@@ -80,7 +80,7 @@ nGrinder를 활용한 부하 및 스트레스 테스트에 대한 상세한 내�
 
 ## 5. Develop 환경
 
-![image](https://user-images.githubusercontent.com/56240505/135313157-4c48b29d-11b6-43cf-b0e4-34b43583f820.png)
+<img width="1440" alt="스크린샷 2021-10-04 오후 5 52 36" src="https://user-images.githubusercontent.com/56240505/135822132-dd2a4651-009c-4f25-9bd7-ad3b1f2013b6.png">
 
 Develop 환경의 경우 주로 개발 과정에서 프론트엔드 및 백엔드 기능들이 유기적으로 잘 연동되는지 등을 확인하는 역할입니다. 웹 서버(Develop Reverse Proxy)에 프론트엔드 정적 파일을 배포합니다.
 
