@@ -3,7 +3,7 @@ layout: post
 title: Gradle 프로젝트에 JaCoCo & SonarQube 적용
 date: 2021-09-30 13:32:20 +0300
 description: 소프트웨어는 변화가 잦은 만큼 개발 과정에서 예기치못한 부작용을 직면하기 쉽습니다.
-img: sonarQube.png
+img: sonarcube.png
 tags: [백엔드, SonarQube, JaCoCo]
 ---
 
