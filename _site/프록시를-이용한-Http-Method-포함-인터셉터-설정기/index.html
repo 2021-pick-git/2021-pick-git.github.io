@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>프록시를 이용한 Http Method 포함 인터셉터 설정기 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="프록시를 이용한 Http Method 포함 인터셉터 설정기" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="프록시를 이용한 Http Method 포함 인터셉터 설정기" property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//%ED%94%84%EB%A1%9D%EC%8B%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Http-Method-%ED%8F%AC%ED%95%A8-%EC%9D%B8%ED%84%B0%EC%85%89%ED%84%B0-%EC%84%A4%EC%A0%95%EA%B8%B0/" property="og:url">
+  
+  
+    <meta content="2021-10-04T14:39:38+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/mark.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="Spring" property="article:tag">
+    
+    <meta content="Interceptor" property="article:tag">
+    
+    <meta content="Proxy" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="프록시를 이용한 Http Method 포함 인터셉터 설정기">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//%ED%94%84%EB%A1%9D%EC%8B%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Http-Method-%ED%8F%AC%ED%95%A8-%EC%9D%B8%ED%84%B0%EC%85%89%ED%84%B0-%EC%84%A4%EC%A0%95%EA%B8%B0/">
+  
+  
+    <meta name="twitter:description" content="프록시를 이용한 Http Method 포함 인터셉터 설정기">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/mark.jpg">
+  
+
+	<meta name="description" content="프록시를 이용한 Http Method 포함 인터셉터 설정기">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/mark.jpg alt="프록시를 이용한 Http Method 포함 인터셉터 설정기">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">프록시를 이용한 Http Method 포함 인터셉터 설정기</h1>
+        <div class="page-date"><span>2021, Oct 04&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#목차">목차</a></li>
+  <li><a href="#개요">개요</a></li>
+  <li><a href="#커스텀을-하게-된-이유">커스텀을 하게 된 이유</a></li>
+  <li><a href="#스프링mvc는-어떻게-인터셉터를-매칭시키는-것인가">스프링MVC는 어떻게 인터셉터를 매칭시키는 것인가?</a></li>
+  <li><a href="#프록시">프록시</a></li>
+  <li><a href="#프록시를-이용한-인터셉터-url-matcher-커스텀">프록시를 이용한 인터셉터 URL Matcher 커스텀</a></li>
+  <li><a href="#끝으로">끝으로</a></li>
+  <li><a href="#코드">코드</a></li>
+</ul>
+
+<p><br /></p>
+
+<h1 id="들어가며">들어가며</h1>
+<p>안녕(하세요) 마크입니다 :)</p>
+
+<p>이번 글은 <code class="language-plaintext highlighter-rouge">프록시를 이용한 Http Method 포함 인터셉터 매칭 설정기</code>이다.</p>
+
+<p>우선 인터셉터란 스프링 MVC에서 제공하는 서블릿 필터와 비슷한 역할을 하는 녀석이다.</p>
+
+<p>핸들러(Controller)를 실행하기 전, 후 (아직 랜더링 전) 그리고 완료 (랜더링까지 끝난 이후) 시점에 부가 작업을 하고 싶은 경우에 사용할 수 있다.</p>
+
+<p>특정 핸들러에 횡단 관심사를 분리시킬 수 있어 유용하게 사용된다.</p>
+
+<p>하지만 interceptor register는 특정 핸들러에 특정 인터셉터를 매칭시키는 방법은 아래와 같이 URL로 하는 것이 유일하다.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_setting_only_with_url.png" width="300" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">왜 URL로만 설정가능할까? URL + HTTP Method를 통해 설정하면 얼마나 좋아?</code> 라는 생각에 커스텀을 해보고자 이번 글을 작성하게 됐다.</p>
+
+<p>이번 글은 HTTP Method를 포함하도록 한 이유를 언급하고, 프록시(정확히는 데코레이터)를 활용하여 인터셉터 URL Matcher 방법을 다룬다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">시간이 금이다</code> 하시는 분들은 <a href="#프록시를-이용한-인터셉터-url-matcher-커스텀">프록시를 이용한 인터셉터 URL Matcher 커스텀</a>만 봐도 될 듯하다. ㅎㅎ</p>
+</blockquote>
+
+<p><br /></p>
+
+<h1 id="커스텀을-하게-된-이유">커스텀을 하게 된 이유</h1>
+<p>필자는 현재 <a href="https://woowacourse.github.io/">우아한 테크코스</a> 3기 과정을 진행하고 있다.</p>
+
+<p>그리고 팀 프로젝트로 <a href="https://github.com/woowacourse-teams/2021-pick-git">Github Repo 기반 개발 장려 SNS</a>를 개발하고 있다.</p>
+
+<p>필자가 처음 맡은 파트는 로그인과 <a href="https://github.com/binghe819/TIL/blob/master/Network/OAuth%202.0/OAuth2.0.md">OAuth</a>이었고, 스프링 시큐리티를 사용하지 않고 Interceptor와 HandlerMethodArgumentResolver를 이용했다.</p>
+
+<blockquote>
+  <p>시큐리티를 사용하지 않은 이유는 두 가지다.</p>
+  <ol>
+    <li>처음 배우는데 시간이 소모된다.</li>
+    <li>시큐리티는 추상화가 잘 되어있지만, 그만큼 로그인이나 OAuth 관련된 깊이있는 학습이 어려울 것 같았다.</li>
+  </ol>
+</blockquote>
+
+<p>Interceptor는 토큰 검증, HandlerMethodArgumentResolver는 토큰 내용 추출하는 역할을 담당한다.</p>
+
+<p>문제는 특정 API의 <code class="language-plaintext highlighter-rouge">GET</code>요청은 로그인/비로그인이 상관 없지만, <code class="language-plaintext highlighter-rouge">POST</code>요청을 로그인인 상태여야 했다.</p>
+
+<p>예를 들어,</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">GET /api/posts</code>: 로그인/비로그인 상관 없음.</li>
+  <li><code class="language-plaintext highlighter-rouge">POST /api/posts</code>: 꼭 로그인이여야 함.</li>
+</ul>
+
+<p>같은 URL이지만, Method를 기반으로 인터셉터를 분기시켜야했다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">GET</code>요청은 <code class="language-plaintext highlighter-rouge">IgnoreAuthenticationInterceptor</code> (토큰 검증 여부 상관 X)</li>
+  <li><code class="language-plaintext highlighter-rouge">POST</code>요청은 <code class="language-plaintext highlighter-rouge">AuthenticationInterceptor</code> (토큰 검증 안되면 401 던짐)</li>
+</ul>
+
+<p><br /></p>
+
+<p>기존의 인터셉터는 URL만으로 설정이 되기 때문에 아래와 같이 인터셉터안에 Method를 구분하는 코드가 추가되어야했다.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_with_url_problem.png" /> </p>
+
+<p>문제는 이와 같은 API가 점점 많아진다는 것이었다.</p>
+
+<p>많아지면 많아질수록 두 인터셉터안에서 Http Method기반으로 분기되는 코드를 직접 넣어줘야했다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 실제 이전에 사용했던 코드</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">preHandle</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+    <span class="nc">Object</span> <span class="n">handler</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="c1">// 문제의 Http Method 설정 코드</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">isGetRequest</span><span class="o">(</span><span class="n">request</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">InvalidTokenException</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">isPutRequest</span><span class="o">(</span><span class="n">request</span><span class="o">))</span> <span class="o">{</span>
+        <span class="o">....</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ... Interceptor 코드 (토큰 검증 로직)</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>즉, 인터셉터는 토큰 검증 역할만을 담당하는 친구인데, Http Method 매칭 역할도 맡게 된 것이다.</p>
+
+<p>그리하여 이를 분리시키는 커스텀을 하게 되었다.</p>
+
+<p><br /></p>
+
+<h1 id="스프링mvc는-어떻게-인터셉터를-매칭시키는-것인가">스프링MVC는 어떻게 인터셉터를 매칭시키는 것인가?</h1>
+<p>우선 커스텀을 하려면 기존 로직에 대한 이해가 필요하다.</p>
+
+<p>스프링MVC는 다음과 같이 매번 요청때마다 <code class="language-plaintext highlighter-rouge">PathMathcer</code>의 구현체인 <code class="language-plaintext highlighter-rouge">AntPathMatcher</code>를 사용하여 인터셉터를 매칭한다.</p>
+
+<blockquote>
+  <p><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/util/AntPathMatcher.html">AntPathMatcher</a></p>
+</blockquote>
+
+<p>더 정확히 말하면 요청이 들어올 때마다 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 <code class="language-plaintext highlighter-rouge">HandlerMapping</code>에서 미리 <code class="language-plaintext highlighter-rouge">InterceptorRegistry</code>에 설정한 인터셉터를 가져와서 HandlerExecutionChain에 인터셉터를 add하는 형식이다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">InterceptorRegistry</code>의 인터셉터는 스프링이 켜지면서 <code class="language-plaintext highlighter-rouge">WebMvcConfigurationSupport</code>의 의해서 ApplicationContext에 등록되는 형식인 듯 하다.</p>
+</blockquote>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_setting_only_with_url.png" width="400" /><br />InterceptorRegistry에 미리 설정한 인터셉터 설정 코드</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_handlerexecutionchain.png" width="400" /><br />HandlerMapping의 HandlerExecutionChain에서 인터셉터 add하는 코드</p>
+
+<p>그리고 DispatcherSevlet에서 Chaining형식으로 실행된다. (true면 다음 인터셉터, false면 체이닝 종료)</p>
+
+<p>그렇다면 Http Method를 어떻게 추가해야할까??</p>
+
+<p>처음 고안한 방법은 인터셉터 설정을 할 때 사용되는 <code class="language-plaintext highlighter-rouge">InterceptorRegistration</code>를 오버라이딩하거나 새로 만드는 것이었다.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_registration.png" width="400" /> </p>
+
+<p>하지만, 위 코드는 스프링MVC의 코드이며, 리팩토링하는 방법을 찾을 수 없었다..</p>
+
+<p>팀원들과 여러 토론끝에 찾아낸 방식은 스프링 코드를 건드리지 않고 프록시를 이용한 방법이다.</p>
+
+<p><br /></p>
+
+<h1 id="프록시">프록시</h1>
+<blockquote>
+  <p>프록시를 적용하기 전에 프록시에 대한 사전 지식을 알아보자.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>🤔 프록시</strong></p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/IMG_B5EB042CCD99-1.jpeg" width="500" /></p>
+
+<ul>
+  <li><strong>프록시</strong>
+    <ul>
+      <li>자신이 클라이언트가 사용하려고 하는 실제 대상인 것처럼 위장해서 클라이언트의 요청을 받아주는 것을 의미한다.</li>
+      <li>대리자, 대리인</li>
+    </ul>
+  </li>
+  <li><strong>타깃 (실체)</strong>
+    <ul>
+      <li>프록시를 통해 최종적으로 요청을 위임받아 처리하는 실제 객체를 타깃이라 한다. (핵심 비즈니스)</li>
+    </ul>
+  </li>
+  <li><strong>프록시의 기능</strong>
+    <ul>
+      <li>타깃과 같은 메서드를 구현하고 있다가 메서드가 호출되면 타깃 객체로 <strong>위임</strong>한다. <strong>(위임)</strong></li>
+      <li>지정된 요청에 대해서는 <strong>부가기능을 수행</strong>한다. <strong>(부가기능 수행)</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<p><strong>프록시 특징</strong></p>
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/IMG_94D76394221E-1.png" width="650" /></p>
+
+<ul>
+  <li><strong>위임</strong>
+    <ul>
+      <li>부가기능 외의 나머지 모든 기능은 원래 핵심기능을 가진 클래스로 위임해줘야 한다. (부가기능에서 핵심로직에게 위임)</li>
+    </ul>
+  </li>
+  <li><strong>부가 기능이 핵심 기능을 사용하는 구조</strong>
+    <ul>
+      <li>핵심기능은 부가기능을 가진 클래스의 존재 자체를 모른다.</li>
+      <li>따라서 부가기능이 핵심기능을 사용하는 구조가 된다.</li>
+    </ul>
+  </li>
+  <li><strong>모두 핵심로직(타깃) 인터페이스를 구현해야한다.</strong>
+    <ul>
+      <li>클라이언트 입장에선 인터페이스만 보고 사용하기 때문에 핵심 기능을 가진 객체를 사용할 것이라고 기대한다. 하지만 사실은 부가기능을 통해 핵심기능을 이용하는 것.</li>
+      <li>그러기위해선 부가로직도 핵심로직 인터페이스를 구현해줘야한다.</li>
+      <li>이렇게해야 부가기능과 핵심로직의 순서를 자유자재로 변경해줄 수 있다.</li>
+    </ul>
+  </li>
+  <li><strong>프록시가 타깃을 제어할 수 있는 위치다.</strong></li>
+</ul>
+
+<p><br /></p>
+
+<p><strong>프록시 사용목적</strong></p>
+<ul>
+  <li>클라이언트가 타깃에 접근하는 방법을 제어하기 위함 (프록시 패턴)</li>
+  <li>타깃에 부가적인 기능을 부여해주기 위함 (데코레이터 패턴)</li>
+</ul>
+
+<p><br /></p>
+
+<p><strong>이번 커스텀할 때는 데코레이터 방식을 사용했다.</strong></p>
+
+<p><br /></p>
+
+<h1 id="프록시를-이용한-인터셉터-url-matcher-커스텀">프록시를 이용한 인터셉터 URL Matcher 커스텀</h1>
+
+<blockquote>
+  <p>그렇다면 프록시를 이용해 어떻게 Http Method도 포함하도록 설정할까??</p>
+</blockquote>
+
+<p>기존의 스프링 코드를 최대한 건드리지 않는 방향으로 생각한 방법은 API Matcher 역할을 하는 프록시 인터셉터를 만들어주는 것이다.</p>
+
+<p>기존의 매칭 방식과 커스텀한 매칭 방식을 그림을 통해 비교해보자.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_with_url.png" /><br />기존의 매칭 방식 (URL)</p>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-04-proxy/interceptor_with_url_and_method.png" /><br />커스텀한 매칭 방식 (URL + Method)</p>
+
+<p><br /></p>
+
+<p>쉽게 얘기해서 <code class="language-plaintext highlighter-rouge">POST /api/posts</code>로 설정해두면 <code class="language-plaintext highlighter-rouge">GET</code>으로 요청오는 것을 <code class="language-plaintext highlighter-rouge">PathMatchInterceptor</code>에서 걸러주는 것.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PathMatchInterceptor</code>: 프록시 객체</li>
+  <li><code class="language-plaintext highlighter-rouge">AuthenticationInterceptor</code>: 타깃 객체</li>
+</ul>
+
+<p><br /></p>
+
+<p>이제 코드를 통해 보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// PathMatchInterceptor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PathMatchInterceptor</span> <span class="kd">implements</span> <span class="nc">HandlerInterceptor</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">HandlerInterceptor</span> <span class="n">handlerInterceptor</span><span class="o">;</span> <span class="c1">// 타깃 인터셉터</span>
+    <span class="kd">private</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">HttpMethod</span><span class="o">&gt;&gt;</span> <span class="n">includeRegistry</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">HttpMethod</span><span class="o">&gt;&gt;</span> <span class="n">excludeRegistry</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">PathMatcher</span> <span class="n">pathMatcher</span><span class="o">;</span> <span class="c1">// URL용 AntMatcher</span>
+
+    <span class="kd">public</span> <span class="nf">PathMatchInterceptor</span><span class="o">(</span><span class="nc">HandlerInterceptor</span> <span class="n">handlerInterceptor</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">handlerInterceptor</span> <span class="o">=</span> <span class="n">handlerInterceptor</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">pathMatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AntPathMatcher</span><span class="o">();</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">includeRegistry</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">excludeRegistry</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">PathMatchInterceptor</span> <span class="nf">addPathPatterns</span><span class="o">(</span><span class="nc">String</span> <span class="n">pattern</span><span class="o">,</span> <span class="nc">HttpMethod</span><span class="o">...</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">addPathPatterns</span><span class="o">(</span><span class="n">pattern</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">methods</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">PathMatchInterceptor</span> <span class="nf">addPathPatterns</span><span class="o">(</span><span class="nc">String</span> <span class="n">pattern</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">HttpMethod</span><span class="o">&gt;</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">includeRegistry</span><span class="o">.</span><span class="na">putIfAbsent</span><span class="o">(</span><span class="n">pattern</span><span class="o">,</span> <span class="n">methods</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">PathMatchInterceptor</span> <span class="nf">excludePatterns</span><span class="o">(</span><span class="nc">String</span> <span class="n">pattern</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">HttpMethod</span><span class="o">&gt;</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">excludeRegistry</span><span class="o">.</span><span class="na">putIfAbsent</span><span class="o">(</span><span class="n">pattern</span><span class="o">,</span> <span class="n">methods</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">PathMatchInterceptor</span> <span class="nf">excludePatterns</span><span class="o">(</span><span class="nc">String</span> <span class="n">pattern</span><span class="o">,</span> <span class="nc">HttpMethod</span><span class="o">...</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">excludePatterns</span><span class="o">(</span><span class="n">pattern</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">methods</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">preHandle</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+        <span class="nc">Object</span> <span class="n">handler</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">requestUrl</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestURI</span><span class="o">();</span>
+        <span class="nc">String</span> <span class="n">requestMethod</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getMethod</span><span class="o">();</span>
+        
+        <span class="c1">// exclude 확인</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">url</span> <span class="o">:</span> <span class="n">excludeRegistry</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">pathMatcher</span><span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">requestUrl</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">isMethodMatch</span><span class="o">(</span><span class="n">requestMethod</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">excludeRegistry</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="c1">// 타깃 실행하지 않고 다음 체이닝으로 이동</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// include 확인</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">url</span> <span class="o">:</span> <span class="n">includeRegistry</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">pathMatcher</span><span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">requestUrl</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">isMethodMatch</span><span class="o">(</span><span class="n">requestMethod</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">excludeRegistry</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">handlerInterceptor</span><span class="o">.</span><span class="na">preHandle</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handler</span><span class="o">);</span> <span class="c1">// 타깃 인터셉터 실행</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isMethodMatch</span><span class="o">(</span><span class="nc">String</span> <span class="n">requestMethod</span><span class="o">,</span> <span class="nc">String</span> <span class="n">url</span><span class="o">,</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">HttpMethod</span><span class="o">&gt;&gt;</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">registry</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">url</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Enum:</span><span class="o">:</span><span class="n">name</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">method</span> <span class="o">-&gt;</span> <span class="n">method</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">requestMethod</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>위 코드에서 알 수 있듯이 exclude의 우선순위를 더 높도록 했다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Interceptor 설정</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">addInterceptors</span><span class="o">(</span><span class="nc">InterceptorRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">HandlerInterceptor</span> <span class="n">authenticationInterceptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PathMatchInterceptor</span><span class="o">(</span><span class="n">authenticationInterceptor</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">addPathPatterns</span><span class="o">(</span><span class="s">"/api/posts"</span><span class="o">,</span> <span class="nc">HttpMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">);</span>
+
+    <span class="nc">HandlerInterceptor</span> <span class="n">ignoreAuthenticationInterceptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PathMatchInterceptor</span><span class="o">(</span><span class="n">ignoreAuthenticationInterceptor</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">addPathPatterns</span><span class="o">(</span><span class="s">"/api/posts"</span><span class="o">,</span> <span class="nc">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+
+    <span class="n">registry</span><span class="o">.</span><span class="na">addInterceptor</span><span class="o">(</span><span class="n">authenticationInterceptor</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">addPathPatterns</span><span class="o">(</span><span class="s">"/**"</span><span class="o">);</span>
+
+    <span class="n">registry</span><span class="o">.</span><span class="na">addInterceptor</span><span class="o">(</span><span class="n">ignoreAuthenticationInterceptor</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">addPathPatterns</span><span class="o">(</span><span class="s">"/**"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>전체적인 동작 원리는 다음과 같다.</p>
+
+<ol>
+  <li>API Matcher 역할을 하는 <code class="language-plaintext highlighter-rouge">PathMatchInterceptor</code>를 만들어준다.
+    <ul>
+      <li>이 인터셉터는 모든 요청(<code class="language-plaintext highlighter-rouge">/**</code>)에 대해서 체이닝이 걸리도록 설정해준다.</li>
+      <li><code class="language-plaintext highlighter-rouge">PathMatcherInterceptor</code>의 타깃으로 실제 사용될 인터셉터를 설정해준다. (생성자를 통해)</li>
+      <li>타깃 인터셉터가 체이닝 될 include, exclude URL과 Http Method를 설정해준다.</li>
+    </ul>
+  </li>
+  <li>사용자 요청시 <code class="language-plaintext highlighter-rouge">PathMatcherInterceptor</code>를 거쳐 실제 인터셉터가 실행해도 되는지 URL + Method 기반으로 판단한다.</li>
+</ol>
+
+<p><br /></p>
+
+<h1 id="끝으로">끝으로</h1>
+<p>객체지향 공부를하며 배웠던 내용을 활용해볼 수 있어서 좋은 경험이었다.</p>
+
+<p>아직까진 큰 문제없이 커스텀한 코드를 사용중이다!</p>
+
+<p>문제가 있다면 추후에 다시 포스팅 할 예정.</p>
+
+<blockquote>
+  <p>아마 더 좋은 방법이 존재하리라 생각든다. 추후에 더 리팩토링 할 예정!!</p>
+</blockquote>
+
+<p><br /></p>
+
+<h1 id="코드">코드</h1>
+<ul>
+  <li><a href="https://github.com/woowacourse-teams/2021-pick-git/blob/develop/backend/pick-git/src/main/java/com/woowacourse/pickgit/authentication/presentation/interceptor/PathMatchInterceptor.java">PathMatchInterceptor</a></li>
+  <li><a href="https://github.com/woowacourse-teams/2021-pick-git/blob/develop/backend/pick-git/src/main/java/com/woowacourse/pickgit/config/OAuthConfiguration.java">OAuth 설정 코드</a></li>
+</ul>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=프록시를 이용한 Http Method 포함 인터셉터 설정기&url=https://2021-pick-git.github.io//%ED%94%84%EB%A1%9D%EC%8B%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Http-Method-%ED%8F%AC%ED%95%A8-%EC%9D%B8%ED%84%B0%EC%85%89%ED%84%B0-%EC%84%A4%EC%A0%95%EA%B8%B0/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//%ED%94%84%EB%A1%9D%EC%8B%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Http-Method-%ED%8F%AC%ED%95%A8-%EC%9D%B8%ED%84%B0%EC%85%89%ED%84%B0-%EC%84%A4%EC%A0%95%EA%B8%B0/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//%ED%94%84%EB%A1%9D%EC%8B%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Http-Method-%ED%8F%AC%ED%95%A8-%EC%9D%B8%ED%84%B0%EC%85%89%ED%84%B0-%EC%84%A4%EC%A0%95%EA%B8%B0/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#Spring" class="tag">&#35; Spring</a>
+          
+            <a href="/tags#Interceptor" class="tag">&#35; Interceptor</a>
+          
+            <a href="/tags#Proxy" class="tag">&#35; Proxy</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
