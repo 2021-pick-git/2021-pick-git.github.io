@@ -74,6 +74,7 @@ tags: [백엔드, 다이내믹프록시, 쿼리카운팅, 캐싱테스트]
 코드를 통해 어느 부분을 커스텀하면 쿼리 카운팅이 가능한지 살펴보자.
 
 > DataSourceConfig
+
 ```java
 @Configuration
 public class DataSourceConfig {
@@ -94,7 +95,9 @@ public class DataSourceConfig {
     }
 }
 ```
+
 > UserDao
+
 ```java
 public class UserDao {
     private final DataSource dataSource;
@@ -126,11 +129,13 @@ public class UserDao {
     ...
 }
 ```
+
 > 전형적인 난감한 UserDao 예시이다.
 
 <br>
 
 🤔 **위 코드에서 쿼리 카운팅을 해볼 커스텀할 부분을 찾았는가?**
+
 ```java
 // DataSource로부터 Connection을 가져옴.
 conn = dataSource.getConnection();
@@ -138,6 +143,7 @@ conn = dataSource.getConnection();
 // Connection으로부터 Statement를 가져와 SQL 쿼리를 실행한다.
 ps = conn.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");
 ```
+
 **바로 SQL 쿼리가 매개변수로 주어지는 `conn.preparedStatement` 메서드 이다.**
 
 즉, **`DataSource`에서 반환하는 `Connection`을 프록시로 감싸서 `preparedStatement`가 호출될 때 해당 매개변수를 카운팅하면 된다.**
@@ -203,7 +209,9 @@ ps = conn.prepareStatement("insert into users(id, name, password) values(?, ?, ?
 <br>
 
 **카운트 데이터 객체 구현**
+
 > Count
+
 ```java
 @Getter
 public class Count {
@@ -219,7 +227,9 @@ public class Count {
     }
 }
 ```
+
 > QueryCounter
+
 ```java
 @Getter
 public class QueryCounter {
@@ -249,11 +259,13 @@ public class QueryCounter {
     }
 }
 ```
+
 * [QueryCounter 테스트 코드](https://github.com/binghe819/spring-query-counter/blob/main/src/test/java/com/binghe/querycounter/query_counter/QueryCounterTest.java)
 
 <br>
 
 **Connection 프록시 구현**
+
 > ProxyConnectionHandler
 
 ```java
@@ -303,6 +315,7 @@ public class ProxyConnectionHandler implements InvocationHandler {
     }
 }
 ```
+
 어려워 보이지만, 사실 간단한 코드이다.
 
 **다이내믹 프록시를 이용하여 `invoke`에 넘어오는 호출 메서드 정보를 바탕으로 `PreparedStatement`메서드면 해당 메서드의 매개변수를 뽑아내서 카운팅하는 것이다.**
@@ -312,7 +325,9 @@ public class ProxyConnectionHandler implements InvocationHandler {
 <br>
 
 **DataSource 프록시 구현**
+
 > CountDataSource
+
 ```java
 public class CountDataSource implements DataSource {
     
@@ -337,6 +352,7 @@ public class CountDataSource implements DataSource {
     ... 타깃으로 위임하는 코드
 }
 ```
+
 이제 `Connection`에 프록시를 설정해주기 위해서 기존의 `DataSource`의 프록시 역할을 하는 `CountDataSource` 생성해주었다.
 
 [CountDataSource - 소스 코드](https://github.com/binghe819/spring-query-counter/blob/main/src/main/java/com/binghe/querycounter/query_counter/CountDataSource.java)
@@ -352,7 +368,9 @@ public class CountDataSource implements DataSource {
 <br>
 
 **DataSource 설정**
+
 > DataSourceConfig
+
 ```java
 @Configuration
 public class DataSourceConfig {
@@ -373,6 +391,7 @@ public class DataSourceConfig {
     }
 }
 ```
+
 `QueryCount`를 통해 몇 번 쿼리가 날라갔는지 확인해야하기에, 빈으로 등록하여 여러 테스트 코드에서 주입받아 사용할 수 있도록 한다.
 
 `DataSource`는 위에서 만든 프록시 객체 (`CountDataSource`)를 반환하도록 설정한다.
