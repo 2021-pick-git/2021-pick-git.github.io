@@ -40,7 +40,7 @@ Bastion 서버에 대한 구성 방법은 [Bastion 서버 구성](https://xlffm3
 
 ## 3. Product 환경
 
-<img width="1440" alt="스크린샷 2021-10-04 오후 5 52 21" src="https://user-images.githubusercontent.com/56240505/135822109-80b3fd80-7bc7-4cd7-9ca3-17316ef6d905.png">
+![image](https://user-images.githubusercontent.com/56240505/136949206-8d0361dc-c23d-4fbd-aec1-190bc9df4e87.png)
 
 서비스 초기에는 웹 서버(Product Reverse Proxy)에 프론트엔드 정적 파일을 배포한 다음, 정적 파일 요청은 웹 서버가 처리하고 동적인 컨텐츠 요청은 뒷단의 WAS로 요청을 위임해 처리하도록 구성했었습니다.
 
@@ -60,7 +60,7 @@ Write 작업은 Master Node가 담당하고 Read 작업은 Slave Node가 담당�
 
 ## 4. Test 환경
 
-<img width="1440" alt="스크린샷 2021-10-04 오후 5 52 29" src="https://user-images.githubusercontent.com/56240505/135822119-2c90d5ae-3b28-401c-8a3e-2945a62d91c7.png">
+![image](https://user-images.githubusercontent.com/56240505/136949287-597f512d-d9ac-4ed3-a70b-c3b1d47a78af.png)
 
 Test 환경은 백엔드 API와 시나리오에 대한 Load & Stress Test 수행 및 성능 진단을 목적으로 생성했습니다. 최대한 Product 환경과 유사하게 구성했으며, nGrinder 서버를 통해 테스트를 진행합니다.
 
@@ -80,13 +80,19 @@ nGrinder를 활용한 부하 및 스트레스 테스트에 대한 상세한 내�
 
 ## 5. Develop 환경
 
-<img width="1440" alt="스크린샷 2021-10-04 오후 5 52 36" src="https://user-images.githubusercontent.com/56240505/135822132-dd2a4651-009c-4f25-9bd7-ad3b1f2013b6.png">
+![image](https://user-images.githubusercontent.com/56240505/136949303-9e2205e4-c9df-41dc-9695-04eba8e6c2b8.png)
 
 Develop 환경의 경우 주로 개발 과정에서 프론트엔드 및 백엔드 기능들이 유기적으로 잘 연동되는지 등을 확인하는 역할입니다. 웹 서버(Develop Reverse Proxy)에 프론트엔드 정적 파일을 배포합니다.
 
 <br>
 
-## 6. SonarQube
+## 6. CI / CD Pipeline
+
+![image](https://user-images.githubusercontent.com/56240505/136949529-23159b90-292e-497f-b36b-a01266c3f230.png)
+
+전반적인 CI / CD Pipeline 플로우입니다. 하나씩 자세히 살펴보겠습니다.
+
+## 6.1. SonarQube Pipeline
 
 ![image](https://user-images.githubusercontent.com/56240505/135635587-432966df-eab7-4e13-960b-7f4dc87b8c2a.png)
 ![image](https://user-images.githubusercontent.com/56240505/135635724-9a3ab678-cbc1-4e5c-a7fc-1c9103bc51f2.png)
@@ -99,7 +105,7 @@ Pick-Git 백엔드 프로젝트는 SonarQube를 통해 프로젝트 코드에 �
 
 <br>
 
-## 7. CI/CD Pipeline
+## 6.2. Deploy Pipeline
 
 ![image](https://user-images.githubusercontent.com/56240505/135314865-ed0d7176-baf3-4a5a-88ca-7359732668b6.png)
 ![image](https://user-images.githubusercontent.com/56240505/135314932-00405217-7c00-40cd-a174-8c33bdd24e4e.png)
@@ -110,7 +116,7 @@ Pull Request Merge가 발생하면 WebHook이 Jenkins 서버로 전송됩니다.
 
 <br>
 
-## 8. 마치며
+## 7. 마치며
 
 ![image](https://user-images.githubusercontent.com/56240505/135315783-f42a9cd5-d2e8-46a8-af6a-cace24dfba31.png)
 ![image](https://user-images.githubusercontent.com/56240505/135315820-a708bd5c-7de0-4d62-9d54-645d3b475f7e.png)
@@ -127,6 +133,6 @@ Pull Request Merge가 발생하면 WebHook이 Jenkins 서버로 전송됩니다.
 
 ---
 
-## Reference
+## References
 
 * [결제 시스템 성능, 부하, 스트레스 테스트](https://techblog.woowahan.com/2572/)
