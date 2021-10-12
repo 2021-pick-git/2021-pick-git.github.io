@@ -17,7 +17,7 @@
     <meta content="Pickgit의 테스트코드 최적화 방법을 소개합니다." property="og:description">
   
   
-    <meta content="https://2021-pick-git.github.io//%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%BD%94%EB%93%9C-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%97%AC%ED%96%89%EA%B8%B0-(1)/" property="og:url">
+    <meta content="https://2021-pick-git.github.io//test-optimization1/" property="og:url">
   
   
     <meta content="2021-09-30T17:35:00+09:00" property="article:published_time">
@@ -46,7 +46,7 @@
     <meta name="twitter:title" content="테스트코드 최적화 여행기 (1)">
   
   
-    <meta name="twitter:url" content="https://2021-pick-git.github.io//%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%BD%94%EB%93%9C-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%97%AC%ED%96%89%EA%B8%B0-(1)/">
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//test-optimization1/">
   
   
     <meta name="twitter:description" content="Pickgit의 테스트코드 최적화 방법을 소개합니다.">
@@ -132,9 +132,7 @@
         <h1 class="page-title">테스트코드 최적화 여행기 (1)</h1>
         <div class="page-date"><span>2021, Sep 30&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
       </header>
-      <h1 id="테스트-코드-최적화-여행기-1">테스트 코드 최적화 여행기 (1)</h1>
-
-<p>우테코 3단계를 진행하면서 프로젝트로 깃허브 기반의 SNS를 제작하고 있다. 팀의 컨벤션으로 테스트코드를 정말 빡시게 짜고있는데, 덕분에 리팩토링, 트러블 슈팅 등 많은 부분에서 큰 도움을 얻고 있다.</p>
+      <p>우테코 3단계를 진행하면서 프로젝트로 깃허브 기반의 SNS를 제작하고 있다. 팀의 컨벤션으로 테스트코드를 정말 빡시게 짜고있는데, 덕분에 리팩토링, 트러블 슈팅 등 많은 부분에서 큰 도움을 얻고 있다.</p>
 
 <p>하지만 프로젝트의 기능이 하나식 추가되고 커지면서 문제점이 발생하는데, 바로 큰 도움을 준 테스트 코드가 그 주인공이다.</p>
 
@@ -150,7 +148,7 @@
   <li>테스트 시간 단축
     <ol>
       <li>현재 글 작성 기준으로 전체 테스를 수행하는데 노트북(맥북 m1, 16gb)으로 약 1분이 소요되며테스크탑(인텔 10400, 16gb)의 경우는 약 3분 30초가 소요된다. 또한 ec2(medium)의 경우 는 약 4~5분이 소요된다.</li>
-      <li>따라서 리팩토링 및 프로덕션 작성 시 테스트를 돌리는데 약간은 겁이 난다. 또한 pr작성 시 젠킨스를 통해 빌드와 테스트 검사를 하고, 이를 통과 해야 merge가 가능한데, 이것만 약 5분이 소요되며 merge 후 배포시에도 다시 한번 테스트가 진행되므로 새로운 pr을 dev서버에 배포하는데만 약 10분이 소요되는꼴이다. 이걸 과연 CI라고 할 수 있을지…</li>
+      <li>따라서 리팩토링 및 프로덕션 작성 시 테스트를 돌리는데 약간은 겁이 난다. 이러한 겁은 리팩토링에 방해가 된다.. 또한 pr작성 시 젠킨스를 통해 빌드와 테스트 검사를 하고, 이를 통과 해야 merge가 가능한데, 이것만 약 5분이 소요되며 merge 후 배포시에도 다시 한번 테스트가 진행되므로 새로운 pr을 dev서버에 배포하는데만 약 10분이 소요되는꼴이다. 이걸 과연 CI라고 할 수 있을지…</li>
     </ol>
   </li>
   <li>공통 로직 제거
@@ -171,9 +169,9 @@
 
 <p>테스트 중에서 가장 시간이 많이 걸리는 테스트를 고르자면 당연히 인수테스트다. 그리고 그 다음은 통합 테스트다. 사실 Mock을 사용하는 슬라이스 테스트나 유닛 테스트는 최적화 할만한 요소가 그리 없다고 생각된다. 따라서 최적화 기법 또한 인수테스트와 통합테스트를 기준으로 작성하도록 하겠다.</p>
 
-<p>테스트 코드</p>
+<p>[테스트 최적화 실험에 사용한 코드]</p>
 
-<p><a href="https://github.com/bperhaps/TestOptimizationStudyTest">https://github.com/bperhaps/TestOptimizationStudyTest</a></p>
+<p>https://github.com/bperhaps/TestOptimizationStudyTest</p>
 
 <p>모든 방법에 대한 테스트는 위 레포지토리에서 진행하였으며 1편에서는 간략한 방법론에 대하여 논하고 2편에서는 자세한 설정법을 알아보도록 한다.</p>
 
@@ -185,49 +183,40 @@
 
 <p>아마 DirtiesContext를 사용한 가장 큰 이유는, 데이터베이스의 초기화 때문일 것이다. 보통 DirtiesContext를 사용하는 이유는 빈의 상태를 변경시키는 테스트를 진행했을 때 이를 초기화 하기 위함이다. 하지만 깃들다의 경우 모든 빈들을 불변객체로 유지하기 때문에 빈의 상태를 변경시킬 일은 없다.</p>
 
-<p>따라서 DirtiesContext를 제거하여 모든 테스트 케이스들이 스프링 컨텍스트를 공유하여 사용할 수 있도록 하겠다.</p>
+<p>따라서 DirtiesContext를 제거하여 테스트 케이스들이 스프링 컨텍스트를 공유하여 사용할 수 있도록 하겠다.</p>
 
 <p>위에 서술한 테스트 레포지토리를 통해 간략한 테스트를 진행해 보았다.</p>
 
-<p><img src="https://user-images.githubusercontent.com/33603557/135377086-3fcc0d46-0780-4c3b-b523-978af09efedf.png" alt="1" /></p>
+<p><img src="https://user-images.githubusercontent.com/33603557/136336142-28cf4830-d8d0-4271-bb89-8443f7d9bd2c.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/33603557/136336247-f2cec1ee-252e-4c3f-9080-709503dacbd3.png" alt="image" /></p>
 
-<p>적용 전</p>
+<p>DirtiesContext만 제거했을 뿐인데 의미있는 시간 시간 단축이 이루어졌다.</p>
 
-<p><img src="https://user-images.githubusercontent.com/33603557/135377101-f8bbed62-d6e0-4772-b85e-ce66e45e6efb.png" alt="2" /></p>
-
-<p>적용 후</p>
-
-<p>이상하게도 큰 차이가 없다. 이에 대한 원인으로는 테스트 프로젝트의 경우, 초반에 set되는 빈들이 별로 없기때문으로 보인다. 따라서 이 방법을 본 프로젝트에 한번 적용해 보았다.</p>
-
-<p><img src="https://user-images.githubusercontent.com/33603557/135377114-b4fc93b0-617c-42a6-bbad-8e075998b589.png" alt="3" /></p>
-
-<p><img src="https://user-images.githubusercontent.com/33603557/135377123-c6ab6e5e-533b-43fa-9423-b45412146ffb.png" alt="4" /></p>
-
-<p>DirtiesContext만 제거했을 뿐인데 거의 약 83%의 시간 시간 단축이 이루어졌다. 분명 엄청난 성과다.</p>
-
-<p>결국, 작은 규모의 프로젝트에서는 DirtiesContext를 이용하더라도 그렇게 큰 효과를 누리지 못한다. 하지만 조금만 사이즈가 커지더라도 컨텍스트를 새로 로드하는 오버헤드는 증가한다. 따라서 DirtiesContext는 꼭 필요할때가 아니면 사용을 지양하는것이 좋다.</p>
-
-<p>하지만 아직 멀었다. 인텔칩을 사용하는 노트북이나 데스크탑의 경우 대략 3분30초정도의 테스트 시간이 소요되기 때문에 한번 테스트에 거의 30~40초의 시간이 소요될 것이다. 이는 여전히 테스트를 돌리기에 부담스러운 시간이다.</p>
-
-<p>슬라이스테스트와 유닛 테스트가 아무리 빠르다 하더라도 결국 이것 또한 시간이 걸리는 작업임은 분명하다. 통합 테스트도 마찬가지 이다.</p>
+<p>컨텍스트를 새로 로드하는 오버헤드는 상당히 크며 적절한 이유 없이 DirtiesContext를 사용하는 행위는 스프링 테스트의 Context Cache 이점을 전혀 이용하지 못한다. 따라서 DirtiesContext는 꼭 필요할때가 아니면 사용을 지양하는것이 좋다.</p>
 
 <ol>
-  <li>조회<strong>관련 테스트는, 미리 정의된 데이터를 통해 테스트한다.</strong></li>
+  <li><strong>테스트 환경을 통일시킨다.</strong></li>
 </ol>
 
-<p>필자가 생각하기에 또 시간적 비용이 많이 드는 부분을 고르자면, 테스트 함에 있어서 조회 테스트를 진행할 때 조회에 필요한 데이터를 set하는 부분이다. 조회 테스트를 진행하는 테스트 코드또한 만만치 않게 많기 때문에 이 데이터들을 초반 context load 시점에 모두 데이터베이스에 올려놓고 조회 테스트를 시행하면 테스트를 더 빠르게 실행시킬 수 있을것이라고 생각한다.</p>
+<p>스프링 테스트가 제공하는 Application Context Cache기능을 제대로 활용하기 위해서는 테스트의 Configuration이 다르면 스프링은 새로운 Context를 올린다는 사실을 알아야한다. 또한 이를 통해 테스트의 속도를 더욱 끌어올릴 수 있다.</p>
 
-<p>즉, query를 위한 db와 update, create, delete를 위한 db를 분리한 뒤 테스트를 진행하겠다는 의미이다. 이것이 가능한 이유는 조회 테스트는 멱등성을 보장시켜야 하는 테스트 임에 기반한다.</p>
+<ol>
+  <li><strong>조회관련 테스트는, 미리 정의된 데이터를 통해 테스트한다.</strong></li>
+</ol>
+
+<p>필자가 생각하기에 또 시간적 비용이 많이 드는 부분을 고르자면, 테스트 함에 있어서 조회 테스트를 진행할 때 조회에 필요한 데이터를 set하는 부분이다. 조회 테스트를 진행하는 테스트 코드또한 만만치 않게 많기 때문에 이 데이터들을 데이터베이스에 올려놓고 조회 테스트를 시행하면 테스트를 더 빠르게 실행시킬 수 있을것이라고 생각한다.</p>
+
+<p>즉, query를 위한 db와 update, create, delete를 위한 db를 분리한 뒤 테스트를 진행하겠다는 의미이다. 이것이 가능한 이유는 조회는 안전한 메소드(GET)을 사용함에 기반한다.</p>
 
 <p>위 방법론을 간략하게 도식화 하면 아래와 같다.</p>
 
-<p><img src="https://user-images.githubusercontent.com/33603557/135377135-93e044eb-ae3d-441a-880e-374875f50a4e.png" alt="5" /></p>
+<p><img src="https://user-images.githubusercontent.com/33603557/136336314-61f50915-9302-42f1-86b1-88f7c980cd8e.png" alt="image" /></p>
 
 <p>매 테스트마다 조회를 위한 데이터를 추가했던 기존의 조회테스트와는 다르게, 조회 테스트에 필요한 Fixture를 초시화시에 미리 셋팅해두고 조회 관련 테스트를 진행한다. CUD 테스트는 기존과 동일하게 진행한다.</p>
 
 <p>먼저 이를 적용하기 전의 테스트 시간은 위와 같이 10초가량이 소요된다.</p>
 
-<p><img src="https://user-images.githubusercontent.com/33603557/135377150-8980f942-f53f-47be-81ec-55152c8af907.png" alt="6" /></p>
+<p><img src="https://user-images.githubusercontent.com/33603557/136336350-abb0ed4c-93bc-4f0f-83ae-a4a0135d0182.png" alt="image" /></p>
 
 <p>적용 후</p>
 
@@ -237,9 +226,9 @@
 
       <div class="page-footer">
         <div class="page-share">
-          <a href="https://twitter.com/intent/tweet?text=테스트코드 최적화 여행기 (1)&url=https://2021-pick-git.github.io//%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%BD%94%EB%93%9C-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%97%AC%ED%96%89%EA%B8%B0-(1)/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
-          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%BD%94%EB%93%9C-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%97%AC%ED%96%89%EA%B8%B0-(1)/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
-          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%BD%94%EB%93%9C-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%97%AC%ED%96%89%EA%B8%B0-(1)/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+          <a href="https://twitter.com/intent/tweet?text=테스트코드 최적화 여행기 (1)&url=https://2021-pick-git.github.io//test-optimization1/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//test-optimization1/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//test-optimization1/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
         </div>
         <div class="page-tag">
           

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>테스트코드 최적화 여행기 (2) - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="테스트코드 최적화 여행기 (2)" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Pickgit의 테스트코드 최적화 방법을 소개합니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//test-optimization2/" property="og:url">
+  
+  
+    <meta content="2021-10-07T16:13:00+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/testoptima.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="test" property="article:tag">
+    
+    <meta content="최적화" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="테스트코드 최적화 여행기 (2)">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//test-optimization2/">
+  
+  
+    <meta name="twitter:description" content="Pickgit의 테스트코드 최적화 방법을 소개합니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/testoptima.png">
+  
+
+	<meta name="description" content="Pickgit의 테스트코드 최적화 방법을 소개합니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/testoptima.png alt="테스트코드 최적화 여행기 (2)">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">테스트코드 최적화 여행기 (2)</h1>
+        <div class="page-date"><span>2021, Oct 07&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>안녕하세요 깃들다팀의 손너잘 입니다.</p>
+
+<p>테스트 최적화의 두번째 글을 작성하게 되었습니다.</p>
+
+<p>이전 글에서 작성하였듯, 첫번째로 할 것은 DirtiesContext의 제거입니다.</p>
+
+<p>많은 프로젝트에서 매번 테스트의 환경을 초기화 시키기 위해 DirtiesContext를 사용합니다. 하지만 DirtiesContext는 스프링 테스트가 매 테스트마다 Application Context를 다시 Load하도록 합니다. 이는 스프링 테스트가 제공해주는 Application Context의 캐싱의 이점을 전혀 가져가지 못합니다.</p>
+
+<p>깃들다팀 또한 처음 프로젝트를 시작했을 떄 테스트의 환경을 초기화해주기 위해(정확히는 인메모리 DB초기화를 위함이지만요) DirtiesContext를 사용했습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/136336806-82c8a41b-b7a2-449b-9111-303977a1401f.png" alt="image" /></p>
+
+<p>심지어 <code class="language-plaintext highlighter-rouge">BEFORE_EACH_TEST_METHOD</code> 를 사용하였죠… 프로젝트 초반에는 큰 문제가 없었으나 프로젝트가 점점 커질수록 테스트코드가 많아지고 문제가 발생했습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/136336820-6d34a488-6631-40a2-b1f4-3a430a4ccfd0.png" alt="image" /></p>
+
+<p>무려 테스트를 한번 돌리는데 3분이 넘는 시간이 소요되는 문제였습니다.. 수치상으로는 3분이 찍혔지만 중간중간에 Application Context가 재시작 되는 시간이 누산되지 않아서 실제 시간은 거의 4분~5분이 소요됐습니다.</p>
+
+<h3 id="dirtiescontext-제거">DirtiesContext 제거</h3>
+
+<p>이를 해결하기 위해, 가장 먼저 DirtiesContext를 제거하여 Application Context를 재활용 할 수 있도록 하였습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/136336840-15cb0c86-4502-4dc9-8fe2-8249b7871175.png" alt="image" /></p>
+
+<p>모든 AcceptanceTest의 DirtiesContext를 제거하고 공통으로 사용하는 어노테이션들을 추상클래스에 몰아넣어 테스트 클래스들이 이를 상속받도록 하였습니다. 하지만 여기서 문제가 발생합니다. Application Context가 공유되다보니 DB의 초기화작업이 필요하게 된 것 입니다.</p>
+
+<p>참 많은 고민을 했습니다. <code class="language-plaintext highlighter-rouge">@Sql</code> 을 사용해 볼까?도 생각 해봤고, ApplicationTest 추상 클래스에 <code class="language-plaintext highlighter-rouge">@BeforeEach</code>에 제거 쿼리를 작성하여 초기화 할까도 생각했지만 이러한 방법에는 여러가지 단점이 있었습니다.</p>
+
+<ul>
+  <li>테이블의 외례키 제약조건에 따라서 테이블의 삭제 순서를 정해줘야 한다</li>
+  <li>Entity의 변경사항을 자동으로 반영하지 못하고 변경이 발생할떄 마다 삭제 쿼리를 매번 수정해줘야한다.</li>
+</ul>
+
+<p>이러한 고민을 하던 중 우아한테크코스의 <code class="language-plaintext highlighter-rouge">브라운</code> 코치님에게 힌트를 얻어 아래와 같은 클래스를 작성했습니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span>
+<span class="nd">@ActiveProfiles</span><span class="o">(</span><span class="s">"test"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DatabaseCleaner</span> <span class="kd">implements</span> <span class="nc">InitializingBean</span> <span class="o">{</span>
+
+    <span class="nd">@PersistenceContext</span>
+    <span class="kd">private</span> <span class="nc">EntityManager</span> <span class="n">entityManager</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">tableNames</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterPropertiesSet</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">unwrap</span><span class="o">(</span><span class="nc">Session</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">doWork</span><span class="o">(</span><span class="k">this</span><span class="o">::</span><span class="n">extractTableNames</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">extractTableNames</span><span class="o">(</span><span class="nc">Connection</span> <span class="n">conn</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">tableNames</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="nc">ResultSet</span> <span class="n">tables</span> <span class="o">=</span> <span class="n">conn</span>
+                <span class="o">.</span><span class="na">getMetaData</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">getTables</span><span class="o">(</span><span class="n">conn</span><span class="o">.</span><span class="na">getCatalog</span><span class="o">(),</span> <span class="kc">null</span><span class="o">,</span> <span class="s">"%"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"TABLE"</span><span class="o">});</span>
+
+        <span class="k">while</span><span class="o">(</span><span class="n">tables</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">tableNames</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tables</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"table_name"</span><span class="o">));</span>
+        <span class="o">}</span>
+
+        <span class="k">this</span><span class="o">.</span><span class="na">tableNames</span> <span class="o">=</span> <span class="n">tableNames</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">unwrap</span><span class="o">(</span><span class="nc">Session</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">doWork</span><span class="o">(</span><span class="k">this</span><span class="o">::</span><span class="n">cleanUpDatabase</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">cleanUpDatabase</span><span class="o">(</span><span class="nc">Connection</span> <span class="n">conn</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+        <span class="nc">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+        <span class="n">statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="s">"SET REFERENTIAL_INTEGRITY FALSE"</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">tableName</span> <span class="o">:</span> <span class="n">tableNames</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="s">"TRUNCATE TABLE "</span> <span class="o">+</span> <span class="n">tableName</span><span class="o">);</span>
+            <span class="n">statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="s">"ALTER TABLE "</span> <span class="o">+</span> <span class="n">tableName</span> <span class="o">+</span> <span class="s">" ALTER COLUMN id RESTART WITH 1"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="s">"SET REFERENTIAL_INTEGRITY TRUE"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>소스를 설명하자면 다음과 같습니다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Component</code>와 <code class="language-plaintext highlighter-rouge">InitializingBean</code>을 통해 Application Context가 이 컴포넌트를 최초 로딩할 때 <code class="language-plaintext highlighter-rouge">afterPropertiesSet()</code> 의 소스를 수행하게 합니다.</li>
+  <li>EntityManager를 받아와서 db의 테이블 정보를 받아오는 쿼리를 통해 table 이름을 저장합니다.</li>
+</ul>
+
+<p>사실 살펴보면 별거 없습니다. 여기서 재미있는점은 <code class="language-plaintext highlighter-rouge">SET REFERENTIAL_INTEGRITY FALSE</code> 를 통해 무결성 제약조건을 잠시 OFF 시켜서 테이블의 제거 순서를 신경쓰지 않아도 되게한다는점 입니다.</p>
+
+<p>그러면 이 컴포넌트를 어떻게 이용할 수 있을까요?</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/136336882-f6eeca59-d29b-4b4b-b01e-e44ade694749.png" alt="image" /></p>
+
+<p>저같은 경우는 위에서 만든 AcceptanceTest 추상 클래스에 <code class="language-plaintext highlighter-rouge">DatabaseCleaner</code> 클래스를 DI받아서 <code class="language-plaintext highlighter-rouge">@AfterEach</code> 에서 db clear작업을 진행해 주도록 하였습니다.</p>
+
+<p>그러면 결과를 한번 볼까요?</p>
+
+<p><img src="https://user-images.githubusercontent.com/33603557/136336898-cc32ad2a-a923-4494-a879-669aba4e7c82.png" alt="image" /></p>
+
+<p>3분이 넘게 걸리던 시간이 17~18초 정도로 줄어들었습니다! 엄청난 성과입니다. 깃들다 팀의 경우 인수테스트만 100개가 넘어가는데 이를 모두 새로운 ApplicationContext를 띄워서 테스트 하려고 하니 엄청난 시간이 걸렸던 것 입니다.</p>
+
+<p>이번글에서는 DirtiesContext의 제거와 DB초기화에 대한 이야기를 나눠봤습니다.</p>
+
+<p>다음 글에서는 테스트 환경을 통한 속도 향상 방법에 대해 작성해 보도록 하겠습니다.</p>
+
+<p>읽어주셔서 감사합니다 🙂</p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=테스트코드 최적화 여행기 (2)&url=https://2021-pick-git.github.io//test-optimization2/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//test-optimization2/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//test-optimization2/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#test" class="tag">&#35; test</a>
+          
+            <a href="/tags#최적화" class="tag">&#35; 최적화</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
