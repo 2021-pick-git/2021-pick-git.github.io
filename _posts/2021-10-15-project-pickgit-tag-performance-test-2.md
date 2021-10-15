@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 태그 검색 성능 태스트 경험기_2
+title: 태그 검색 성능 테스트 경험기_2
 date: 2021-10-15 13:32:20 +0300
 description: 태그 검색 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다.  
 img: performance-test.jpeg
