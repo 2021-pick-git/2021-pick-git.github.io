@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>리액트 쿼리 개념 정리 및 관련 팁 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="리액트 쿼리 개념 정리 및 관련 팁" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="저희 프로젝트의 프론트엔드 개발은 리액트를 기반으로 구현되었고 상태관리를 위해 리액트 쿼리 외에 다른 상태관리 라이브러리를 사용하지 않고 있습니다. 이 글에서는 저희가 왜 리액트 쿼리 라이브러리를 사용하기로 선택했는지, 그리고 정확히 어느 부분에서 어떤 전략에 따라 비동기 상태관리를 수행했는지를 다뤄보고자 합니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%EB%B0%8F-%EA%B4%80%EB%A0%A8-%ED%8C%81/" property="og:url">
+  
+  
+    <meta content="2021-08-11T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/pick-git-logo.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="프론트엔드" property="article:tag">
+    
+    <meta content="리액트 쿼리" property="article:tag">
+    
+    <meta content="비동기 상태관리" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="리액트 쿼리 개념 정리 및 관련 팁">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%EB%B0%8F-%EA%B4%80%EB%A0%A8-%ED%8C%81/">
+  
+  
+    <meta name="twitter:description" content="저희 프로젝트의 프론트엔드 개발은 리액트를 기반으로 구현되었고 상태관리를 위해 리액트 쿼리 외에 다른 상태관리 라이브러리를 사용하지 않고 있습니다. 이 글에서는 저희가 왜 리액트 쿼리 라이브러리를 사용하기로 선택했는지, 그리고 정확히 어느 부분에서 어떤 전략에 따라 비동기 상태관리를 수행했는지를 다뤄보고자 합니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/pick-git-logo.jpg">
+  
+
+	<meta name="description" content="저희 프로젝트의 프론트엔드 개발은 리액트를 기반으로 구현되었고 상태관리를 위해 리액트 쿼리 외에 다른 상태관리 라이브러리를 사용하지 않고 있습니다. 이 글에서는 저희가 왜 리액트 쿼리 라이브러리를 사용하기로 선택했는지, 그리고 정확히 어느 부분에서 어떤 전략에 따라 비동기 상태관리를 수행했는지를 다뤄보고자 합니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/pick-git-logo.jpg alt="리액트 쿼리 개념 정리 및 관련 팁">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">리액트 쿼리 개념 정리 및 관련 팁</h1>
+        <div class="page-date"><span>2021, Aug 11&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p><br /></p>
+<h1 id="왜-react-query-를-사용하는가">왜 React Query 를 사용하는가?</h1>
+
+<h2 id="ux-와-dx의-향상">UX 와 DX의 향상</h2>
+
+<h3 id="더-적은-코드와-더-많은-편의-기능">더 적은 코드와 더 많은 편의 기능</h3>
+
+<p>리액트 쿼리를 쓰지 않고 리액트만으로 비동기 처리를 구현하기 위해서 우리는 보통 아래와 같은 코드를 작성합니다.</p>
+
+<p><br /></p>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">usePosts</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">state</span><span class="p">,</span> <span class="nx">setState</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useReducer</span><span class="p">((</span><span class="nx">_</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">action</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">isLoading</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="p">})</span>
+
+  <span class="kd">const</span> <span class="nx">fetch</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">setState</span><span class="p">({</span> <span class="na">isLoading</span><span class="p">:</span> <span class="kc">true</span> <span class="p">})</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/api/posts</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+      <span class="nx">setState</span><span class="p">({</span> <span class="na">isSuccess</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">data</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">setState</span><span class="p">({</span> <span class="na">isError</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">error</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">React</span><span class="p">.</span><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fetch</span><span class="p">()</span>
+  <span class="p">},</span> <span class="p">[])</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="p">...</span><span class="nx">state</span><span class="p">,</span>
+    <span class="nx">fetch</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>단순히 서버로부터 가져온 데이터만을 가져오는 것이 아니라 로딩, 에러에 대한 처리 또한 수행하기 위해선 데이터를 fetch 하는 것 외에도 다른 코드들이 필요합니다. 게다가 컴포넌트가 화면에 나타남과 동시에 데이터 요청이 일어나게 만드려면 useEffect 훅 안에 데이터를 불러오는 작업도 수행해야 할 것입니다.</p>
+
+<p><br /></p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">usePosts</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">useQuery</span><span class="p">(</span>
+    <span class="dl">'</span><span class="s1">posts</span><span class="dl">'</span><span class="p">,</span> 
+    <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/api/posts</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>리액트 쿼리는 전의 코드를 위와 같이 엄청나게 줄이면서도 완전히 동일한 일을 수행할 수 있습니다. 리액트 쿼리에서 제공하는 useQuery 메서드는 비동기 요청으로 가져오는 data 외에도 요청 자체와 관련된 수많은 리액트 상태를 리턴하는 커스텀 훅입니다. 단순히 이 훅을 실행시키는 것만으로 데이터 요청 또한 useEffect 를 쓸 필요도 없이 바로 수행되죠.</p>
+
+<p><br /></p>
+
+<h3 id="자동-캐싱-적용">자동 캐싱 적용</h3>
+
+<p>리액트 쿼리가 제공하는 것은 단순히 코드 작성의 편의 뿐만이 아닙니다. 리액트 쿼리를 통해 불러오는 데이터는 모두 자동으로 캐싱됩니다. 이 말은 즉 이용자가 새로 페이지에 접속할 때마다 새로운 요청이 일어나지 않고 이전에 불러왔던 데이터를 그대로 쓸 수 있다는 의미입니다.</p>
+
+<p>물론, Fetch API 를 써서 캐싱을 구현할 수 있는 방법이 있습니다. 바로 브라우저 캐시를 사용하는 방법이죠. 하지만 이를 능숙하게 사용하려면 여러 노력이 필요하고 알아야 할 것도 많습니다. 설령 데이터를 캐싱했다 치더라도, 리액트는 캐싱된 브라우저 데이터를 가져오기 위해 알아서 기다려주지 않습니다. 그래서 결국 캐시된 데이터를 리액트에서 쓰려면 별도의 처리가 다시 필요하게 되죠.</p>
+
+<p><br /></p>
+
+<h3 id="다른-기술들과의-호환">다른 기술들과의 호환</h3>
+
+<p>게다가 리액트 쿼리는 브라우저 캐시가 아닌 메모리 자체에 캐싱 레이어를 두고 리액트가 이를 바로 사용할 수 있게 해줍니다. 리액트 쿼리를 쓰면 브라우저 캐시를 쓰지 않고도 간단하게 캐싱을 활용할 수 있게 되는 것이죠. 이는 리액트 쿼리 내부엔 단순히 비동기 처리만이 수행되고 있을 뿐이라는 것을 의미합니다. 그렇기 때문에 GraphQL, SSR 관련 프레임워크들과 같은 다양한 기술들과 함께 쓰일 수 있죠.</p>
+
+<p><br />
+<br /></p>
+
+<h1 id="리액트-쿼리-컨셉트">리액트 쿼리 컨셉트</h1>
+
+<h2 id="쿼리-라이프-사이클">쿼리 라이프 사이클</h2>
+
+<h3 id="mount-되었을-때">mount 되었을 때</h3>
+
+<ul>
+  <li>useQuery 혹은 useInfiniteQuery 가 실행되서 쿼리 인스턴스가 마운트된다.</li>
+  <li>콜백함수로 넘겨진 비동기 요청이 수행된다.</li>
+  <li>요청에 대한 응답 데이터가 queryKey 를 바탕으로 캐싱된다.</li>
+  <li>캐싱된 데이터는 fresh 상태를 지닌다.</li>
+  <li>staleTime(기본값 0) 이 지난다면 fresh 상태에서 stale 상태로 변경된다.</li>
+  <li>stale 상태가 되었다면 윈도우 focus 가 갱신되거나 기타 설정된 다른 트리거에 의해 데이터 요청을 한번 더 수행한다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="unmount-되었을-때">unmount 되었을 때</h3>
+
+<ul>
+  <li>cacheTime(기본값 5분) 만큼 기존에 캐싱된 데이터가 유지됨.</li>
+  <li>cacheTime 이 지나지 않은 상태에서 다시 쿼리가 mount 된다면 기존에 캐시된 데이터를 그대로 사용함. 이때 staleTime 이 지났느냐 지나지 않았느냐에 따라 서버에 데이터를 재요청할지 안할지를 결정한다. 재요청해서 데이터가 갱신되면 렌더링 결과에도 갱신된 데이터가 반영된다.</li>
+  <li>cacheTime 이 지났다면 GC를 통해 캐시된 데이터를 지운다. 따라서 쿼리 마운트 되었을 때 캐싱된 데이터 없이 라이프 사이클이 번복된다.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="쿼리-인스턴스의-상태">쿼리 인스턴스의 상태</h2>
+
+<h3 id="fresh">fresh</h3>
+
+<p>이제 막 쿼리가 마운트된 상태. 이때는 윈도우 포커스 갱신과 같은 데이터 refetch 트리거가 일어나더라도 데이터를 새로 요청하지 않는다.</p>
+
+<p><br /></p>
+
+<h3 id="fetching">fetching</h3>
+
+<p>데이터를 요청을 보냈고 응답을 기다리는 상태</p>
+
+<p><br /></p>
+
+<h3 id="stale">stale</h3>
+
+<p>쿼리 인스턴스가 마운트 된 후 staleTime 이 지나서 refetch 이벤트가 일어난다면 서버에 재요청을 수행하는 상태</p>
+
+<p><br /></p>
+
+<h3 id="inactive">inactive</h3>
+
+<p>쿼리 인스턴스가 언마운트된 상태를 의미(주로 useQuery, useInfiniteQuery 가 쓰인 컴포넌트가 unmount 되었을 때)</p>
+
+<p><br /></p>
+
+<h2 id="기본-설정">기본 설정</h2>
+
+<h3 id="쿼리-데이터를-재요청하는-경우">쿼리 데이터를 재요청하는 경우</h3>
+
+<ul>
+  <li>새로운 쿼리 인스턴스가 마운트 되었을 때</li>
+  <li>윈도우가 포커싱 되었을 때</li>
+  <li>인터넷이 끊겼다가 다시 접속 되었을 때</li>
+  <li>설정된 refetch 간격에 따라 데이터를 다시 재요청함</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="데이터-요청-실패시-재시도">데이터 요청 실패시 재시도</h3>
+
+<ul>
+  <li>요청이 실패하면 기본으로 3번 재요청을 시도한다.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h1 id="리액트-쿼리를-활용한-캐싱">리액트 쿼리를 활용한 캐싱</h1>
+
+<h2 id="querykey">queryKey</h2>
+
+<h3 id="querykey-역할과-원리">queryKey 역할과 원리</h3>
+
+<p>리액트 쿼리는 useQuery 로 생성되는 쿼리 데이터들을 모두 캐싱합니다. 그렇다면 캐싱된 데이터에 다른 컴포넌트가 접근해서 해당 컴포넌트도 마찬가지로 서버에 별도의 추가 요청을 해주지 않는 것이 좋겠죠. 이미 캐싱된 쿼리의 queryKey 와 동일한 queryKey 를 사용하는 useQuery 문이 있다면, 이미 캐싱된 쿼리 데이터가 사용됩니다.</p>
+
+<p>이것이 가능한 이유는 리액트 쿼리가 생성하는 전역 싱글턴 객체 덕분입니다. 캐싱된 데이터를 객체 안에 키와 함께 담고, useQuery 를 통해 데이터를 사용할 때는 키를 통해 접근하는 것이죠. 리액트 쿼리 버전 2까지는 내부적으로 Context API 를 사용하지 않습니다. 하지만 버전 3부터는 하나가 아닌 여러 개의 리액트 쿼리 클라이언트를 사용할 수 있게 하기 위해서 Context API 를 활용하고 있습니다.</p>
+
+<p>queryKey 는 또한 단순히 쿼리 인스턴스들을 구분하기 위해서만 존재하는 것이 아닙니다. 배열 형태의 쿼리키를 쓰게 되면 두번째 인자부터는 useQuery 나 useInfinteQuery 에서 사용할 수 있는 매개변수가 됩니다.</p>
+
+<p><br /></p>
+
+<h3 id="querykey-의-사용">queryKey 의 사용</h3>
+
+<p>쿼리 키는 다른 쿼리와 해당 쿼리를 구분지어 주는 역할을 담당합니다. 따라서 동적으로 생성되는 컴포넌트 내부에는 컴포넌트마다 다른 queryKey 를 가져야 하기 때문에 query key 또한 동적으로 적용되는 것이 필요할 것입니다.</p>
+
+<p><br /></p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">userQuery</span><span class="p">(</span><span class="s2">`/api/</span><span class="p">${</span><span class="nx">postId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`/api/posts/</span><span class="p">${</span><span class="nx">postId</span><span class="p">}</span><span class="s2">`</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>위와 같은 방식으로 queryKey 를 줄 수도 있겠지만 더 좋은 방법은 queryKey 를 배열로써 입력하는 것입니다.</p>
+
+<p><br /></p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">userQuery</span><span class="p">([</span><span class="dl">'</span><span class="s1">post</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postId</span><span class="p">],</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`/api/posts/</span><span class="p">${</span><span class="nx">postId</span><span class="p">}</span><span class="s2">`</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>이렇게 하면 두 가지 이점이 있습니다.</p>
+
+<ul>
+  <li>후에 ‘post’ 라는 고정 문자열을 통해 관련된 모든 쿼리 값을 관리할 수 있습니다.</li>
+  <li>좀 더 구조적으로 queryKey 를 만들 수 있습니다.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="querycache">queryCache</h2>
+
+<h3 id="데이터-fetch-전의-초기-데이터-설정">데이터 fetch 전의 초기 데이터 설정</h3>
+
+<p>이전에 리액트 쿼리에서 캐싱된 데이터는 하나의 싱글턴 객체에 저장된다고 언급했습니다. 이 객체에 접근할 수 있는 기능이 바로 queryCache 입니다. 물론 useQuery 만 이용해도 데이터에는 문제 없이 접근할 수 있지만, 새로운 비동기 데이터를 불러오기 전에 이미 캐싱된 데이터를 활용하고 싶을 때가 있을 것입니다. 그때 사용할 수 있는 것이 queryCache 입니다.</p>
+
+<p>대표적인 예시로 들 수 있는 것이 이용자가 여러 게시글 중 하나를 클릭해서 해당 게시글의 상세 페이지로 들어갈 때 입니다. 게시글의 상세 내용은 물론 비동기 요청을 통해 받아와야겠지만, 게시글 제목, 간략한 summary 데이터 등은 이미 게시글 목록 페이지에서 이미 캐싱했을 가능성이 높습니다. 따라서 게시글 상세 데이터를 불러오는 와중에 이용자에게는 일부의 게시글 정보를 보여줄 수 있는 것이죠.</p>
+
+<p><br /></p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">useQuery</span><span class="p">(</span>
+  <span class="p">[</span><span class="dl">'</span><span class="s1">posts</span><span class="dl">'</span><span class="p">,</span> <span class="nx">postId</span><span class="p">],</span>
+  <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`/api/posts/</span><span class="p">${</span><span class="nx">postId</span><span class="p">}</span><span class="s2">`</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span> <span class="p">{</span>
+    <span class="na">initialData</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span> 
+      <span class="k">return</span> <span class="nx">queryCache</span><span class="p">.</span><span class="nx">getQueryData</span><span class="p">(</span><span class="dl">'</span><span class="s1">posts</span><span class="dl">'</span><span class="p">)?.</span><span class="nx">find</span><span class="p">(</span><span class="nx">d</span> <span class="o">=&gt;</span> <span class="nx">d</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="nx">postId</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="na">initialStale</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>해당 기능은 위의 코드로 구현할 수 있습니다. queryCache.getQueryData 메서드를 통해 이미 존재하는 캐시된 데이터에 접근해서 요청이 완료되기 까지의 placeholder 로 삼습니다. 이때 요청에 대한 응답이 도착했을 때 기존의 placeholder 데이터를 대체시키도록 만들기 위해서는 initialStale 값을 true 로 설정해야 합니다.</p>
+
+<p><br /></p>
+
+<h2 id="query-invalidation">Query Invalidation</h2>
+
+<p>서버 상태의 일부를 mutation 을 통해 수정했을 때 해당 변경사항이 어플리케이션 상에서 캐시된 데이터에도 자동으로 반영되는 것은 아닙니다. 서버 상의 데이터를 mutation 을 통해 업데이트 시킨 후에는 그렇게 해서 변경된 상태를 실제 캐싱된 데이터 상에도 반영하는 작업이 별도로 필요합니다. 이를 refetch 를 통해 데이터를 모두 갱신할 수 있지만 그렇게 하면 당장 필요 없는 데이터까지 갱신할 수 있기 때문에 비효율적입니다.</p>
+
+<p>그것보다는 관련 있는 쿼리 인스턴스들의 상태를 stale 로 바꿔주는 것이 좋을 것입니다. 해당 데이터를 사용하려고 하는 시점에 자동으로 refetch 가 일어나도록 만들 수 있기 때문입니다. 이를 Invalidation 이라고 부르며 queryClient.invalidateQueries 메서드를 통해 수행할 수 있습니다.</p>
+
+<p><br /></p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=리액트 쿼리 개념 정리 및 관련 팁&url=https://2021-pick-git.github.io//%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%EB%B0%8F-%EA%B4%80%EB%A0%A8-%ED%8C%81/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%EB%B0%8F-%EA%B4%80%EB%A0%A8-%ED%8C%81/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BF%BC%EB%A6%AC-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%EB%B0%8F-%EA%B4%80%EB%A0%A8-%ED%8C%81/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#프론트엔드" class="tag">&#35; 프론트엔드</a>
+          
+            <a href="/tags#리액트 쿼리" class="tag">&#35; 리액트 쿼리</a>
+          
+            <a href="/tags#비동기 상태관리" class="tag">&#35; 비동기 상태관리</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
