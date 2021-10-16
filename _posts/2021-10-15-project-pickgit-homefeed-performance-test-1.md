@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 태그 검색 성능 테스트 경험기_1
+title:  홈피드 조회 성능 테스트 경험기_1
 date: 2021-10-15 13:32:20 +0300
-description: 태그 검색 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다.  
+description: 홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다. 
 img: performance-test.jpeg
 tags: [백엔드, Database, 성능테스트]
 ---
@@ -11,8 +11,8 @@ tags: [백엔드, Database, 성능테스트]
 
 - 진행 중인 [프로젝트](https://github.com/woowacourse-teams/2021-pick-git)에서 구현한 웹 어플리케이션이 어느 정도의 부하를 견딜 수 있는지에 대한 성능테스트를 진행했다. 
 - 프로젝트는 개발자를 타켓으로 한 깃헙 레포지토리를 연동한 게시물을 업로드하여 개발자들이 자신의 작업을 공유하고 다른 이들의 프로젝트를 캐줄얼하게 엿볼 수 있는 SNS형 웹 어플리케이션이다. 
-- 사용자는 각 게시물에 관련된 태그를 남길 수 있고 해당 태그를 기반으로 검색하여 관련 게시물을 찾아볼 수 있다. (비로그인/로그인 모두 가능)
-- 태그를 통해서 관련 게시물을 검색하는 성능테스트를 진행, 병목 지점을 분석하고 개선하는 과정을 따라가보자. 
+- 웹 어플리케이션에 들어가자마자 최신순으로 정렬된 게시물 피드를 볼 수 있다. (비로그인/로그인 모두 가능)
+- 홈피드 게시물 조회 성능테스트를 진행, 병목 지점을 분석하고 개선하는 과정을 따라가보자. 
 
 <br>
 <br>
@@ -100,11 +100,11 @@ tags: [백엔드, Database, 성능테스트]
   - 또한 K6는 문서가 굉장히 깔끔하게 잘 되어 있어 스크립트를 짜거나 테스트 설정을 하는 것이 입문자에게 편하다는 장점이 있었다. 
 
 ### 테스트 스크립트 및 설정 
-- K6는 자바스크립트로 스크립트를 짠다. 
-- 부하 테스트는약 10분간 148 명의 vuser로 진행했다. 
+- K6는 자바스크립트로 테스트 스크립트를 짠다. 
+- 부하 테스트는 약 10분간 148 명의 vuser로 진행했다. 
   - 본래 30분 이상을 하기를 권장하지만 시간 관계상 10분만 진행하고 빠르게 결과를 분석하기로 했다. 
 - 스크립트 
-  - 3개의 태그를 랜덤으로 골라 get 요청을 보낸다. 
+  - 비회원으로 홈 피드 조회 API 요청을 보낸다. 우선 pagination은 0 - 20 고정이다. (추후 랜덤 페이지 테스트를 진행해야한다.)
   - 응답코드가 200 인지 확인한다. 
 
     ```javascript
@@ -120,14 +120,8 @@ tags: [백엔드, Database, 성능테스트]
 
     export default function () {
 
-    var tags = ['java', 'javascript', 'spring'];
-
     const url = new URL('https://test-pick-git.o-r.kr/api/posts');
 
-    const index = randomIntBetween(0, 2);
-
-    url.searchParams.append('type', 'tags');
-    url.searchParams.append('keyword', tags[index]);
     url.searchParams.append('page', 0);
     url.searchParams.append('limit', 10);
 
