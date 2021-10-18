@@ -337,7 +337,7 @@ left outer join
 where
     post0_.id < ${'foo-post-id'}
 order by
-    post0_.created_at desc limit 10;
+    post0_.id desc limit 10;
 ```
 
 ![image](https://user-images.githubusercontent.com/56240505/137623472-d95c3feb-df9e-4d7a-93a1-8cc59c255ebc.png)
