@@ -146,8 +146,6 @@ tags: [백엔드, Database, 성능테스트]
 
     <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137442374-21e53603-b1d6-4505-9290-9bc65dfc1d38.png"></p>
 
-    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137442700-d1806f69-4ac2-4a15-981a-a42d0555f67b.png"></p>
-
   - WAS2에 대한 CPU idle 비율이 100% 이므로 해당 WAS가 동작하지 않은 것을 알아내었다. 확인해보니 어플리케이션이 종료되어 있었다. 테스트 진행시간이 5분정도 경과되었을 때 was2에 어플리케이션을 띄웠고 테스트는 그대로 계속 진행했다. 
 
 - 테스트 결과 
