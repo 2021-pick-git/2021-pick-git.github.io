@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 서비스 성능 개선 - MySQL Optimizer 실행 계획 분석을 기반으로
+title: Spring Data Elasticsearch 설정 및 검색 기능 구현
 date: 2021-10-18 13:00::38 +0900
 description: 실행 계획 분석을 통해 서비스의 성능을 개선해보자.
 img: elasticsearch-logo.png
