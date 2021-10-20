@@ -204,8 +204,8 @@ ElasticsearchClient 구현체는 리액티브 지원 여부 등에 따라 종류
 
 > application.properties
 
-```yml
-logging.level.org.springframework.data.elasticsearch.client.WIRE: TRACE
+```properties
+logging.level.org.springframework.data.elasticsearch.client.WIRE=TRACE
 ```
 
 Spring Data Elasticsearch가 제대로 동작하는지 확인하고 싶다면, 위 로거를 등록합니다.
@@ -417,7 +417,7 @@ User 클래스를 위해 생성한 JPA용 Repository와 Elasticsearch용 Reposit
 
 > application.properties
 
-```yml
+```properties
 spring.main.allow-bean-definition-overriding=true
 ```
 
