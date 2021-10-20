@@ -40,7 +40,7 @@ Bastion 서버에 대한 구성 방법은 [Bastion 서버 구성](https://xlffm3
 
 ## 3. Product 환경
 
-![image](https://user-images.githubusercontent.com/56240505/136949206-8d0361dc-c23d-4fbd-aec1-190bc9df4e87.png)
+![image](https://user-images.githubusercontent.com/56240505/137874986-81cd5840-8b69-4b4d-8b89-b1b3d8d08341.png)
 
 서비스 초기에는 웹 서버(Product Reverse Proxy)에 프론트엔드 정적 파일을 배포한 다음, 정적 파일 요청은 웹 서버가 처리하고 동적인 컨텐츠 요청은 뒷단의 WAS로 요청을 위임해 처리하도록 구성했었습니다.
 
@@ -54,13 +54,13 @@ Product Reverse Proxy 주소는 TLS 적용 및 Product API 서버 도메인 주�
 
 Write 작업은 Master Node가 담당하고 Read 작업은 Slave Node가 담당함으로써 DB 서버 부하를 분산시킬 수 있습니다. 어플리케이션에서 DB 부하로 인한 병목 현상이 서비스 장애의 주 원인인데, 이를 개선하는데 도움이 됩니다.
 
-이미지 업로드 요청 API의 경우 Product WAS가 S3로 이미지를 업로드합니다.
+이미지 업로드 요청 API의 경우 Product WAS가 S3로 이미지를 업로드합니다. 아울러 유저 검색 등의 기능을 위해 Elasticsearch를 사용 중입니다.
 
 <br>
 
 ## 4. Test 환경
 
-![image](https://user-images.githubusercontent.com/56240505/136949287-597f512d-d9ac-4ed3-a70b-c3b1d47a78af.png)
+![image](https://user-images.githubusercontent.com/56240505/138044839-a31d96c5-1092-4802-811d-968d376b6fd2.png)
 
 Test 환경은 백엔드 API와 시나리오에 대한 Load & Stress Test 수행 및 성능 진단을 목적으로 생성했습니다. 최대한 Product 환경과 유사하게 구성했으며, nGrinder 서버를 통해 테스트를 진행합니다.
 
@@ -80,7 +80,7 @@ nGrinder를 활용한 부하 및 스트레스 테스트에 대한 상세한 내�
 
 ## 5. Develop 환경
 
-![image](https://user-images.githubusercontent.com/56240505/136949303-9e2205e4-c9df-41dc-9695-04eba8e6c2b8.png)
+![image](https://user-images.githubusercontent.com/56240505/138045032-74387a03-d7a6-4d1e-a7a9-ce99b887880f.png)
 
 Develop 환경의 경우 주로 개발 과정에서 프론트엔드 및 백엔드 기능들이 유기적으로 잘 연동되는지 등을 확인하는 역할입니다. 웹 서버(Develop Reverse Proxy)에 프론트엔드 정적 파일을 배포합니다.
 
