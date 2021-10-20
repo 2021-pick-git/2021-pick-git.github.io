@@ -165,7 +165,7 @@
 
 <h2 id="3-product-환경">3. Product 환경</h2>
 
-<p><img width="1440" alt="스크린샷 2021-10-04 오후 5 52 21" src="https://user-images.githubusercontent.com/56240505/135822109-80b3fd80-7bc7-4cd7-9ca3-17316ef6d905.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/56240505/136949206-8d0361dc-c23d-4fbd-aec1-190bc9df4e87.png" alt="image" /></p>
 
 <p>서비스 초기에는 웹 서버(Product Reverse Proxy)에 프론트엔드 정적 파일을 배포한 다음, 정적 파일 요청은 웹 서버가 처리하고 동적인 컨텐츠 요청은 뒷단의 WAS로 요청을 위임해 처리하도록 구성했었습니다.</p>
 
@@ -185,7 +185,7 @@
 
 <h2 id="4-test-환경">4. Test 환경</h2>
 
-<p><img width="1440" alt="스크린샷 2021-10-04 오후 5 52 29" src="https://user-images.githubusercontent.com/56240505/135822119-2c90d5ae-3b28-401c-8a3e-2945a62d91c7.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/56240505/136949287-597f512d-d9ac-4ed3-a70b-c3b1d47a78af.png" alt="image" /></p>
 
 <p>Test 환경은 백엔드 API와 시나리오에 대한 Load &amp; Stress Test 수행 및 성능 진단을 목적으로 생성했습니다. 최대한 Product 환경과 유사하게 구성했으며, nGrinder 서버를 통해 테스트를 진행합니다.</p>
 
@@ -207,13 +207,19 @@
 
 <h2 id="5-develop-환경">5. Develop 환경</h2>
 
-<p><img width="1440" alt="스크린샷 2021-10-04 오후 5 52 36" src="https://user-images.githubusercontent.com/56240505/135822132-dd2a4651-009c-4f25-9bd7-ad3b1f2013b6.png" /></p>
+<p><img src="https://user-images.githubusercontent.com/56240505/136949303-9e2205e4-c9df-41dc-9695-04eba8e6c2b8.png" alt="image" /></p>
 
 <p>Develop 환경의 경우 주로 개발 과정에서 프론트엔드 및 백엔드 기능들이 유기적으로 잘 연동되는지 등을 확인하는 역할입니다. 웹 서버(Develop Reverse Proxy)에 프론트엔드 정적 파일을 배포합니다.</p>
 
 <p><br /></p>
 
-<h2 id="6-sonarqube">6. SonarQube</h2>
+<h2 id="6-ci--cd-pipeline">6. CI / CD Pipeline</h2>
+
+<p><img src="https://user-images.githubusercontent.com/56240505/136949529-23159b90-292e-497f-b36b-a01266c3f230.png" alt="image" /></p>
+
+<p>전반적인 CI / CD Pipeline 플로우입니다. 하나씩 자세히 살펴보겠습니다.</p>
+
+<h2 id="61-sonarqube-pipeline">6.1. SonarQube Pipeline</h2>
 
 <p><img src="https://user-images.githubusercontent.com/56240505/135635587-432966df-eab7-4e13-960b-7f4dc87b8c2a.png" alt="image" />
 <img src="https://user-images.githubusercontent.com/56240505/135635724-9a3ab678-cbc1-4e5c-a7fc-1c9103bc51f2.png" alt="image" /></p>
@@ -226,7 +232,7 @@
 
 <p><br /></p>
 
-<h2 id="7-cicd-pipeline">7. CI/CD Pipeline</h2>
+<h2 id="62-deploy-pipeline">6.2. Deploy Pipeline</h2>
 
 <p><img src="https://user-images.githubusercontent.com/56240505/135314865-ed0d7176-baf3-4a5a-88ca-7359732668b6.png" alt="image" />
 <img src="https://user-images.githubusercontent.com/56240505/135314932-00405217-7c00-40cd-a174-8c33bdd24e4e.png" alt="image" /></p>
@@ -237,7 +243,7 @@
 
 <p><br /></p>
 
-<h2 id="8-마치며">8. 마치며</h2>
+<h2 id="7-마치며">7. 마치며</h2>
 
 <p><img src="https://user-images.githubusercontent.com/56240505/135315783-f42a9cd5-d2e8-46a8-af6a-cace24dfba31.png" alt="image" />
 <img src="https://user-images.githubusercontent.com/56240505/135315820-a708bd5c-7de0-4d62-9d54-645d3b475f7e.png" alt="image" />
@@ -254,7 +260,7 @@
 
 <hr />
 
-<h2 id="reference">Reference</h2>
+<h2 id="references">References</h2>
 
 <ul>
   <li><a href="https://techblog.woowahan.com/2572/">결제 시스템 성능, 부하, 스트레스 테스트</a></li>
