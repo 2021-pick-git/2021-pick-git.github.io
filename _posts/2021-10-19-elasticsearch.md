@@ -417,7 +417,7 @@ User 클래스를 위해 생성한 JPA용 Repository와 Elasticsearch용 Reposit
 
 > application.properties
 
-```properties
+```yml
 spring.main.allow-bean-definition-overriding=true
 ```
 
