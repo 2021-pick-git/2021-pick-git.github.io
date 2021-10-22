@@ -13,7 +13,7 @@ tags: [백엔드, Network, Nginx, HTTP 2.0]
 
 - 필자는 Docker로 Nginx를 구성했다.
 - 따라서, 이어지는 과정은 Docker를 기반으로 진행된다.
-- (추가) [덧붙임](https://da-nyee.github.io/posts/network-how-to-set-up-nginx-with-http2.0/#%EB%8D%A7%EB%B6%99%EC%9E%84)에 Nginx를 직접 컴파일하는 경우에 대한 정보를 적어뒀다.
+- (추가) [덧붙임](http://tech.pick-git.com/how-to-set-up-nginx-with-http2.0/#%EB%8D%A7%EB%B6%99%EC%9E%84)에 Nginx를 직접 컴파일하는 경우에 대한 정보를 적어뒀다.
 
 <br/>
 
