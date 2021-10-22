@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>홈피드 조회 성능 테스트 경험기_1 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="홈피드 조회 성능 테스트 경험기_1" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-1/" property="og:url">
+  
+  
+    <meta content="2021-10-15T19:32:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/performance-test.jpeg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="Database" property="article:tag">
+    
+    <meta content="성능테스트" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="홈피드 조회 성능 테스트 경험기_1">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-1/">
+  
+  
+    <meta name="twitter:description" content="홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/performance-test.jpeg">
+  
+
+	<meta name="description" content="홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/performance-test.jpeg alt="홈피드 조회 성능 테스트 경험기_1">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">홈피드 조회 성능 테스트 경험기_1</h1>
+        <div class="page-date"><span>2021, Oct 15&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="-intro">💡 Intro</h2>
+
+<ul>
+  <li>진행 중인 <a href="https://github.com/woowacourse-teams/2021-pick-git">프로젝트</a>에서 구현한 웹 어플리케이션이 어느 정도의 부하를 견딜 수 있는지에 대한 성능테스트를 진행했다.</li>
+  <li>프로젝트는 개발자를 타켓으로 한 깃헙 레포지토리를 연동한 게시물을 업로드하여 개발자들이 자신의 작업을 공유하고 다른 이들의 프로젝트를 캐줄얼하게 엿볼 수 있는 SNS형 웹 어플리케이션이다.</li>
+  <li>웹 어플리케이션에 들어가자마자 최신순으로 정렬된 게시물 피드를 볼 수 있다. (비로그인/로그인 모두 가능)</li>
+  <li>홈피드 게시물 조회 성능테스트를 진행, 병목 지점을 분석하고 개선하는 과정을 따라가보자.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-사전-작업">🌩 사전 작업</h2>
+
+<h3 id="테스트-더미-데이터-입력">테스트 더미 데이터 입력</h3>
+<ul>
+  <li>테스트를 진행하기 위해서는 실제 운영환경과 최대한 유사한 환경에서 테스트하는 것이 중요하다.</li>
+  <li>운영환경과 유사한 환경이라고 하면 크게 1) 인프라 구조 2) 데이터 두 가지가 있다.</li>
+  <li>먼저 대량의 더미 데이터를 입력하도록 한다. (팀원 케빈이 수고해주었다 !! 👍)</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> * 테스트 데이터 : 게시물 100만 / 유저 20만
+ *                 태그 10만 (1개당 게시물 10개)
+ *                 댓글 100만 (게시물당 1개)
+ *
+ * 테스트 용이성을 위해 유저 1명 이름은 tester로 명명해 저장
+ * 테스트 용이성을 위해 태그 3개 이름은 java, javascript, spring로 명명해 저장
+</code></pre></div></div>
+
+<h3 id="mariadb-쿼리-캐시-끄기">MariaDB 쿼리 캐시 끄기</h3>
+<ul>
+  <li>왜 쿼리 캐시를 껐을까?
+    <ul>
+      <li>실제 어플리케이션에서는 query cache 설정이 켜져있음에도 불구하고 cache 설정을 끈 이유는 실제 환경에서는 많은 유저들이 여러 태그를 검색하여 매번 다양한 쿼리가 실행되지만 테스트 환경에서는 3개의 태그를 랜덤으로 실행하기 때문에 캐시 적중률이 실제 환경보다 높다. 따라서 db 쿼리캐시를 꺼서 최대한 실제 환경과 맞춰주도록 한다.</li>
+      <li>참고로 MySQL 8.0 부터는 쿼리 캐시 기능이 꺼져있다고 한다.</li>
+      <li>또한 여전히 os 측에서 하는 memory 캐시 영향이 있지만 제어하기 어려운 부분이므로 우선 넘어가도록 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>쿼리 캐시 확인</p>
+</blockquote>
+
+<p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137438052-8604eb7d-a892-4a2b-9ca2-064ef832743b.png" /></p>
+
+<p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137438572-2c20b02c-9cfb-4556-a9b8-ae362209423b.png" /></p>
+
+<ul>
+  <li>MariaDB config 파일에서 cache size를 0으로 설정한다.</li>
+  <li>이후 <code class="language-plaintext highlighter-rouge">sudo service mysqld restart</code> 로 DB를 재구동시킨다.</li>
+</ul>
+
+<blockquote>
+  <p>변경 후 적용 확인</p>
+</blockquote>
+
+<p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137438718-ba0973ee-3037-4729-b1cb-ef2d2fe43354.png" /></p>
+
+<h3 id="mariadb-slow-query-로그-설정하기">MariaDB slow query 로그 설정하기</h3>
+<ul>
+  <li>오래 걸리는 쿼리에 대한 로그를 남겨 특정 쿼리로 인한 병목이 있는지 확인할 수 있도록 설정한다.</li>
+  <li>단위는 1초 이상 걸리는 쿼리에 대한 로그를 남기는 것으로 했다.</li>
+</ul>
+
+<blockquote>
+  <p>Slow query 적용 중인지 확인</p>
+</blockquote>
+
+<p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137438832-c3b085d0-8143-4974-8045-829455f6fbe7.png" /></p>
+
+<ul>
+  <li>Slow 쿼리 설정 적용 하기
+    <ul>
+      <li>slow_query_log = 1 부터 long_query_time 까지 적용</li>
+      <li>적용 후 <code class="language-plaintext highlighter-rouge">sudo service mysqld restart</code> 로 재시작</li>
+    </ul>
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137438852-19161fd9-ac7b-4948-bdb3-0df7991bbf6f.png" /></p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>Slow query 설정 후 확인</p>
+</blockquote>
+
+<p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137439074-ff7ed9e9-0ff8-454b-b471-1634454ca3bf.png" /></p>
+
+<ul>
+  <li>
+    <p>제대로 적용되었는지 확인하기 위해서 5초 이상 걸리는 쿼리를 실행하고 로그파일 경로의 <code class="language-plaintext highlighter-rouge">mariadb-slow.log</code>에 대항 쿼리에 대한 로그가 남았는지 확인해보자.</p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137439218-aa74256f-24e3-40c8-9351-03f83fda8a6b.png" /></p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137439229-266c8c68-1626-43b6-a481-c99b245c6b20.png" /></p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137439238-f496e3bf-41fc-4c2a-afdc-5008d843c634.png" /></p>
+  </li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-테스트-진행하기">🌩 테스트 진행하기</h2>
+
+<h3 id="테스트-환경">테스트 환경</h3>
+
+<p>테스트를 위해 구축한 테스트 환경은 다음과 같다.</p>
+<ul>
+  <li>WAS 2대가 각각 AWS EC2 Medium 사양으로 실행중이다.</li>
+  <li>AWS EC2 Medium 사양으로 Reverse Proxy가 있으며 Load balancer 역할을 하면 ssl 적용이 되어 있다.</li>
+  <li>데이터 베이스는 AWS EC2 Medium에 MariaDB로 3대가 연결되어 있다.
+    <ul>
+      <li>Master DB 1개, Slave DB 2대로 replication이 적용되어 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>테스트 툴은 K6로 진행한다.</p>
+<ul>
+  <li>AWS EC2 Medium 에 K6 테스트 서버를 구축했다.</li>
+  <li>왜 K6일까?
+    <ul>
+      <li>사실 팀 차원에서 하는 테스트 툴은 <a href="https://naver.github.io/ngrinder/#:~:text=nGrinder%20is%20a%20platform%20for,inconveniences%20and%20providing%20integrated%20environments">Ngrinder</a> 이다.</li>
+      <li>하지만 AWS 권한 제한으로 인해 controller와 agent를 별도의 EC2로 분리하지 못했다. (그것 때문인지는 모르겠지만 간혹 랜덤하게 K6와 동일한 테스트를 돌렸을 때 결과가 매우 다르게 나올때도 있었다…) ngrinder는 반드시 분리하도록 권장하기 때문에 혹시 모를 영향을 최소화 하기 위해서 나는 K6에서 진행하였다.</li>
+      <li>또한 K6는 문서가 굉장히 깔끔하게 잘 되어 있어 스크립트를 짜거나 테스트 설정을 하는 것이 입문자에게 편하다는 장점이 있었다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="테스트-스크립트-및-설정">테스트 스크립트 및 설정</h3>
+<ul>
+  <li>K6는 자바스크립트로 테스트 스크립트를 짠다.</li>
+  <li>부하 테스트는 약 10분간 148 명의 vuser로 진행했다.
+    <ul>
+      <li>본래 30분 이상을 하기를 권장하지만 시간 관계상 10분만 진행하고 빠르게 결과를 분석하기로 했다.</li>
+    </ul>
+  </li>
+  <li>스크립트
+    <ul>
+      <li>비회원으로 홈 피드 조회 API 요청을 보낸다. 우선 pagination은 0 - 20 고정이다. (추후 랜덤 페이지 테스트를 진행해야한다.)</li>
+      <li>
+        <p>응답코드가 200 인지 확인한다.</p>
+
+        <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">http</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">k6/http</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">URL</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">https://jslib.k6.io/url/1.0.0/index.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">check</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">k6</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">randomIntBetween</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">https://jslib.k6.io/k6-utils/1.1.0/index.js</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">let</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+<span class="na">vus</span><span class="p">:</span> <span class="mi">148</span><span class="p">,</span>
+<span class="na">duration</span><span class="p">:</span> <span class="dl">'</span><span class="s1">600s</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URL</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://test-pick-git.o-r.kr/api/posts</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">url</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="dl">'</span><span class="s1">page</span><span class="dl">'</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nx">url</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="dl">'</span><span class="s1">limit</span><span class="dl">'</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+
+<span class="nx">check</span><span class="p">(</span><span class="nx">res</span><span class="p">,</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">is status 200</span><span class="dl">'</span><span class="p">:</span> <span class="p">(</span><span class="nx">r</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">r</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>성능 테스트를 진행하면서 서버의 상태를 관리하기 위해 각각 WAS 2대, DB 2대에 대한 상태를 출력하고 모니터링 했다.</li>
+  <li><code class="language-plaintext highlighter-rouge">vmstat 1 -Sm</code> 와 <code class="language-plaintext highlighter-rouge">top</code> 명령어를 통해 프로세스의 상태, CPU 상태, 스왑 발생 여부, load average 등을 확인했다.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-테스트-진행하기-1">🌩 테스트 진행하기</h2>
+
+<h3 id="첫번째-테스트---was-오류">첫번째 테스트 - WAS 오류</h3>
+<ul>
+  <li>
+    <p>WAS 및 DB 모니터링: 왼쪽 위 부터 시계 방향으로 <code class="language-plaintext highlighter-rouge">was1</code> → <code class="language-plaintext highlighter-rouge">was2</code> → <code class="language-plaintext highlighter-rouge">slaveDB2</code> → <code class="language-plaintext highlighter-rouge">slaveDB1</code></p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137442374-21e53603-b1d6-4505-9290-9bc65dfc1d38.png" /></p>
+
+    <ul>
+      <li>WAS2에 대한 CPU idle 비율이 100% 이므로 해당 WAS가 동작하지 않은 것을 알아내었다. 확인해보니 어플리케이션이 종료되어 있었다. 테스트 진행시간이 5분정도 경과되었을 때 was2에 어플리케이션을 띄웠고 테스트는 그대로 계속 진행했다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>테스트 결과</p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137442922-2b3148e4-d243-480e-b442-3ea3a5168eb4.png" /></p>
+  </li>
+  <li>DB의 경우 OS메모리 캐싱이 되므로 DISK I/O는 발생하지 않았다.</li>
+  <li>다만 비효율적인 쿼리에 의해 CPU 과부하가 걸리는 것을 확인할 수 있었다.
+    <ul>
+      <li>맨 왼쪽 칼럼 <strong>r</strong>(실행 대기 프로세스 수) 수치가 10 정도로 매우 높다.</li>
+      <li>본래 r은 CPU 코어 갯수여야 서버가 잘 돌아가고 있다고 판단한다. (현재 ec2 CPU 코어 개수 2개)</li>
+    </ul>
+  </li>
+  <li>요청 당 실행 시간(http_req_duration) <strong>13.33 초</strong>로 매우 긴 시간이 소요되기에 개선해야 할 점이 명확히 보였다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="두번째-테스트">두번째 테스트</h3>
+<ul>
+  <li>
+    <p>WAS 및 DB 모니터링: 왼쪽 위 부터 시계 방향으로 <code class="language-plaintext highlighter-rouge">was1</code> → <code class="language-plaintext highlighter-rouge">was2</code> → <code class="language-plaintext highlighter-rouge">slaveDB2</code> → <code class="language-plaintext highlighter-rouge">slaveDB1</code></p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137443197-e4a921d2-f0b5-45b8-a8f1-84ce23bf5c94.png" /></p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137443204-86fd6f1b-1f46-4613-bb31-00dc4091bb68.png" /></p>
+
+    <ul>
+      <li>앞 테스트와 동일하게 WAS의 CPU나 I/O 상황은 대체적으로 양호하고 DB 서버에 CPU 과부하가 걸리는 것을 확인할 수 있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>테스트 결과</p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137443363-66ab8e2e-33a6-4cd5-9e59-72354e93c3fc.png" /></p>
+  </li>
+  <li>WAS가 2대였음에도 불구하고 error rate이 줄어든 것 밖에 나아진 부분은 없었다.
+    <ul>
+      <li>요청 실행 시간이나 테스트 갯수 tps 등의 수치가 위와 동일했다.</li>
+    </ul>
+  </li>
+  <li>이것을 통해 알 수 있는 것은 WAS의 성능이 아니라 DB에 의한 성능저하라는 것이다.</li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li>더 명확하게 알아보기 위해 slow query 로그를 확인해 보았다.
+    <ul>
+      <li>
+        <p>로그를 확인해보니 태그를 검색하고 검색 결과인 게시물을 조회하는 쿼리가 1.5 초 정도 소요되는 것을 확인할 수 있었다.</p>
+
+        <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137443674-1307b8ca-3cfa-41c8-ba80-c0e1adf39e12.png" /></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>다음 포스트에서 병목이 생기는 DB 쿼리를 진단하고 개선한 후 결과에 대해서 다룬다.</p>
+</blockquote>
+
+<blockquote>
+  <p>백엔드 코다입니다 🙌</p>
+</blockquote>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=홈피드 조회 성능 테스트 경험기_1&url=https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-1/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-1/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-1/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#Database" class="tag">&#35; Database</a>
+          
+            <a href="/tags#성능테스트" class="tag">&#35; 성능테스트</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>

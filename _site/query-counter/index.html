@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>다이내믹 프록시를 이용한 쿼리 카운팅 적용기 (feat. 캐싱 테스트) - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="다이내믹 프록시를 이용한 쿼리 카운팅 적용기 (feat. 캐싱 테스트)" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="다이내믹 프록시를 이용한 쿼리 카운팅 적용기" property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//query-counter/" property="og:url">
+  
+  
+    <meta content="2021-10-08T13:00:00+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="다이내믹프록시" property="article:tag">
+    
+    <meta content="쿼리카운팅" property="article:tag">
+    
+    <meta content="캐싱테스트" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="다이내믹 프록시를 이용한 쿼리 카운팅 적용기 (feat. 캐싱 테스트)">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//query-counter/">
+  
+  
+    <meta name="twitter:description" content="다이내믹 프록시를 이용한 쿼리 카운팅 적용기">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="다이내믹 프록시를 이용한 쿼리 카운팅 적용기">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/how-to-start.jpg alt="다이내믹 프록시를 이용한 쿼리 카운팅 적용기 (feat. 캐싱 테스트)">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">다이내믹 프록시를 이용한 쿼리 카운팅 적용기 (feat. 캐싱 테스트)</h1>
+        <div class="page-date"><span>2021, Oct 08&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#목차">목차</a></li>
+  <li><a href="#들어가며">들어가며</a></li>
+  <li><a href="#사전-지식">사전 지식</a>
+    <ul>
+      <li><a href="#jdbc와-datasource-동작-과정">JDBC와 DataSource 동작 과정</a></li>
+      <li><a href="#다이내믹-프록시">다이내믹 프록시</a></li>
+    </ul>
+  </li>
+  <li><a href="#쿼리-카운팅-구현">쿼리 카운팅 구현</a></li>
+  <li><a href="#사용-예시">사용 예시</a>
+    <ul>
+      <li><a href="#캐싱-테스트">캐싱 테스트</a></li>
+      <li><a href="#n--1-문제-분석">N + 1 문제 분석</a></li>
+    </ul>
+  </li>
+  <li><a href="#마치며">마치며</a></li>
+</ul>
+
+<p><br /></p>
+
+<p>안녕하세요! 마크입니다 :)</p>
+
+<h1 id="들어가며">들어가며</h1>
+
+<p>주변에서 특정 비즈니스를 수행하면서 몇 개의 쿼리가 날라가는지 직접 확인하는 장면을 많이 봤다.</p>
+
+<p>적어도 필자는 그랬다.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/problem_example.png" width="200" /> </p>
+
+<p>문제는 테스트할 때 위와같이 쿼리가 굉장히 많이 날라가며, 어떤 코드가 몇 개의 쿼리를 날렸는지 파악하기 힘들다.</p>
+
+<p>또한, N + 1 문제와 캐싱 테스트는 쿼리가 얼마나 날라갔는지가 굉장히 중요한 지표가 된다.</p>
+
+<p>필자는 캐싱 테스트를 위해 쿼리 카운터를 구현하게 되었다.</p>
+
+<p><strong>이번 글은 이렇게 특정 시점부터 특정 시점까지 몇 개의 쿼리가 날라가고, 어떤 쿼리가 날라갔는지 쉽게 확인할 수 있는 커스텀 방법을 소개하고자 한다.</strong></p>
+
+<p><strong>핵심을 말하자면, 다이내믹 프록시를 이용하여 DataSource의 <code class="language-plaintext highlighter-rouge">getConnection</code>부분을 프록시로 감싸는 방법이다.</strong></p>
+
+<p><br /></p>
+
+<h1 id="사전-지식">사전 지식</h1>
+<p>본격적으로 시작하기전에 우선 사전 지식 두 가지가 있다.</p>
+
+<ol>
+  <li>JDBC 동작 과정</li>
+  <li>다이내믹 프록시</li>
+</ol>
+
+<p><br /></p>
+
+<h2 id="jdbc와-datasource-동작-과정">JDBC와 DataSource 동작 과정</h2>
+
+<p><br /></p>
+
+<p>🤔 <strong>JDBC와 DataSource 동작 과정은 왜 알아야하는가?</strong></p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/hibernate_jdbc.png" width="600" /><br />출처: https://terasolunaorg.github.io/guideline/5.1.0.RELEASE/en/ArchitectureInDetail/DataAccessJpa.html</p>
+
+<ul>
+  <li>JDBCTemplate, Hibernate등 여러 가지 라이브러리 혹은 프레임워크 <strong>모두 JDBC를 사용하여 DB와 통신을 한다.</strong></li>
+  <li>그리고 <strong>DataSource를 통해 DB 커넥션을 위한 정보와 커넥션을 제공받는다.</strong></li>
+</ul>
+
+<p><strong>결론적으로 JDBC와 DataSource를 통해 커스텀해야 쿼리 카운팅을 할 수 있다.</strong></p>
+
+<p><br /></p>
+
+<p>🤔 <strong>도대체 어떻게 한다는 것인가?</strong></p>
+
+<p>코드를 통해 어느 부분을 커스텀하면 쿼리 카운팅이 가능한지 살펴보자.</p>
+
+<blockquote>
+  <p>DataSourceConfig</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DataSourceConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">UserDao</span> <span class="nf">userDao</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">UserDao</span><span class="o">(</span><span class="n">dataSource</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">DataSource</span> <span class="nf">dataSource</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">DriverManagerDataSource</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DriverManagerDataSource</span><span class="o">();</span>
+        <span class="n">dataSource</span><span class="o">.</span><span class="na">setDriverClassName</span><span class="o">(</span><span class="s">"org.h2.Driver"</span><span class="o">);</span>
+        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUrl</span><span class="o">(</span><span class="s">"jdbc:h2:tcp://localhost/~/toby"</span><span class="o">);</span>
+        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="s">"sa"</span><span class="o">);</span>
+        <span class="n">dataSource</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">""</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">dataSource</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>UserDao</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserDao</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">DataSource</span> <span class="n">dataSource</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">UserDao</span><span class="o">(</span><span class="nc">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">dataSource</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="nc">User</span> <span class="n">user</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="nc">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// DataSource로부터 Connection을 가져옴.</span>
+            <span class="n">conn</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+
+            <span class="c1">// Connection으로부터 Statement를 가져와 SQL 쿼리를 실행한다.</span>
+            <span class="n">ps</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="s">"insert into users(id, name, password) values(?, ?, ?)"</span><span class="o">);</span>
+            <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+            <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+            <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getPassword</span><span class="o">());</span>
+
+            <span class="n">ps</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+            <span class="o">...</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="o">...</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>전형적인 난감한 UserDao 예시이다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p>🤔 <strong>위 코드에서 쿼리 카운팅을 해볼 커스텀할 부분을 찾았는가?</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// DataSource로부터 Connection을 가져옴.</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+
+<span class="c1">// Connection으로부터 Statement를 가져와 SQL 쿼리를 실행한다.</span>
+<span class="n">ps</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="s">"insert into users(id, name, password) values(?, ?, ?)"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>바로 SQL 쿼리가 매개변수로 주어지는 <code class="language-plaintext highlighter-rouge">conn.preparedStatement</code> 메서드 이다.</strong></p>
+
+<p>즉, <strong><code class="language-plaintext highlighter-rouge">DataSource</code>에서 반환하는 <code class="language-plaintext highlighter-rouge">Connection</code>을 프록시로 감싸서 <code class="language-plaintext highlighter-rouge">preparedStatement</code>가 호출될 때 해당 매개변수를 카운팅하면 된다.</strong></p>
+
+<blockquote>
+  <p>아직 어려운가? 걱정말라. 밑에서 커스텀하면서 이해가 될 것이다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="다이내믹-프록시">다이내믹 프록시</h2>
+<p>위에서 언급했듯이 <code class="language-plaintext highlighter-rouge">Connection</code>을 프록시로 감싸야 쿼리 카운팅이 가능하다.</p>
+
+<p><br /></p>
+
+<p>🤔 <strong>다이내믹 프록시 동작 원리</strong></p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/dynamic_proxy_example.png" width="600" /> </p>
+
+<ul>
+  <li>일반적인 프록시와 다르게, 다이내믹 프록시는 모든 요청을 <code class="language-plaintext highlighter-rouge">InvocationHandler</code>에 위임한다.
+    <ul>
+      <li>즉, <code class="language-plaintext highlighter-rouge">sayHello</code>, <code class="language-plaintext highlighter-rouge">sayHi</code>, <code class="language-plaintext highlighter-rouge">sayThankYou</code>등 메서드를 호출하면 리플렉션을 통해 <code class="language-plaintext highlighter-rouge">Method</code>와 <code class="language-plaintext highlighter-rouge">args</code>로 변환되어 <code class="language-plaintext highlighter-rouge">InvocationHandler</code>의 <code class="language-plaintext highlighter-rouge">invoke()</code>에 넘겨진다.</li>
+      <li>부가로직은 기존의 프록시처럼 <code class="language-plaintext highlighter-rouge">InvocationHandler</code>에 정의해두면 된다.</li>
+    </ul>
+  </li>
+  <li><strong>구체적으로 보면 다이내믹 프록시 객체가 클라이언트의 모든 요청을 리플렉션 정보로 변환해서 <code class="language-plaintext highlighter-rouge">InvocationHandler</code> 구현 객체의 <code class="language-plaintext highlighter-rouge">invoke()</code>메서드로 넘긴다.</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">public Object invoke(Object proxy, Method method, Object[] args)</code>
+        <ul>
+          <li>만들어진 다이내믹 프록시는 메서드 요청을 리플렉션을 이용해 메타 데이터를 뽑아내고,</li>
+          <li><code class="language-plaintext highlighter-rouge">Method</code>와 매개변수와 함께 <code class="language-plaintext highlighter-rouge">InvocationHandler.invoke</code>에게 메시지 요청한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<blockquote>
+  <p>더 자세한 내용은 <a href="https://github.com/binghe819/TIL/blob/master/OOP&amp;%EC%84%A4%EA%B3%84/%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4/Dynamic%20Proxy.md">다이내믹 프록시 정리 글</a>을 참고.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p>🤔 <strong>일반적인 프록시도 있는데 왜 다이내믹 프록시를 사용해야하는가?</strong></p>
+
+<blockquote>
+  <p>필자는 처음에 의문이었다. 하지만 구현하면서 의문점을 해결할 수 있었다.</p>
+</blockquote>
+
+<p>프록시의 문제점중 하나는 <strong>부가기능이 필요없는 메서드도 구현해서 타깃으로 위임하는 코드를 일일이 만들어줘야한다는 것이다.</strong></p>
+
+<p>심지어 타깃 인터페이스의 메서드가 추가되거나 변경될 때마다 함께 수정해줘야 한다.</p>
+
+<p>현재 프록시를 통해 커스텀해야하는 인터페이스는 <code class="language-plaintext highlighter-rouge">Connection</code>이다.</p>
+
+<p><strong><a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html">Docs - Connection</a>를 가서 메서드 개수를 보면 알겠지만, 10개가 훌쩍 넘는다.</strong></p>
+
+<p><strong>반면에, 커스텀에 사용되는 메서드는 <code class="language-plaintext highlighter-rouge">prepareStatement</code>메서드 뿐이다.</strong></p>
+
+<p>즉, <strong>관련없는 10개가 넘는 메서드를 모두 위임해주는 코드를 작성해줘야한다.</strong></p>
+
+<p>이런 수고스러움을 해결하기 위해서 다이내믹 프록시를 이용한다.</p>
+
+<p><br /></p>
+
+<h1 id="쿼리-카운팅-구현">쿼리 카운팅 구현</h1>
+<p>이제 본격적으로 쿼리 카운팅을 적용시켜 N + 1 문제를 해결본다.</p>
+
+<p>프록시를 적용하는 것을 큰그림으로 그려보면 다음과 같다.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/proxy_before.png" /><br />적용전 </p>
+
+<p><br /></p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/proxy_after.png" /><br />적용후 </p>
+
+<p><br /></p>
+
+<p><strong>카운트 데이터 객체 구현</strong></p>
+
+<blockquote>
+  <p>Count</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Getter</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Count</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Count</span><span class="o">(</span><span class="kt">long</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Count</span> <span class="nf">countOne</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Count</span><span class="o">(++</span><span class="n">value</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>QueryCounter</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Getter</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">QueryCounter</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">Count</span> <span class="n">count</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">countable</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">QueryCounter</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">countable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Count</span><span class="o">(</span><span class="mi">0L</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startCount</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">countable</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Count</span><span class="o">(</span><span class="mi">0L</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">countOne</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">isCountable</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"[Error] 아직 카운트를 시작하지 않았습니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="na">countOne</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">endCount</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">countable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><a href="https://github.com/binghe819/spring-query-counter/blob/main/src/test/java/com/binghe/querycounter/query_counter/QueryCounterTest.java">QueryCounter 테스트 코드</a></li>
+</ul>
+
+<p><br /></p>
+
+<p><strong>Connection 프록시 구현</strong></p>
+
+<blockquote>
+  <p>ProxyConnectionHandler</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProxyConnectionHandler</span> <span class="kd">implements</span> <span class="nc">InvocationHandler</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Connection</span> <span class="n">connection</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">QueryCounter</span> <span class="n">queryCounter</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ProxyConnectionHandler</span><span class="o">(</span><span class="nc">Connection</span> <span class="n">connection</span><span class="o">,</span> <span class="nc">QueryCounter</span> <span class="n">queryCounter</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">connection</span> <span class="o">=</span> <span class="n">connection</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">queryCounter</span> <span class="o">=</span> <span class="n">queryCounter</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 쿼리 카운팅 (부가 기능 구현)</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="nc">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Throwable</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">queryCounter</span><span class="o">.</span><span class="na">isCountable</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"prepareStatement"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">getConnectionWithCountQuery</span><span class="o">(</span><span class="n">method</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span> <span class="c1">// 핵심 로직 호출 및 반환</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">connection</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span> <span class="c1">// 핵심 로직 호출 및 반환</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 카운트</span>
+    <span class="kd">private</span> <span class="nc">Object</span> <span class="nf">getConnectionWithCountQuery</span><span class="o">(</span><span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+        <span class="kd">throws</span> <span class="nc">InvocationTargetException</span><span class="o">,</span> <span class="nc">IllegalAccessException</span> <span class="o">{</span>
+        <span class="nc">PreparedStatement</span> <span class="n">preparedStatement</span> <span class="o">=</span> <span class="o">(</span><span class="nc">PreparedStatement</span><span class="o">)</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">connection</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Object</span> <span class="n">statement</span> <span class="o">:</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">isQueryStatement</span><span class="o">(</span><span class="n">statement</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"## Query : "</span> <span class="o">+</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">statement</span><span class="o">);</span> <span class="c1">// 추후에 로깅으로 수정 예정</span>
+                <span class="n">queryCounter</span><span class="o">.</span><span class="na">countOne</span><span class="o">();</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">preparedStatement</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// preparedStatement가 호출될 때 해당 매개변수가 String 형식이며, select으로 시작하는 쿼리인지 체크.</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isQueryStatement</span><span class="o">(</span><span class="nc">Object</span> <span class="n">statement</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">statement</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span> <span class="c1">// 매개변수가 String인지 확인</span>
+            <span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">statement</span><span class="o">;</span> 
+            <span class="k">return</span> <span class="n">sql</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"select"</span><span class="o">);</span> 
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>어려워 보이지만, 사실 간단한 코드이다.</p>
+
+<p><strong>다이내믹 프록시를 이용하여 <code class="language-plaintext highlighter-rouge">invoke</code>에 넘어오는 호출 메서드 정보를 바탕으로 <code class="language-plaintext highlighter-rouge">PreparedStatement</code>메서드면 해당 메서드의 매개변수를 뽑아내서 카운팅하는 것이다.</strong></p>
+
+<p><a href="https://github.com/binghe819/spring-query-counter/blob/main/src/main/java/com/binghe/querycounter/query_counter/ProxyConnectionHandler.java">ProxyConnectionHandler - 소스 코드</a></p>
+
+<p><br /></p>
+
+<p><strong>DataSource 프록시 구현</strong></p>
+
+<blockquote>
+  <p>CountDataSource</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountDataSource</span> <span class="kd">implements</span> <span class="nc">DataSource</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">QueryCounter</span> <span class="n">queryCounter</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">DataSource</span> <span class="n">targetDataSource</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CountDataSource</span><span class="o">(</span><span class="nc">QueryCounter</span> <span class="n">queryCounter</span><span class="o">,</span> <span class="nc">DataSource</span> <span class="n">targetDataSource</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">queryCounter</span> <span class="o">=</span> <span class="n">queryCounter</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">targetDataSource</span> <span class="o">=</span> <span class="n">targetDataSource</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Connection</span> <span class="nf">getConnection</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">targetDataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+        <span class="k">return</span> <span class="o">(</span><span class="nc">Connection</span><span class="o">)</span> <span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+            <span class="n">connection</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span>
+            <span class="n">connection</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getInterfaces</span><span class="o">(),</span>
+            <span class="k">new</span> <span class="nf">ProxyConnectionHandler</span><span class="o">(</span><span class="n">connection</span><span class="o">,</span> <span class="n">queryCounter</span><span class="o">)</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="o">...</span> <span class="n">타깃으로</span> <span class="n">위임하는</span> <span class="n">코드</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Connection</code>에 프록시를 설정해주기 위해서 기존의 <code class="language-plaintext highlighter-rouge">DataSource</code>의 프록시 역할을 하는 <code class="language-plaintext highlighter-rouge">CountDataSource</code> 생성해주었다.</p>
+
+<p><a href="https://github.com/binghe819/spring-query-counter/blob/main/src/main/java/com/binghe/querycounter/query_counter/CountDataSource.java">CountDataSource - 소스 코드</a></p>
+
+<p><br /></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">getConnection</code>제외하고는 모든 메서드에 위임하는 코드를 삽입해줘야한다.</p>
+
+  <p>프록시의 단점이기도 하며, 이 부분도 다이내믹 프록시를 사용해도 좋다.</p>
+
+  <p>하지만 필자는 잦은 리플렉션은 성능상 좋지 않고, 메서드의 개수가 적으므로, 이 부분은 일반적인 프록시 패턴을 사용했다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>DataSource 설정</strong></p>
+
+<blockquote>
+  <p>DataSourceConfig</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DataSourceConfig</span> <span class="o">{</span>
+    
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">QueryCounter</span> <span class="nf">queryCounter</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">QueryCounter</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">DataSource</span> <span class="nf">dataSource</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">DataSource</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="nc">DataSourceBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">driverClassName</span><span class="o">(</span><span class="s">"org.h2.Driver"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"jdbc:h2:mem:~/test;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">username</span><span class="o">(</span><span class="s">"SA"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">password</span><span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CountDataSource</span><span class="o">(</span><span class="n">queryCounter</span><span class="o">(),</span> <span class="n">dataSource</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">QueryCount</code>를 통해 몇 번 쿼리가 날라갔는지 확인해야하기에, 빈으로 등록하여 여러 테스트 코드에서 주입받아 사용할 수 있도록 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DataSource</code>는 위에서 만든 프록시 객체 (<code class="language-plaintext highlighter-rouge">CountDataSource</code>)를 반환하도록 설정한다.</p>
+
+<blockquote>
+  <p>가능한 쉽게 코드를 설명할 수 있도록, 쿼리를 로깅하는 기능을 제외했다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>사용법</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">queryCounter</span><span class="o">.</span><span class="na">startCount</span><span class="o">();</span> <span class="c1">// 카운트 시작</span>
+<span class="n">xxxrepository</span><span class="o">.</span><span class="na">findById</span><span class="o">();</span>
+<span class="n">xxxrepository</span><span class="o">.</span><span class="na">findById</span><span class="o">();</span>
+<span class="n">queryCounter</span><span class="o">.</span><span class="na">getCount</span><span class="o">();</span> <span class="c1">// 개수 확인</span>
+<span class="n">queryCounter</span><span class="o">.</span><span class="na">endCount</span><span class="o">();</span> <span class="c1">// 카운트 종료 및 리셋</span>
+</code></pre></div></div>
+
+<p>사용법은 위와 같이 간단하다.</p>
+<ol>
+  <li>카운트 시작</li>
+  <li>쿼리 실행</li>
+  <li>카운트 결과 확인</li>
+  <li>카운트 종료 및 리셋</li>
+</ol>
+
+<blockquote>
+  <p>4번에서 다시 1번으로 가는 것도 가능하다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h1 id="사용-예시">사용 예시</h1>
+
+<p>쿼리 카운팅의 예시를 살펴본다.</p>
+
+<p><br /></p>
+
+<h2 id="캐싱-테스트">캐싱 테스트</h2>
+
+<p>캐싱은 테스트하기 생각보다 까다롭다. 하지만, DB에 쿼리가 날라 갔는지만 확인가능하다면 쉽게 테스트할 수 있다.</p>
+
+<p>실제 깃-들다에서는 캐싱을 테스트하기 위해서, QueryCounter를 사용한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"캐싱 - 비로그인 홈피드 조회시 두 번째 조회부터는 캐시 저장소에서 가져온다. (현재 페이지당 쿼리는 6번)"</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">readHomeFeed_Guest_LatestPosts</span><span class="o">()</span> <span class="o">{</span>
+  <span class="c1">// given</span>
+  <span class="o">...</span> <span class="n">게시물</span> <span class="n">작성</span> <span class="n">코드</span> <span class="o">...</span>
+
+  <span class="c1">// when</span>
+  <span class="n">queryCounter</span><span class="o">.</span><span class="na">startCount</span><span class="o">();</span> <span class="c1">// 쿼리 카운트 시작</span>
+  <span class="n">postFeedService</span><span class="o">.</span><span class="na">homeFeed</span><span class="o">(</span><span class="n">homeFeedRequestDto</span><span class="o">);</span> <span class="c1">// 첫번째 조회 (캐싱)</span>
+
+  <span class="c1">// 두번째 조회 (이때 DB에 쿼리를 날리지 않는다.)</span>
+  <span class="nc">List</span><span class="o">&lt;</span><span class="nc">PostResponseDto</span><span class="o">&gt;</span> <span class="n">postResponseDtos</span> <span class="o">=</span> <span class="n">postFeedService</span><span class="o">.</span><span class="na">homeFeed</span><span class="o">(</span><span class="n">homeFeedRequestDto</span><span class="o">);</span>
+
+  <span class="c1">// then</span>
+  <span class="n">assertThat</span><span class="o">(</span><span class="n">queryCounter</span><span class="o">.</span><span class="na">getCount</span><span class="o">().</span><span class="na">getValue</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">6L</span><span class="o">);</span> <span class="c1">// 쿼리 카운팅을 통한 테스트</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="n--1-문제-분석">N + 1 문제 분석</h2>
+
+<p>이제 본격적으로 구현한 QueryCounter로 N + 1문제를 살펴봐보자.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/N_1_count_example.png" width="450" /><br />N + 1 문제 해결 전 </p>
+
+<p><br /></p>
+
+<p>이제 fetch join으로 N + 1을 해결해보고 다시 테스트를 돌려보면 아래와 같이 쿼리 개수가 1로 바뀐 것을 볼 수 있다.</p>
+
+<p align="center"><img src="../assets/img/binghe/21-10-08-query-counter/N_1_count_after_example.png" /><br />N + 1 문제 해결 후 </p>
+
+<p>위와 같이 쿼리 카운팅을 사용하면 N + 1 문제에 대한 분석이 훨씬 쉽다.</p>
+
+<p><br /></p>
+
+<h1 id="마치며">마치며</h1>
+<p>캐싱에 대한 테스트를 위해 쿼리 카운터가 필요하여 구현하다보니 이렇게까지 정리하게 되었다.</p>
+
+<p>이해하고 정리하는데 꽤 힘들었지만, 그래도 그 과정에서 프록시와 다이내믹 프록시, JDBC, Hibernate등의 이해도가 깊어져서 좋은 경험이었다!</p>
+
+<p>이후에도 이와 같이 객체지향을 사용한 커스텀을 더욱 많이 해보리~</p>
+
+<blockquote>
+  <p>아! Thanks to 나봄 (I’m Spring) 그는 G.O.D</p>
+</blockquote>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=다이내믹 프록시를 이용한 쿼리 카운팅 적용기 (feat. 캐싱 테스트)&url=https://2021-pick-git.github.io//query-counter/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//query-counter/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//query-counter/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#다이내믹프록시" class="tag">&#35; 다이내믹프록시</a>
+          
+            <a href="/tags#쿼리카운팅" class="tag">&#35; 쿼리카운팅</a>
+          
+            <a href="/tags#캐싱테스트" class="tag">&#35; 캐싱테스트</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
