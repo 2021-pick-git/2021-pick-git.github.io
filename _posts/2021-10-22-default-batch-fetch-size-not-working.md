@@ -483,13 +483,13 @@ tags: [백엔드, JPA]
     
     - 첫번째 테스트코드 - in 쿼리 동작
         - Member가 `findById`로 조회되고 Team은 프록시 객체이다. (Lazy loading) 
-        - Member 리스트의 팀 목록을 조회할 때 Member의 Id가 in 쿼리로 들어간다. 
+        - Member 리스트의 팀 목록을 조회할 때 Team의 Id가 in 쿼리로 들어간다. 
 
     - 두번째 테스트코드 - in 쿼리 동작 안함 
         - Team은 이미 존재한다.
-        - 새로운 Member를 생성하고 Team을 em.getReference를 통해 Team의 프록시 객체를 Member의 Team을 지정한다. 이후 `save()`를 통해서 Member 엔티티를 저장하고 flush 하여 데이터베이스에 반영한다.  
+        - 새로운 Member를 생성하고 Team을 `em.getReference()`를 통해 Team의 프록시 객체를 Member의 Team을 지정한다. 이후 `save()`를 통해서 Member 엔티티를 저장하고 flush 하여 데이터베이스에 반영한다.  
         - `findAll()`를 통헤 멤버 List를 가져온다. 이때 영속성 컨텍스트에 있는 Member가 조회된다. 
-        - 해당 Member의 Team은 `getReference()`로 조회된 프록시 객체이다. 
+        - 해당 Member의 Team은 `em.getReference()`로 조회된 프록시 객체이다. 
 
 <br>
 
