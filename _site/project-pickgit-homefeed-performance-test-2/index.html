@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>홈피드 조회 성능 테스트 경험기_2 - BingheCompany 🇰🇷</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="BingheCompany 🇰🇷" property="og:site_name">
+  
+    <meta content="홈피드 조회 성능 테스트 경험기_2" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다." property="og:description">
+  
+  
+    <meta content="https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-2/" property="og:url">
+  
+  
+    <meta content="2021-10-15T19:35:20+09:00" property="article:published_time">
+    <meta content="https://2021-pick-git.github.io//about/" property="article:author">
+  
+  
+    <meta content="https://2021-pick-git.github.io//assets/img/performance-test.jpeg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="백엔드" property="article:tag">
+    
+    <meta content="Database" property="article:tag">
+    
+    <meta content="성능테스트" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="홈피드 조회 성능 테스트 경험기_2">
+  
+  
+    <meta name="twitter:url" content="https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-2/">
+  
+  
+    <meta name="twitter:description" content="홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다.">
+  
+  
+    <meta name="twitter:image:src" content="https://2021-pick-git.github.io//assets/img/performance-test.jpeg">
+  
+
+	<meta name="description" content="홈피드 게시물 조회 API에 대한 성능 테스트를 진행하고 병목 지점을 파악해 개선한 경험기 입니다.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/mark.jpg" alt="깃-들다 (pick-git)"></a>
+      </div>
+      <div class="author-name">깃-들다 (pick-git)</div>
+      <p>깃-들다 기술 블로그입니다.</br>😇💪</br> This is a tech blog for pick-git.</br> ピクギトの技術のblogです。</br> 这是 pick-git 科技博客.</br></p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        <!-- 
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+         -->
+        
+          <li class="github"><a href="http://github.com/woowacourse-teams/2021-pick-git" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        <!-- 
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:example.david@blog.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+         -->
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2021 &copy; 깃-들다 (pick-git)</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/performance-test.jpeg alt="홈피드 조회 성능 테스트 경험기_2">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">홈피드 조회 성능 테스트 경험기_2</h1>
+        <div class="page-date"><span>2021, Oct 15&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="-intro">💡 Intro</h2>
+
+<ul>
+  <li>이전 포스트에서 진행한 <a href="https://github.com/woowacourse-teams/2021-pick-git">프로젝트</a>에서 홈피드 게시물 조회 성능 테스트에 대한 결과를 보고 개선대상을 파악하고 개선한다.</li>
+  <li>개선 후 테스트를 재진행하여 결과를 비교한다.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-쿼리-진단">🌩 쿼리 진단</h2>
+
+<p>이전 포스트에서 진행한 성능 테스트를 통해 DB 쿼리 쪽 병목이 있다는 것을 알아냈다. 구체적으로 쿼리를 자세히 살펴보면서 어떤 문제가 있는지 확인해보자.</p>
+
+<ul>
+  <li>홈피드 게시물을 반환할 때 발생하는 slow query
+    <ul>
+      <li>현재는 포스트 조회하는 쿼리가 최대값으로는 3.62 초가 소요된다.</li>
+    </ul>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137448824-409b2475-61a2-48f1-8390-7f6364a5f4db.png" /></p>
+
+    <ul>
+      <li>쿼리의 실행계획을 확인해서 문제점을 파악해보니 100만건의 데이터를 거의 다 훑으면서 filesort를 하고 있었다. 게시물을 최신순으로 정렬하여 상위 10개를 가지고 오는 Pagination을 적용하고 있기 때문이다.</li>
+    </ul>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137449059-6b18bcad-3794-41b9-b7e2-6bc42ee7a971.png" /></p>
+  </li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-개선하기">🌩 개선하기</h2>
+
+<ul>
+  <li>
+    <p>createt_At 칼럼에 인덱스를 추가하여 데이터가 정렬되도록 한다. 인덱스를 건 후 실행계획을 확인해보니 filesort가 제거되었고 훑는 row 수가 대폭 줄어들었다.</p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137449278-a84af99e-42d5-4ada-86aa-cc3c9c05a2fb.png" /></p>
+  </li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-개선-후-성능-테스트">🌩 개선 후 성능 테스트</h2>
+
+<h3 id="인덱스-추가-후-테스트">인덱스 추가 후 테스트</h3>
+<ul>
+  <li>
+    <p>테스트 중 서버 모니터링</p>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137449561-613620d9-d87a-4433-a626-aca8ea74ebcf.png" /></p>
+
+    <ul>
+      <li>본래 DB에 실행 대기 중인 프로세스(맨 왼쪽 r 칼럼)가 많았다. 약 20 이라는 수치를 보였으며 DB 서버의 CPU의 idle 상태도 항상 0%였다.</li>
+      <li>인덱스를 걸어서 쿼리 수행이 훨씬 빨라지면서 <strong>DB 인스턴스에 CPU 부하가 훨씬 줄었다</strong>. 또한 여전히 Disk I/O는 발생하지 않는다.</li>
+      <li>대신 WAS 쪽 CPU에 부하가 발생했다. r 수치가 11-15 사이를 왔다갔다 했으며 CPU idle 비율이 2% ~ 15%를 왔다갔다 했다.</li>
+      <li><strong>왜 갑자기 이런 수치가 보여졌을까?</strong>
+        <ul>
+          <li>성능 테스트를 할 때 실운영 환경과의 차이가 있기 때문이다.</li>
+          <li>성능 테스트를 할 때는 한 vuser의 요청에 대한 응답이 오기 전까지 다음 요청을 보내지 않는다. 따라서 요청에 대한 응답이 느리면 그 다음 요청을 못보내기 때문에 이전 테스트 결과와 다르게 더 많은 요청을 보냈고, WAS의 CPU 부하가 발생했다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>인덱스 추가 후 성능 테스트 결과</p>
+    <ul>
+      <li>진행된 테스트 개수: 6694 → 944360</li>
+      <li>요청 응답 시간: 13.41s → 83.57ms</li>
+      <li>TPS: 10.94/s → 1573.72/s</li>
+      <li>성능이 대폭 향상된 것을 확인할 수 있다.</li>
+    </ul>
+
+    <p align="center"><img width="85%" src="https://user-images.githubusercontent.com/63405904/137450075-acdc9624-f2c0-4b3d-852c-367fc4a441bd.png" /></p>
+  </li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-요약">🌩 요약</h2>
+
+<ul>
+  <li>기존 홈피드를 조회할 때 13초 가량의 시간이 소요 되었다.</li>
+  <li>분석해보니 디스크 I/O 부하는 없고 DB쪽 CPU 부하가 있으므로 쿼리 효율성의 문제라고 판단하였다.</li>
+  <li><code class="language-plaintext highlighter-rouge">order by createdAt</code> 쿼리의 부분이 풀스캔 + filesort를 하고 있음을 발견했다. (쿼리 실행 시간 3초 이상)</li>
+  <li><code class="language-plaintext highlighter-rouge">createdAt</code> 칼럼에 인덱스를 걸어서 풀스캔 → limit 개수 만큼만 스캔하도록 설정했다..</li>
+  <li>결과적으로 응답 시간이 약 <strong>13초에서 85ms</strong> 정도로 단축되었다.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<h2 id="-느낀점">🌩 느낀점</h2>
+<ul>
+  <li>테스트 코드를 통해서는 확인할 수 없는 허점을 발견할 수 있었던 것이 새로웠다.</li>
+  <li>성능 테스트를 하면서 가장 크게 느낀 것은 돌아가는 어플리케이션을 구현하는 것이 아니라 사용자에게 서비스될 수 있는 어플리케이션을 만들어야 한다는 것이다. 그렇게 하기 위해서는 경험하지 않으면 알 수 없는 많은 부분들을 고려해야한다.</li>
+  <li>기존에는 코드 퀄리티 자체와 원하는 결과를 내는 것에 집중했다면, 이제는 제한된 리소스 내에게 원하는 목표치까지 서비스할 수 있는 어플리케이션을 구현하는것이 중요하다는 시각이 트인 좋은 기회였다.</li>
+  <li>성능 테스트를 하면서 막힌 부분은 서버를 모니터링, 커넥션 개수 파악, 데이터베이스 쿼리 최적화, 네트워크 통신 부분이다. 많이 배웠던 CS 기초가 웹 어플리케이션을 구현하면서 많이 등장하지 않아서 왜 중요한지 체감하지 못하고 있있는데 이런 대용량 (대용량이라고 하기엔 훨씬 부족하지만..) 서비스를 만들면서 다시 마주하게 될 줄 몰랐다. 역시 기초가 튼튼한 것이 가장 중요한 것 같다.</li>
+  <li>성능 테스트를 하면서 부족한 CS 기초 (운영체제, 네트워크, 데이터베이스)를 병행해서 공부했다. 띄엄띄엄 알던 지식들이 하나로 연결되는 경험이었다.</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<blockquote>
+  <p>백엔드 코다입니다 🙌</p>
+</blockquote>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=홈피드 조회 성능 테스트 경험기_2&url=https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-2/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-2/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=https://2021-pick-git.github.io//project-pickgit-homefeed-performance-test-2/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#백엔드" class="tag">&#35; 백엔드</a>
+          
+            <a href="/tags#Database" class="tag">&#35; Database</a>
+          
+            <a href="/tags#성능테스트" class="tag">&#35; 성능테스트</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+
+  <script src="https://utteranc.es/client.js"
+        repo="2021-pick-git/pick-git-comments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
